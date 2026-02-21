@@ -1,0 +1,36 @@
+{
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "biomejs.biome",
+        "Prisma.prisma",
+        "mechatroner.rainbow-csv",
+        "bradlc.vscode-tailwindcss",
+        "stivo.tailwind-fold",
+        "rust-lang.rust-analyzer",
+        "vitest.explorer",
+        "pkief.material-icon-theme"
+      ],
+      "settings": {
+        "editor.detectIndentation": false,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "files.encoding": "utf8",
+        "files.eol": "\n",
+        "workbench.iconTheme": "material-icon-theme"
+      }
+    }
+  },
+  "dockerComposeFile": "compose.yaml",
+  "name": "next-novo",
+  "service": "app",
+  "workspaceFolder": "/home/app",
+  "remoteUser": "node",
+  "updateRemoteUserUID": true,
+  "forwardPorts": [3001, 5433],
+  "portsAttributes": {
+    "3001": { "label": "Next.js (novo)", "onAutoForward": "openBrowser" },
+    "5433": { "label": "Postgres (novo)" }
+  },
+  "postCreateCommand": "npm install || true"
+}
