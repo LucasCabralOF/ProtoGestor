@@ -32,5 +32,5 @@
     "3001": { "label": "Next.js (novo)", "onAutoForward": "openBrowser" },
     "5433": { "label": "Postgres (novo)" }
   },
-  "postCreateCommand": "npm install || true"
+  "postCreateCommand": "sudo chown -R node:node /home/app/node_modules /home/app/.next || true && (npm ci || npm install)"
 }

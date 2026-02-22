@@ -6,6 +6,8 @@ services:
     working_dir: /home/app
     volumes:
       - ..:/home/app
+      - node_modules:/home/app/node_modules
+      - next_cache:/home/app/.next
     command: sleep infinity
     ports:
       - "3001:3001"
@@ -25,3 +27,5 @@ services:
 
 volumes:
   pgdata_next_novo:
+  node_modules:
+  next_cache:
