@@ -1,5 +1,15 @@
 {
   "appTitle": "Proto Gestão",
+  "loginTitle": "Entrar",
+  "signupTitle": "Criar conta",
+  "name": "Nome",
+  "email": "Email",
+  "password": "Senha",
+  "enter": "Entrar",
+  "createAccount": "Criar conta",
+  "noAccount": "Não tem conta? Criar agora",
+  "hasAccount": "Já tem conta? Entrar",
+  "logout": "Sair",
   "dashboard": "Dashboard",
-  "login": "Entrar"
+  "dashboardSubtitle": "Visão geral do sistema"
 }

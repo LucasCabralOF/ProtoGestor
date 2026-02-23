@@ -1,5 +1,11 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
+
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -17,27 +23,14 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": false,
+      "recommended": true,
       "suspicious": {
-        "noUnknownAtRules": "off",
-        "noExplicitAny": "off"
-      },
-      "style": {
-        "useConst": "off",
-        "useTemplate": "off"
-      },
-      "complexity": {
-        "noForEach": "off",
-        "noBannedTypes": "off"
-      },
-      "correctness": {
-        "noUnusedVariables": "warn",
-        "noUndeclaredVariables": "error"
+        "noUnknownAtRules": "off"
       }
     },
     "domains": {
-      "next": "none",
-      "react": "none"
+      "next": "recommended",
+      "react": "recommended"
     }
   },
   "assist": {

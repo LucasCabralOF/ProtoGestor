@@ -29,9 +29,7 @@ export function Button({
 }) {
   return (
     <ButtonAntd
-      classNames={{
-        root: `!flex !min-h-fit !items-center ${fit ? "!w-fit" : "!w-full"}`,
-      }}
+      className={className}
       danger={danger}
       data-testid={testid ? `button-${testid}` : undefined}
       disabled={disabled}
@@ -40,12 +38,9 @@ export function Button({
       onClick={onClick}
       shape={shape}
       type={type}
+      block={!fit}
     >
-      <div
-        className={`flex h-7 min-h-7 w-full items-center justify-center gap-2 ${className ?? ""}`}
-      >
-        {children}
-      </div>
+      {children}
     </ButtonAntd>
   );
 }

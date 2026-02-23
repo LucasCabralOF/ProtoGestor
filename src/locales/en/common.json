@@ -1,5 +1,15 @@
 {
   "appTitle": "Proto Management",
+  "loginTitle": "Sign in",
+  "signupTitle": "Create account",
+  "name": "Name",
+  "email": "Email",
+  "password": "Password",
+  "enter": "Sign in",
+  "createAccount": "Create account",
+  "noAccount": "No account? Create one",
+  "hasAccount": "Already have an account? Sign in",
+  "logout": "Logout",
   "dashboard": "Dashboard",
-  "login": "Sign in"
+  "dashboardSubtitle": "System overview"
 }

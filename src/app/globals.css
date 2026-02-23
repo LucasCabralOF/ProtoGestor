@@ -1,26 +1,102 @@
+@import "antd/dist/reset.css";
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-primary: #1677ff;
+    --color-secondary: #1677ff;
+
+    --color-base-1: #c8c8c8;
+    --color-base-2: #e6e6e6;
+    --color-base-3: #f8f8f8;
+    --color-base-4: #ffffff;
+    --color-border: #e6e6e6;
+
+    --color-text-1: #1e1e1e;
+    --color-text-2: #646464;
+
+    --color-success: #72e3ad;
+    --color-warning: #faad14;
+    --color-error: #ff4d4f;
+
+    /* Fontes padrão */
+    --font-sans:
+      ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+      "Apple Color Emoji", "Segoe UI Emoji";
+    --font-mono:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+
+    --radius: 12px;
+  }
+
+  .dark {
+    --color-primary: #1677ff;
+    --color-secondary: #1677ff;
+
+    --color-base-1: #282828;
+    --color-base-2: #212121;
+    --color-base-3: #171717;
+    --color-base-4: #0a0a0a;
+    --color-border: #212121;
+
+    --color-text-1: #fafafa;
+    --color-text-2: #9b9b9b;
+  }
+
+  * {
+    box-sizing: border-box;
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 }
 
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  scrollbar-color: var(--color-base-1) var(--color-base-4);
+
+  @apply h-full w-full;
+  @apply text-(--color-text-1) bg-(--color-base-4);
+  @apply antialiased;
+
+  font-family: var(--font-sans);
+}
+
+/* util */
+.scrollbar-gutter {
+  scrollbar-gutter: stable both-edges;
+}
+
+/* Ajustes suaves p/ AntD casar com tokens */
+:where(.ant-app) {
+  color: var(--color-text-1);
+}
+
+:where(.ant-card) {
+  border-radius: var(--radius);
+}
+
+a {
+  color: var(--color-primary);
+}
+a:hover {
+  text-decoration: underline;
+}
+@layer base {
+  body {
+    background: var(--color-base-3);
+  }
+}
+
+/* Sombra suave no Card do AntD */
+:where(.ant-card) {
+  border-radius: var(--radius);
+  box-shadow: var(--ant-box-shadow-secondary, 0 12px 30px rgba(0, 0, 0, 0.08));
 }

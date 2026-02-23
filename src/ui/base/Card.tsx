@@ -7,12 +7,14 @@ export function Card({
   children,
   title,
   extra,
+  variant = "borderless",
   testid,
 }: {
   className?: string;
   children?: React.ReactNode;
   title?: CardProps["title"];
   extra?: CardProps["extra"];
+  variant?: CardProps["variant"];
   testid?: string;
 }) {
   return (
@@ -21,6 +23,7 @@ export function Card({
       data-testid={testid ? `card-${testid}` : undefined}
       extra={extra}
       title={title}
+      variant={variant}
     >
       {children}
     </CardAntd>
