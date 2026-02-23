@@ -1,23 +1,23 @@
-// src/actions/safeActions.ts
-"use server";
+import "server-only";
 
 import { createSafeActionClient } from "next-safe-action";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 
 export const actionClient = createSafeActionClient({
-  // Aqui você pode padronizar como lida com erros
-  handleServerError(e) {
-    return { message: e instanceof Error ? e.message : "Erro" };
-  }
+  handleServerError(err) {
+    return err instanceof Error ? err.message : "UNKNOWN_ERROR";
+  },
 });
 
 export function createPublicAction() {
   return actionClient;
 }
 
-// (Opcional) exigindo auth
 export function createPrivateAction() {
   return actionClient.use(async ({ next }) => {
-    // aqui você checa sessão, etc.
-    return next();
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session) throw new Error("UNAUTHORIZED");
+    return next({ ctx: { session } });
   });
 }

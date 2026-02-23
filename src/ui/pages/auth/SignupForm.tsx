@@ -1,11 +1,20 @@
+// src/ui/pages/auth/SignupForm.tsx
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 import { signUp } from "@/actions/authActions";
-import { Alert, Button, Card, Form, Input, Password, Typography } from "@/ui/base";
+import {
+  Alert,
+  Button,
+  Card,
+  Form,
+  Input,
+  Password,
+  Typography,
+} from "@/ui/base";
 
 type SignupValues = {
   name: string;
@@ -17,11 +26,9 @@ function extractFieldErrors(value: unknown): Record<string, string[]> | null {
   if (!value || typeof value !== "object") return null;
   const v = value as Record<string, unknown>;
   const validationErrors = v.validationErrors as unknown;
-
   if (!validationErrors || typeof validationErrors !== "object") return null;
   const ve = validationErrors as Record<string, unknown>;
   const fieldErrors = ve.fieldErrors as unknown;
-
   if (!fieldErrors || typeof fieldErrors !== "object") return null;
   return fieldErrors as Record<string, string[]>;
 }
@@ -72,11 +79,18 @@ export function SignupForm() {
 
       const fieldErrors = extractFieldErrors(result);
       if (fieldErrors) {
+        const allowed: (keyof SignupValues)[] = ["name", "email", "pass"];
+
         form.setFields(
           Object.entries(fieldErrors)
-            .filter(([, msgs]) => Array.isArray(msgs) && msgs.length > 0)
-            .map(([name, msgs]) => ({
-              name,
+            .filter(
+              ([k, msgs]) =>
+                allowed.includes(k as keyof SignupValues) &&
+                Array.isArray(msgs) &&
+                msgs.length > 0,
+            )
+            .map(([k, msgs]) => ({
+              name: k as keyof SignupValues,
               errors: msgs,
             })),
         );
@@ -109,7 +123,12 @@ export function SignupForm() {
             </div>
           ) : null}
 
-          <Form<SignupValues> form={form} layout="vertical" requiredMark={false} onFinish={onFinish}>
+          <Form<SignupValues>
+            form={form}
+            layout="vertical"
+            requiredMark={false}
+            onFinish={onFinish}
+          >
             <Form.Item
               name="name"
               label={t("name")}
@@ -140,7 +159,7 @@ export function SignupForm() {
               <Password testid="signup-password" />
             </Form.Item>
 
-            <Button testid="signup-submit" type="primary" loading={loading}>
+            <Button testid="signup-submit" type="primary" loading={loading} htmlType="submit">
               {t("createAccount")}
             </Button>
           </Form>

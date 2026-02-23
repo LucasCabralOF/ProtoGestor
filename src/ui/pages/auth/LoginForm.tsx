@@ -1,11 +1,20 @@
+// src/ui/pages/auth/LoginForm.tsx
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 import { signIn } from "@/actions/authActions";
-import { Alert, Button, Card, Form, Input, Password, Typography } from "@/ui/base";
+import {
+  Alert,
+  Button,
+  Card,
+  Form,
+  Input,
+  Password,
+  Typography,
+} from "@/ui/base";
 
 type LoginValues = {
   email: string;
@@ -16,11 +25,9 @@ function extractFieldErrors(value: unknown): Record<string, string[]> | null {
   if (!value || typeof value !== "object") return null;
   const v = value as Record<string, unknown>;
   const validationErrors = v.validationErrors as unknown;
-
   if (!validationErrors || typeof validationErrors !== "object") return null;
   const ve = validationErrors as Record<string, unknown>;
   const fieldErrors = ve.fieldErrors as unknown;
-
   if (!fieldErrors || typeof fieldErrors !== "object") return null;
   return fieldErrors as Record<string, string[]>;
 }
@@ -32,7 +39,6 @@ function extractServerError(value: unknown): string | null {
   const serverError = v.serverError;
   if (typeof serverError === "string" && serverError) return serverError;
 
-  // Algumas APIs retornam { data: { error: { message }}} ou { data: { error: "..." } }
   const data = v.data as unknown;
   if (data && typeof data === "object") {
     const d = data as Record<string, unknown>;
@@ -69,28 +75,32 @@ export function LoginForm() {
         callbackURL: "/dashboard",
       });
 
-      // 1) erros de validação do server (Zod no safe action)
       const fieldErrors = extractFieldErrors(result);
       if (fieldErrors) {
+        const allowed: (keyof LoginValues)[] = ["email", "pass"];
+
         form.setFields(
           Object.entries(fieldErrors)
-            .filter(([, msgs]) => Array.isArray(msgs) && msgs.length > 0)
-            .map(([name, msgs]) => ({
-              name,
+            .filter(
+              ([k, msgs]) =>
+                allowed.includes(k as keyof LoginValues) &&
+                Array.isArray(msgs) &&
+                msgs.length > 0,
+            )
+            .map(([k, msgs]) => ({
+              name: k as keyof LoginValues,
               errors: msgs,
             })),
         );
         return;
       }
 
-      // 2) erro server
       const serverErr = extractServerError(result);
       if (serverErr) {
         setError(serverErr);
         return;
       }
 
-      // 3) sucesso
       router.push("/dashboard");
     } finally {
       setLoading(false);
@@ -111,7 +121,12 @@ export function LoginForm() {
             </div>
           ) : null}
 
-          <Form<LoginValues> form={form} layout="vertical" requiredMark={false} onFinish={onFinish}>
+          <Form<LoginValues>
+            form={form}
+            layout="vertical"
+            requiredMark={false}
+            onFinish={onFinish}
+          >
             <Form.Item
               name="email"
               label={t("email")}
@@ -134,7 +149,7 @@ export function LoginForm() {
               <Password testid="login-password" />
             </Form.Item>
 
-            <Button testid="login-submit" type="primary" loading={loading}>
+            <Button testid="login-submit" type="primary" loading={loading} htmlType="submit">
               {t("enter")}
             </Button>
           </Form>

@@ -27,10 +27,11 @@
   "workspaceFolder": "/home/app",
   "remoteUser": "node",
   "updateRemoteUserUID": true,
-  "forwardPorts": [3001, 5433],
+  "forwardPorts": [3001, 5433, 5555],
   "portsAttributes": {
-    "3001": { "label": "Next.js (novo)", "onAutoForward": "openBrowser" },
-    "5433": { "label": "Postgres (novo)" }
+    "3001": { "label": "Next.js", "onAutoForward": "openBrowser" },
+    "5433": { "label": "Postgres" },
+    "5555": { "label": "Prisma Studio", "onAutoForward": "openBrowser" }
   },
   "postCreateCommand": "sudo chown -R node:node /home/app/node_modules /home/app/.next || true && (npm ci || npm install)"
 }
