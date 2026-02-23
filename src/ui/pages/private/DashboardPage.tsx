@@ -1,7 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Card, Typography } from "@/ui/base";
+import { Card } from "@/ui/base/Card";
+import {Typography } from "@/ui/base/Typography";
+
 
 export function DashboardPage() {
   const t = useTranslations("common");
