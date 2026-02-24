@@ -21,7 +21,10 @@ export function Popover({
   disabled?: boolean;
   title?: React.ReactNode;
   open?: boolean;
-  onOpenChange?: (shouldOpen: boolean, setOpenPopover: (open: boolean) => void) => void;
+  onOpenChange?: (
+    shouldOpen: boolean,
+    setOpenPopover: (open: boolean) => void,
+  ) => void;
   triggerClick?: boolean;
   triggerHover?: boolean;
   placement?: PopoverProps["placement"];
@@ -59,7 +62,8 @@ export function Popover({
       open={disabled ? false : (open ?? openPopover)}
       placement={placement}
       title={title}
-      trigger={trigger}>
+      trigger={trigger}
+    >
       <div className={`flex flex-col ${className}`}>{children}</div>
     </PopoverAntd>
   );

@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import type { AppSettings, User } from "@/types/base";
-import { DEFAULT_LOCALE, DEFAULT_THEME, type LocaleKey, type ThemeKey } from "@/utils/constants";
+import {
+  DEFAULT_LOCALE,
+  DEFAULT_THEME,
+  type LocaleKey,
+  type ThemeKey,
+} from "@/utils/constants";
 
 type AppState = {
   appSettings: AppSettings;

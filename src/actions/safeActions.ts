@@ -1,7 +1,7 @@
 import "server-only";
 
-import { createSafeActionClient } from "next-safe-action";
 import { headers } from "next/headers";
+import { createSafeActionClient } from "next-safe-action";
 import { auth } from "@/lib/auth";
 
 export const actionClient = createSafeActionClient({

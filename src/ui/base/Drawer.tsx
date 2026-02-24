@@ -44,13 +44,17 @@ export function Drawer({
           background: "rgba(0,0,0,0.35)",
         },
         section: {
-          borderLeft: placement === "left" ? "1px solid var(--color-border)" : undefined,
-          borderRight: placement === "right" ? "1px solid var(--color-border)" : undefined,
+          borderLeft:
+            placement === "left" ? "1px solid var(--color-border)" : undefined,
+          borderRight:
+            placement === "right" ? "1px solid var(--color-border)" : undefined,
         },
       }}
       className="text-(--color-text-1)"
     >
-      <div data-testid={testid ? `drawer-${testid}` : undefined}>{children}</div>
+      <div data-testid={testid ? `drawer-${testid}` : undefined}>
+        {children}
+      </div>
     </DrawerAntd>
   );
 }

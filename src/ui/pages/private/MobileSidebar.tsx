@@ -22,7 +22,14 @@ export function MobileSidebar({
 
   return (
     <div className="md:hidden">
-      <Drawer open={open} onClose={onClose} placement="left" size="large" testid="mobile-sidebar" title="Menu">
+      <Drawer
+        open={open}
+        onClose={onClose}
+        placement="left"
+        size="large"
+        testid="mobile-sidebar"
+        title="Menu"
+      >
         <div className="h-full bg-(--color-base-4) flex flex-col">
           <div className="p-2">
             {groups.map((group) => (
@@ -46,7 +53,11 @@ export function MobileSidebar({
                         }`}
                       >
                         <span className="text-lg">{item.icon}</span>
-                        <span className={`text-sm ${active ? "font-medium" : ""}`}>{item.label}</span>
+                        <span
+                          className={`text-sm ${active ? "font-medium" : ""}`}
+                        >
+                          {item.label}
+                        </span>
                       </Link>
                     );
                   })}

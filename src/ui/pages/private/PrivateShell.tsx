@@ -1,15 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import type { User } from "@/types/base";
-
-import { Sidebar } from "@/ui/pages/private/Sidebar";
 import { MobileSidebar } from "@/ui/pages/private/MobileSidebar";
 import { Navbar } from "@/ui/pages/private/Navbar";
 import { PRIVATE_NAV } from "@/ui/pages/private/nav";
+import { Sidebar } from "@/ui/pages/private/Sidebar";
 
-export function PrivateShell({ children, user }: { children: React.ReactNode; user: User }) {
+export function PrivateShell({
+  children,
+  user,
+}: {
+  children: React.ReactNode;
+  user: User;
+}) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -20,7 +25,11 @@ export function PrivateShell({ children, user }: { children: React.ReactNode; us
         <Sidebar groups={PRIVATE_NAV} />
 
         {/* Mobile drawer sidebar */}
-        <MobileSidebar open={mobileOpen} onClose={() => setMobileOpen(false)} groups={PRIVATE_NAV} />
+        <MobileSidebar
+          open={mobileOpen}
+          onClose={() => setMobileOpen(false)}
+          groups={PRIVATE_NAV}
+        />
 
         <div className="flex-1 min-w-0 flex flex-col">
           <Navbar

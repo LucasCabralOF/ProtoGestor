@@ -12,7 +12,10 @@ export function Breadcrumb({
   testid?: string;
 }) {
   return (
-    <div className={className} data-testid={testid ? `breadcrumb-${testid}` : undefined}>
+    <div
+      className={className}
+      data-testid={testid ? `breadcrumb-${testid}` : undefined}
+    >
       <BreadcrumbAntd items={items} />
     </div>
   );

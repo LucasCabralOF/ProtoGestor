@@ -6,12 +6,12 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { signUp } from "@/actions/authActions";
-import { Form } from "@/ui/base/Form";
-import { Card } from "@/ui/base/Card";
-import { Typography } from "@/ui/base/Typography";
 import { Alert } from "@/ui/base/Alert";
-import { Input, Password } from "@/ui/base/Input";
 import { Button } from "@/ui/base/Button";
+import { Card } from "@/ui/base/Card";
+import { Form } from "@/ui/base/Form";
+import { Input, Password } from "@/ui/base/Input";
+import { Typography } from "@/ui/base/Typography";
 
 type SignupValues = {
   name: string;
@@ -156,7 +156,12 @@ export function SignupForm() {
               <Password testid="signup-password" />
             </Form.Item>
 
-            <Button testid="signup-submit" type="primary" loading={loading} htmlType="submit">
+            <Button
+              testid="signup-submit"
+              type="primary"
+              loading={loading}
+              htmlType="submit"
+            >
               {t("createAccount")}
             </Button>
           </Form>

@@ -43,7 +43,10 @@ export function ClientProviders({
   }, [user, setUser]);
 
   // fonte da verdade: store
-  const theme = useMemo(() => THEMES_ANTD[storeSettings.theme], [storeSettings.theme]);
+  const theme = useMemo(
+    () => THEMES_ANTD[storeSettings.theme],
+    [storeSettings.theme],
+  );
 
   const antdLocale: ConfigProviderProps["locale"] = useMemo(() => {
     return LOCALES_ANTD[storeSettings.locale];
@@ -61,7 +64,9 @@ export function ClientProviders({
   return (
     <ConfigProvider locale={antdLocale} theme={theme}>
       <App className="flex size-full flex-col">
-        <IconContext.Provider value={{ size: "18" }}>{children}</IconContext.Provider>
+        <IconContext.Provider value={{ size: "18" }}>
+          {children}
+        </IconContext.Provider>
       </App>
     </ConfigProvider>
   );

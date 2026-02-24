@@ -1,11 +1,15 @@
-import type { ReactNode } from "react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import type { ReactNode } from "react";
 import { auth } from "@/lib/auth";
-import { PrivateShell } from "@/ui/pages/private/PrivateShell";
 import type { User } from "@/types/base";
+import { PrivateShell } from "@/ui/pages/private/PrivateShell";
 
-export default async function PrivateLayout({ children }: { children: ReactNode }) {
+export default async function PrivateLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/login");
 

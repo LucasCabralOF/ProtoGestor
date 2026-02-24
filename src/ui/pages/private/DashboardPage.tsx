@@ -2,8 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Card } from "@/ui/base/Card";
-import {Typography } from "@/ui/base/Typography";
-
+import { Typography } from "@/ui/base/Typography";
 
 export function DashboardPage() {
   const t = useTranslations("common");

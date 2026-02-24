@@ -42,8 +42,12 @@ function SidebarItem({
             : "border-transparent text-(--color-text-2) hover:bg-(--color-base-3) hover:border-(--color-border) hover:text-(--color-text-1)"
         }`}
       >
-        <div className="flex size-10 min-w-10 items-center justify-center text-lg">{icon}</div>
-        <span className={`min-w-0 truncate pr-3 text-sm ${collapsed ? "hidden" : "block"} ${active ? "font-medium" : ""}`}>
+        <div className="flex size-10 min-w-10 items-center justify-center text-lg">
+          {icon}
+        </div>
+        <span
+          className={`min-w-0 truncate pr-3 text-sm ${collapsed ? "hidden" : "block"} ${active ? "font-medium" : ""}`}
+        >
           {label}
         </span>
       </Link>
@@ -77,7 +81,9 @@ export function Sidebar({
 
         <div className={`${collapsed ? "hidden" : "block"} min-w-0`}>
           <div className="text-sm font-semibold leading-4 truncate">Proto</div>
-          <div className="text-xs text-(--color-text-2) leading-4 truncate">Sistema</div>
+          <div className="text-xs text-(--color-text-2) leading-4 truncate">
+            Sistema
+          </div>
         </div>
       </div>
 
@@ -85,7 +91,9 @@ export function Sidebar({
       <div className="flex-1 overflow-auto p-2">
         {groups.map((group) => (
           <div key={group.label} className="mb-4">
-            <div className={`px-2 pb-1 text-[11px] uppercase tracking-wide text-(--color-text-2) ${collapsed ? "hidden" : "block"}`}>
+            <div
+              className={`px-2 pb-1 text-[11px] uppercase tracking-wide text-(--color-text-2) ${collapsed ? "hidden" : "block"}`}
+            >
               {group.label}
             </div>
 

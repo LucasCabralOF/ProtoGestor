@@ -6,13 +6,12 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { signIn } from "@/actions/authActions";
-import { Form } from "@/ui/base/Form";
-import { Card } from "@/ui/base/Card";
-import { Typography } from "@/ui/base/Typography";
 import { Alert } from "@/ui/base/Alert";
-import { Input, Password } from "@/ui/base/Input";
 import { Button } from "@/ui/base/Button";
-
+import { Card } from "@/ui/base/Card";
+import { Form } from "@/ui/base/Form";
+import { Input, Password } from "@/ui/base/Input";
+import { Typography } from "@/ui/base/Typography";
 
 type LoginValues = {
   email: string;
@@ -147,7 +146,12 @@ export function LoginForm() {
               <Password testid="login-password" />
             </Form.Item>
 
-            <Button testid="login-submit" type="primary" loading={loading} htmlType="submit">
+            <Button
+              testid="login-submit"
+              type="primary"
+              loading={loading}
+              htmlType="submit"
+            >
               {t("enter")}
             </Button>
           </Form>

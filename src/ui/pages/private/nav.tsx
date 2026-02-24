@@ -1,5 +1,5 @@
-import { FiHome, FiLayout, FiSettings, FiUsers } from "react-icons/fi";
 import type { BreadcrumbProps } from "antd";
+import { FiHome, FiLayout, FiSettings, FiUsers } from "react-icons/fi";
 
 export type NavItem = {
   href: string;
@@ -26,7 +26,9 @@ export const PRIVATE_NAV: NavGroup[] = [
   },
   {
     label: "Sistema",
-    items: [{ href: "/settings", label: "Configurações", icon: <FiSettings /> }],
+    items: [
+      { href: "/settings", label: "Configurações", icon: <FiSettings /> },
+    ],
   },
 ];
 
@@ -43,7 +45,9 @@ export function findNavItem(pathname: string) {
   return null;
 }
 
-export function buildBreadcrumbItems(pathname: string): BreadcrumbProps["items"] {
+export function buildBreadcrumbItems(
+  pathname: string,
+): BreadcrumbProps["items"] {
   const found = findNavItem(pathname);
 
   if (!found) {
