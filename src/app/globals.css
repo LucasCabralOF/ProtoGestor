@@ -1,30 +1,33 @@
+/** biome-ignore-all lint/complexity/noImportantStyles: ok */
 @import "antd/dist/reset.css";
 @import "tailwindcss";
 
+/* =========================================================
+   TOKENS
+========================================================= */
 @layer base {
   :root {
     --color-primary: #1677ff;
     --color-secondary: #1677ff;
 
-    --color-base-1: #c8c8c8;
-    --color-base-2: #e6e6e6;
-    --color-base-3: #f8f8f8;
-    --color-base-4: #ffffff;
-    --color-border: #e6e6e6;
+    /* LIGHT */
+    --color-base-1: #ffffff; /* surface */
+    --color-base-2: #f8fafc; /* subtle */
+    --color-base-3: #f1f5f9; /* app bg */
+    --color-base-4: #ffffff; /* page bg */
 
-    --color-text-1: #1e1e1e;
-    --color-text-2: #646464;
+    --color-border: #e5e7eb;
 
-    --color-success: #72e3ad;
-    --color-warning: #faad14;
-    --color-error: #ff4d4f;
+    --color-text-1: #0f172a;
+    --color-text-2: #475569;
 
-    /* Fontes padrão */
-    --font-sans:
-      ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+    --color-success: #22c55e;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+
+    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial,
       "Apple Color Emoji", "Segoe UI Emoji";
-    --font-mono:
-      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
 
     --radius: 12px;
@@ -34,14 +37,16 @@
     --color-primary: #1677ff;
     --color-secondary: #1677ff;
 
-    --color-base-1: #282828;
-    --color-base-2: #212121;
-    --color-base-3: #171717;
-    --color-base-4: #0a0a0a;
-    --color-border: #212121;
+    /* DARK */
+    --color-base-1: #141414; /* surface */
+    --color-base-2: #101010; /* subtle */
+    --color-base-3: #0b0b0b; /* app bg */
+    --color-base-4: #0a0a0a; /* page bg */
+
+    --color-border: #1f1f1f;
 
     --color-text-1: #fafafa;
-    --color-text-2: #9b9b9b;
+    --color-text-2: #a1a1aa;
   }
 
   * {
@@ -51,6 +56,7 @@
 
   html {
     color-scheme: light;
+    scrollbar-gutter: stable both-edges;
   }
 
   html.dark {
@@ -58,45 +64,46 @@
   }
 }
 
+/* =========================================================
+   BASE
+========================================================= */
 html,
 body {
-  scrollbar-color: var(--color-base-1) var(--color-base-4);
-
-  @apply h-full w-full;
-  @apply text-(--color-text-1) bg-(--color-base-4);
-  @apply antialiased;
-
+  @apply h-full w-full antialiased;
   font-family: var(--font-sans);
-}
 
-/* util */
-.scrollbar-gutter {
-  scrollbar-gutter: stable both-edges;
-}
-
-/* Ajustes suaves p/ AntD casar com tokens */
-:where(.ant-app) {
   color: var(--color-text-1);
+  background: var(--color-base-3);
+
+  scrollbar-color: var(--color-base-2) transparent;
 }
 
-:where(.ant-card) {
-  border-radius: var(--radius);
-}
-
+/* =========================================================
+   LINKS
+========================================================= */
 a {
   color: var(--color-primary);
 }
 a:hover {
   text-decoration: underline;
 }
-@layer base {
-  body {
-    background: var(--color-base-3);
-  }
-}
 
-/* Sombra suave no Card do AntD */
+/* =========================================================
+   AntD - pequenos ajustes (mínimo necessário)
+   Deixe o ThemeConfig mandar no resto.
+========================================================= */
+
+/* Cards com radius alinhado ao design system */
 :where(.ant-card) {
   border-radius: var(--radius);
-  box-shadow: var(--ant-box-shadow-secondary, 0 12px 30px rgba(0, 0, 0, 0.08));
+}
+
+/* Se você quer conteúdo do Popover sem padding (seu wrapper já controla o layout) */
+:where(.ant-popover .ant-popover-inner-content) {
+  padding: 0;
+}
+
+/* (Opcional) se você usa a classe ui-popover no wrapper e quer garantir padding 0 só nele */
+.ui-popover :where(.ant-popover-inner-content) {
+  padding: 0;
 }

@@ -29,26 +29,38 @@ export function Popover({
   const [openPopover, setOpenPopover] = useState(false);
 
   const trigger: PopoverProps["trigger"] = [];
-  if (triggerClick) trigger.push("click");
-  if (triggerHover) trigger.push("hover");
+
+  if (triggerClick) {
+    trigger.push("click");
+  }
+
+  if (triggerHover) {
+    trigger.push("hover");
+  }
 
   return (
     <PopoverAntd
       arrow={false}
       autoAdjustOverflow={true}
       classNames={{ container: "p-0! rounded-md! shadow-md!" }}
-      content={<div className="flex flex-col rounded-md border border-(--color-border)">{content(() => setOpenPopover(false))}</div>}
+      content={
+        <div className="flex flex-col rounded-md border border-(--color-border)">
+          {content(() => setOpenPopover(false))}
+        </div>
+      }
       destroyOnHidden={true}
       onOpenChange={(shouldOpen) => {
-        if (!disabled) setOpenPopover(shouldOpen);
+        if (!disabled) {
+          setOpenPopover(shouldOpen);
+        }
+
         onOpenChange?.(shouldOpen, setOpenPopover);
       }}
       open={disabled ? false : (open ?? openPopover)}
       placement={placement}
       title={title}
-      trigger={trigger}
-    >
-      <div className={`flex flex-col ${className ?? ""}`}>{children}</div>
+      trigger={trigger}>
+      <div className={`flex flex-col ${className}`}>{children}</div>
     </PopoverAntd>
   );
 }

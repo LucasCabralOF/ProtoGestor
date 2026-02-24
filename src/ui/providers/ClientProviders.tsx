@@ -1,60 +1,65 @@
 "use client";
 
 import { App, ConfigProvider, type ConfigProviderProps } from "antd";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { IconContext } from "react-icons";
 import { useAppStore } from "@/stores/appStore";
 import type { AppSettings, User } from "@/types/base";
-import { THEMES_ANTD } from "@/utils/constants";
+import { LOCALES_ANTD, THEMES_ANTD } from "@/utils/constants";
+
+function setCookie(name: string, value: string) {
+  const maxAge = 60 * 60 * 24 * 365;
+  document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
+}
 
 export function ClientProviders({
   children,
   appSettings,
-  locale,
   user,
 }: {
   children: React.ReactNode;
   appSettings: AppSettings;
-  locale: ConfigProviderProps["locale"];
   user: User | null;
 }) {
+  const didHydrate = useRef(false);
+
   const storeSettings = useAppStore((s) => s.appSettings);
   const setAppSettings = useAppStore((s) => s.setAppSettings);
   const setUser = useAppStore((s) => s.setUser);
 
-  // evita re-hidratar o store em toda render
-  const [hydrated, setHydrated] = useState(false);
-
+  // hidrata 1x com valores do server
   useEffect(() => {
-    if (!hydrated) {
-      setAppSettings(appSettings);
-      setUser(user);
-      setHydrated(true);
-      return;
-    }
+    if (didHydrate.current) return;
+    didHydrate.current = true;
 
-    // user pode mudar por navegação/sessão
+    setAppSettings(appSettings);
     setUser(user);
-  }, [hydrated, appSettings, user, setAppSettings, setUser]);
+  }, [appSettings, user, setAppSettings, setUser]);
 
-  // fonte da verdade depois de hidratado: STORE
-  const effectiveSettings = hydrated ? storeSettings : appSettings;
+  // user pode mudar depois
+  useEffect(() => {
+    if (!didHydrate.current) return;
+    setUser(user);
+  }, [user, setUser]);
 
-  const theme = useMemo(() => THEMES_ANTD[effectiveSettings.theme], [effectiveSettings.theme]);
+  // fonte da verdade: store
+  const theme = useMemo(() => THEMES_ANTD[storeSettings.theme], [storeSettings.theme]);
+
+  const antdLocale: ConfigProviderProps["locale"] = useMemo(() => {
+    return LOCALES_ANTD[storeSettings.locale];
+  }, [storeSettings.locale]);
 
   useEffect(() => {
     const root = document.documentElement;
-    if (effectiveSettings.theme === "dark") root.classList.add("dark");
+    if (storeSettings.theme === "dark") root.classList.add("dark");
     else root.classList.remove("dark");
 
-    // mantém cookie de idioma sincronizado (já funciona)
-    document.cookie = `NEXT_LOCALE=${encodeURIComponent(effectiveSettings.locale)}; Path=/; Max-Age=${60 * 60 * 24 * 365}`;
-    // persistir tema também:
-    document.cookie = `APP_THEME=${encodeURIComponent(effectiveSettings.theme)}; Path=/; Max-Age=${60 * 60 * 24 * 365}`;
-  }, [effectiveSettings.theme, effectiveSettings.locale]);
+    setCookie("NEXT_LOCALE", storeSettings.locale);
+    setCookie("APP_THEME", storeSettings.theme);
+  }, [storeSettings.theme, storeSettings.locale]);
 
   return (
-    <ConfigProvider locale={locale} theme={theme}>
+    <ConfigProvider locale={antdLocale} theme={theme}>
       <App className="flex size-full flex-col">
         <IconContext.Provider value={{ size: "18" }}>{children}</IconContext.Provider>
       </App>

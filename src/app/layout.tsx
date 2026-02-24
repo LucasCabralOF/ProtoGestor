@@ -4,7 +4,14 @@ import { cookies } from "next/headers";
 import type { ReactNode } from "react";
 import { Providers } from "@/ui/providers/Providers";
 import type { AppSettings } from "@/types/base";
-import { DEFAULT_LOCALE, DEFAULT_THEME, LOCALES, THEMES, type LocaleKey, type ThemeKey } from "@/utils/constants";
+import {
+  DEFAULT_LOCALE,
+  DEFAULT_THEME,
+  LOCALES,
+  THEMES,
+  type LocaleKey,
+  type ThemeKey,
+} from "@/utils/constants";
 
 function isLocaleKey(v: string): v is LocaleKey {
   return (LOCALES as readonly string[]).includes(v);
@@ -29,7 +36,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const user = null;
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className={theme === "dark" ? "dark" : ""}>
       <body>
         <Providers appSettings={appSettings} user={user} locale={locale} messages={messages}>
           {children}
