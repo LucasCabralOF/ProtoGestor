@@ -7,7 +7,6 @@ services:
     volumes:
       - ..:/home/app
       - node_modules:/home/app/node_modules
-      - next_cache:/home/app/.next
     command: sleep infinity
     ports:
       - "3001:3001"

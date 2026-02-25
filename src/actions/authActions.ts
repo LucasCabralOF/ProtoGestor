@@ -17,7 +17,7 @@ function getModel(client: unknown, key: string): CreateModel | null {
   const record = client as Record<string, unknown>;
   const model = record[key];
   if (!model || typeof model !== "object") return null;
-  const maybeCreate = (model as Record<string, unknown>)["create"];
+  const maybeCreate = (model as Record<string, unknown>).create;
   if (typeof maybeCreate !== "function") return null;
   return model as CreateModel;
 }

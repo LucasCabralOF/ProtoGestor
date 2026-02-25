@@ -9,7 +9,11 @@ import { auth } from "@/lib/auth";
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
-async function ensureUserViaAuth(params: { email: string; name: string; password: string }) {
+async function ensureUserViaAuth(params: {
+  email: string;
+  name: string;
+  password: string;
+}) {
   try {
     const res = await auth.api.signUpEmail({
       // se sua versão exigir headers, descomente:
@@ -22,7 +26,9 @@ async function ensureUserViaAuth(params: { email: string; name: string; password
     });
     return res.user;
   } catch (err: any) {
-    const existing = await prisma.user.findUnique({ where: { email: params.email } });
+    const existing = await prisma.user.findUnique({
+      where: { email: params.email },
+    });
     if (existing) return existing;
     throw err;
   }
@@ -153,7 +159,12 @@ async function main() {
 
   // 6) Financeiro (Conta + Categorias + Transações)
   const acc = await prisma.financialAccount.create({
-    data: { orgId: org.id, name: "Conta Principal", type: "bank", isActive: true },
+    data: {
+      orgId: org.id,
+      name: "Conta Principal",
+      type: "bank",
+      isActive: true,
+    },
   });
 
   const catSales = await prisma.category.create({
@@ -227,14 +238,40 @@ async function main() {
 
   await prisma.serviceOrderItem.createMany({
     data: [
-      { orgId: org.id, serviceOrderId: so.id, title: "Limpeza Geral", qty: 1, unitPriceCents: 20000 },
-      { orgId: org.id, serviceOrderId: so.id, title: "Vidros", qty: 1, unitPriceCents: 5000 },
+      {
+        orgId: org.id,
+        serviceOrderId: so.id,
+        title: "Limpeza Geral",
+        qty: 1,
+        unitPriceCents: 20000,
+      },
+      {
+        orgId: org.id,
+        serviceOrderId: so.id,
+        title: "Vidros",
+        qty: 1,
+        unitPriceCents: 5000,
+      },
     ],
   });
 
   const tomorrow = addDays(startOfDay(now), 1);
-  const startsAt = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), 9, 0, 0);
-  const endsAt = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), 11, 0, 0);
+  const startsAt = new Date(
+    tomorrow.getFullYear(),
+    tomorrow.getMonth(),
+    tomorrow.getDate(),
+    9,
+    0,
+    0,
+  );
+  const endsAt = new Date(
+    tomorrow.getFullYear(),
+    tomorrow.getMonth(),
+    tomorrow.getDate(),
+    11,
+    0,
+    0,
+  );
 
   await prisma.appointment.create({
     data: {
@@ -251,9 +288,26 @@ async function main() {
   // 8) Atividade recente
   await prisma.activityLog.createMany({
     data: [
-      { orgId: org.id, userId: demo.id, message: "Novo cliente cadastrado: Maria Souza", entityType: "contact", entityId: maria.id },
-      { orgId: org.id, userId: demo.id, message: "Serviço agendado: Limpeza Residencial (amanhã)", entityType: "service_order", entityId: so.id },
-      { orgId: org.id, userId: demo.id, message: "Pagamento recebido: R$ 12.450,00", entityType: "fin_transaction" },
+      {
+        orgId: org.id,
+        userId: demo.id,
+        message: "Novo cliente cadastrado: Maria Souza",
+        entityType: "contact",
+        entityId: maria.id,
+      },
+      {
+        orgId: org.id,
+        userId: demo.id,
+        message: "Serviço agendado: Limpeza Residencial (amanhã)",
+        entityType: "service_order",
+        entityId: so.id,
+      },
+      {
+        orgId: org.id,
+        userId: demo.id,
+        message: "Pagamento recebido: R$ 12.450,00",
+        entityType: "fin_transaction",
+      },
     ],
   });
 

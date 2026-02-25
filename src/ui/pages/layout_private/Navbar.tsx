@@ -43,7 +43,7 @@ export function Navbar({
   const setTheme = useAppStore((s) => s.setTheme);
   const setLocale = useAppStore((s) => s.setLocale);
 
-  const [busyLogout, setBusyLogout] = useState(false);
+  const [_busyLogout, setBusyLogout] = useState(false);
 
   function toggleTheme() {
     const nextTheme: AppSettings["theme"] =
