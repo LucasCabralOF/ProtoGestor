@@ -3,10 +3,10 @@
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import type { User } from "@/types/base";
-import { MobileSidebar } from "@/ui/pages/private/MobileSidebar";
-import { Navbar } from "@/ui/pages/private/Navbar";
-import { PRIVATE_NAV } from "@/ui/pages/private/nav";
-import { Sidebar } from "@/ui/pages/private/Sidebar";
+import { MobileSidebar } from "@/ui/pages/layout_private/MobileSidebar";
+import { Navbar } from "@/ui/pages/layout_private/Navbar";
+import { PRIVATE_NAV } from "@/ui/pages/layout_private/nav";
+import { Sidebar } from "@/ui/pages/layout_private/Sidebar";
 
 export function PrivateShell({
   children,

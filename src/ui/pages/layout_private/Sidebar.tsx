@@ -7,8 +7,8 @@ import { useState } from "react";
 import { RiSideBarLine } from "react-icons/ri";
 
 import { Popover } from "@/ui/base/Popover";
-import type { NavGroup } from "@/ui/pages/private/nav";
-import { firstPath } from "@/ui/pages/private/nav";
+import type { NavGroup } from "@/ui/pages/layout_private/nav";
+import { firstPath } from "@/ui/pages/layout_private/nav";
 
 function SidebarItem({
   collapsed,

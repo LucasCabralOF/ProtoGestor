@@ -1,0 +1,75 @@
+enum TransactionType {
+  income
+  expense
+}
+
+enum TransactionStatus {
+  pending
+  paid
+  canceled
+}
+
+model FinancialAccount {
+  id       String  @id @default(cuid())
+  orgId    String
+  name     String
+  type     String? // bank/cash/card...
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  org          Organization  @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@unique([orgId, name])
+  @@map("fin_account")
+}
+
+model Category {
+  id       String          @id @default(cuid())
+  orgId    String
+  name     String
+  type     TransactionType
+  parentId String?
+
+  createdAt DateTime @default(now())
+
+  org    Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  parent Category?    @relation("CategoryParent", fields: [parentId], references: [id], onDelete: SetNull)
+  childs Category[]   @relation("CategoryParent")
+
+  transactions Transaction[]
+
+  @@unique([orgId, name, type])
+  @@map("fin_category")
+}
+
+model Transaction {
+  id     String            @id @default(cuid())
+  orgId  String
+  type   TransactionType
+  status TransactionStatus @default(pending)
+
+  amountCents Int
+  paidAt      DateTime?
+  dueAt       DateTime?
+  description String?
+
+  accountId  String?
+  categoryId String?
+  contactId  String? // Contact (cliente/fornecedor)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  org      Organization      @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  account  FinancialAccount? @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  category Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  contact  Contact?          @relation(fields: [contactId], references: [id], onDelete: SetNull)
+
+  @@index([orgId, type, status])
+  @@index([orgId, paidAt])
+  @@index([orgId, dueAt])
+  @@map("fin_transaction")
+}

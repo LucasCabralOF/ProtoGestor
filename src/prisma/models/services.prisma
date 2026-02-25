@@ -1,0 +1,50 @@
+enum ServiceStatus {
+  draft
+  scheduled
+  in_progress
+  completed
+  canceled
+}
+
+model ServiceOrder {
+  id     String        @id @default(cuid())
+  orgId  String
+  status ServiceStatus @default(draft)
+
+  title       String
+  description String?
+
+  customerId String? // Contact (cliente)
+  valueCents Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  org      Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  customer Contact?     @relation(fields: [customerId], references: [id], onDelete: SetNull)
+
+  appointments Appointment[]
+  items        ServiceOrderItem[]
+
+  @@index([orgId, status])
+  @@index([orgId, createdAt])
+  @@map("service_order")
+}
+
+model ServiceOrderItem {
+  id             String @id @default(cuid())
+  orgId          String
+  serviceOrderId String
+
+  title          String
+  qty            Int    @default(1)
+  unitPriceCents Int    @default(0)
+
+  createdAt DateTime @default(now())
+
+  org          Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  serviceOrder ServiceOrder @relation(fields: [serviceOrderId], references: [id], onDelete: Cascade)
+
+  @@index([orgId, serviceOrderId])
+  @@map("service_order_item")
+}

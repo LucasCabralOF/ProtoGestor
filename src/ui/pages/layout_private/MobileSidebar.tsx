@@ -5,8 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Drawer } from "@/ui/base/Drawer";
-import type { NavGroup } from "@/ui/pages/private/nav";
-import { firstPath } from "@/ui/pages/private/nav";
+import type { NavGroup } from "@/ui/pages/layout_private/nav";
+import { firstPath } from "@/ui/pages/layout_private/nav";
 
 export function MobileSidebar({
   open,

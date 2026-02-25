@@ -18,7 +18,7 @@
     "db:migrate:status": "prisma migrate status",
     "db:push": "prisma db push --accept-data-loss",
     "db:reset": "npm run db:generate && prisma db push --force-reset && prisma db seed",
-    "db:studio": "prisma studio --port 5555",
+    "db:studio": "prisma studio --port 5556",
     "test:unit": "vitest run"
   },
   "dependencies": {

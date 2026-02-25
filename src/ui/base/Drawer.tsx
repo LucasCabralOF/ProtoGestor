@@ -23,7 +23,7 @@ export function Drawer({
 }) {
   return (
     <DrawerAntd
-      destroyOnClose={true}
+      destroyOnHidden={true}
       open={open}
       onClose={onClose}
       placement={placement}
