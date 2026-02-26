@@ -1,8 +1,8 @@
 // src/ui/base/Card.tsx
 "use client";
 
-import { Card as CardAntd, type CardProps } from "antd";
 import type { ReactNode } from "react";
+import { Card as CardAntd, type CardProps } from "antd";
 
 export function Card({
   className,
@@ -11,8 +11,9 @@ export function Card({
   extra,
   variant = "borderless",
   testid,
-  bodyStyle,
   style,
+  styles,
+  classNames,
 }: {
   className?: string;
   children?: ReactNode;
@@ -20,14 +21,16 @@ export function Card({
   extra?: CardProps["extra"];
   variant?: CardProps["variant"];
   testid?: string;
-  bodyStyle?: CardProps["bodyStyle"];
   style?: CardProps["style"];
+  styles?: CardProps["styles"];
+  classNames?: CardProps["classNames"];
 }) {
   return (
     <CardAntd
       className={className}
       style={style}
-      bodyStyle={bodyStyle}
+      styles={styles}
+      classNames={classNames}
       data-testid={testid ? `card-${testid}` : undefined}
       extra={extra}
       title={title}

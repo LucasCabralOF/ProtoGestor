@@ -1,7 +1,7 @@
 // src/ui/pages/private/ClientsPage.tsx
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 import {
   FiCheck,
@@ -126,6 +126,7 @@ function RowActions({
 
 export function ClientsPage({ data }: { data: ClientsPageData }) {
   const router = useRouter();
+  const pathname = usePathname(); // ✅ pega o path real atual
   const sp = useSearchParams();
 
   const q = sp.get("q") ?? "";
@@ -150,10 +151,15 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
 
   function setParam(key: string, value: string) {
     const next = new URLSearchParams(sp.toString());
+
     if (value.trim().length === 0 || value === "all") next.delete(key);
     else next.set(key, value);
+
     next.delete("page");
-    router.replace(`/clientes?${next.toString()}`);
+
+    const qs = next.toString();
+    const href = qs ? `${pathname}?${qs}` : pathname; // ✅ não força /clientes
+    router.replace(href, { scroll: false }); // opcional: não pular pro topo
   }
 
   function openCreate() {
@@ -169,8 +175,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
   }
 
   function patchForm(patch: Partial<ClientFormState>) {
-    // biome-ignore lint/suspicious/noExplicitAny: odeio o Biome, odeio o Biom, odeio o Biomeeeee
-    setForm((prev: any) => ({ ...prev, ...patch }));
+    setForm((prev) => ({ ...prev, ...patch }));
   }
 
   async function onSubmit() {

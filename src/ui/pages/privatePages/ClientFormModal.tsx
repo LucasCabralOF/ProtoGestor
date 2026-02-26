@@ -104,12 +104,12 @@ export function ClientFormModal({
           role="dialog"
           aria-modal="true"
           aria-labelledby={titleId}
-          className="w-full max-w-[920px] h-[min(720px,calc(100vh-32px))]"
+          className="h-[min(720px,calc(100vh-32px))] w-full max-w-[920px]"
         >
           <Card
             className="h-full overflow-hidden border border-(--color-border) bg-(--color-base-1)"
             style={{ height: "100%" }}
-            bodyStyle={{ height: "100%", padding: 0 }}
+            styles={{ body: { height: "100%", padding: 0 } }}
           >
             <div className="flex h-full min-h-0 flex-col">
               {/* Header */}
@@ -191,7 +191,9 @@ export function ClientFormModal({
                         aria-labelledby={labelId}
                         className="mt-1 w-full"
                         value={form.document}
-                        onChange={(e) => onChange({ document: e.target.value })}
+                        onChange={(e) =>
+                          onChange({ document: e.target.value })
+                        }
                         placeholder="Somente números ou formato livre"
                       />
                     )}
@@ -215,7 +217,9 @@ export function ClientFormModal({
                         aria-labelledby={labelId}
                         className="mt-1 w-full"
                         value={form.whatsapp}
-                        onChange={(e) => onChange({ whatsapp: e.target.value })}
+                        onChange={(e) =>
+                          onChange({ whatsapp: e.target.value })
+                        }
                         placeholder="(00) 00000-0000"
                       />
                     )}
