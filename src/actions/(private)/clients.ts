@@ -31,6 +31,8 @@ export const createClientAction = actionClient
     const { orgId } = await requireOrgId();
 
     const created = await prisma.$transaction(async (tx) => {
+      const line1 = parsedInput.addressLine1?.trim() || null;
+
       const c = await tx.contact.create({
         data: {
           orgId,
@@ -53,14 +55,13 @@ export const createClientAction = actionClient
         select: { id: true },
       });
 
-      const hasAddress = Boolean(parsedInput.addressLine1?.trim());
-      if (hasAddress) {
+      if (line1) {
         await tx.address.create({
           data: {
             orgId,
             contactId: c.id,
             label: parsedInput.type === "company" ? "Empresa" : "Principal",
-            line1: parsedInput.addressLine1?.trim(),
+            line1,
             line2: parsedInput.addressLine2?.trim() || null,
             city: parsedInput.city?.trim() || null,
             state: parsedInput.state?.trim() || null,

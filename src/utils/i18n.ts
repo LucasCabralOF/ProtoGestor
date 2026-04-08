@@ -6,12 +6,16 @@ export const defaultLocale = "pt-BR";
 
 type AppLocale = (typeof locales)[number];
 
+function isAppLocale(locale: string): locale is AppLocale {
+  return locales.includes(locale as AppLocale);
+}
+
 async function resolveLocale(): Promise<AppLocale> {
   const jar = await cookies();
   const cookieLocale = jar.get("NEXT_LOCALE")?.value;
 
-  if (cookieLocale && locales.includes(cookieLocale as any)) {
-    return cookieLocale as AppLocale;
+  if (cookieLocale && isAppLocale(cookieLocale)) {
+    return cookieLocale;
   }
 
   return defaultLocale;

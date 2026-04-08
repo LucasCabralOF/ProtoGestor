@@ -1,5 +1,10 @@
 import type { BreadcrumbProps } from "antd";
 import { FiHome, FiLayout, FiSettings, FiUsers } from "react-icons/fi";
+import {
+  buildBreadcrumbItems as buildBreadcrumbItemsForGroups,
+  findNavItem as findNavItemForGroups,
+  firstPath,
+} from "./nav-utils";
 
 export type NavItem = {
   href: string;
@@ -32,31 +37,14 @@ export const PRIVATE_NAV: NavGroup[] = [
   },
 ];
 
-export function firstPath(pathname: string) {
-  return pathname.split("/")[1] ?? "";
-}
-
 export function findNavItem(pathname: string) {
-  const key = `/${firstPath(pathname)}`;
-  for (const group of PRIVATE_NAV) {
-    const found = group.items.find((i) => i.href === key);
-    if (found) return { group: group.label, item: found };
-  }
-  return null;
+  return findNavItemForGroups(pathname, PRIVATE_NAV);
 }
 
 export function buildBreadcrumbItems(
   pathname: string,
 ): BreadcrumbProps["items"] {
-  const found = findNavItem(pathname);
-
-  if (!found) {
-    return [{ title: "Painel", href: "/dashboard" }, { title: "Página" }];
-  }
-
-  return [
-    { title: "Painel", href: "/dashboard" },
-    { title: found.group },
-    { title: found.item.label },
-  ];
+  return buildBreadcrumbItemsForGroups(pathname, PRIVATE_NAV);
 }
+
+export { firstPath };

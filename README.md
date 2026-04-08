@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Proto
 
-## Getting Started
+Aplicacao administrativa em `Next.js` com autenticacao, multi-tenant por organizacao e modulos iniciais de dashboard e clientes.
 
-First, run the development server:
+## Stack
+
+- `Next.js` 16 + App Router
+- `React` 19 + `TypeScript`
+- `Ant Design`
+- `Prisma` + PostgreSQL
+- `better-auth`
+- `next-intl`
+- `next-safe-action`
+- `Vitest`
+
+## Requisitos
+
+- Node.js 20+
+- PostgreSQL
+
+## Variaveis de ambiente
+
+Crie um arquivo `.env` com:
+
+```bash
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DB_NAME"
+BETTER_AUTH_SECRET="uma-chave-segura"
+BETTER_AUTH_URL="http://localhost:3001"
+```
+
+## Como rodar
+
+```bash
+npm install
+npm run db:generate
+npm run db:migrate:dev
+npm run dev
+```
+
+A aplicacao sobe em `http://localhost:3001`.
+
+## Banco e seed
+
+Para recriar a base local e popular dados demo:
+
+```bash
+npm run db:reset
+```
+
+O seed cria um usuario demo e uma organizacao de exemplo para popular dashboard e clientes.
+
+## Scripts uteis
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm run start
+npm run check
+npm run check:ci
+npm run test:unit
+npm run db:generate
+npm run db:migrate:dev
+npm run db:studio
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Estrutura principal
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `src/app`: rotas publicas, privadas e handlers
+- `src/lib`: auth, prisma e consultas de dominio
+- `src/actions`: server actions com validacao
+- `src/prisma`: schema, migrations e seed
+- `src/ui`: componentes base e paginas
+- `src/locales`: traducao `pt-BR` e `en`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Observacoes
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- As rotas privadas exigem sessao valida.
+- O tenant atual e resolvido a partir da membership do usuario.
+- O comando `npm run check` gera o Prisma Client antes da validacao para evitar inconsistencias em ambiente limpo.

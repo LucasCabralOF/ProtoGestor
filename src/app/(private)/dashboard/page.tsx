@@ -6,7 +6,9 @@ import { DashboardPage } from "@/ui/pages/privatePages/DashboardPage";
 
 function headersToObject(h: Headers) {
   const obj: Record<string, string> = {};
-  h.forEach((v, k) => (obj[k] = v));
+  h.forEach((v, k) => {
+    obj[k] = v;
+  });
   return obj;
 }
 

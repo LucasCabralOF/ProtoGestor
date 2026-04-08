@@ -1,4 +1,4 @@
-// src/app/(private)/clientes/export/route.ts
+// src/app/(private)/clients/export/route.ts
 import { NextResponse } from "next/server";
 import { getClientsForExport } from "@/lib/clients";
 

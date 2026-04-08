@@ -1,4 +1,4 @@
-// src/app/(private)/clientes/page.tsx
+// src/app/(private)/clients/page.tsx
 import { getClientsPageData } from "@/lib/clients";
 import { ClientsPage } from "@/ui/pages/privatePages/ClientsPage";
 

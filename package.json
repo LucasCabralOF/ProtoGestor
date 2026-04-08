@@ -3,11 +3,12 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "next dev --port 3001",
     "build": "prisma generate && next build",
     "start": "next start --port 3001",
-    "check": "tsc --noEmit && biome check",
-    "check:ci": "tsc --noEmit && biome ci",
+    "check": "prisma generate && tsc --noEmit && biome check",
+    "check:ci": "prisma generate && tsc --noEmit && biome ci",
     "check:fix": "biome check --write",
     "check:fix:unsafe": "biome check --write --unsafe",
     "check:locales": "npx --yes @lingual/i18n-check@latest -s en -l src/locales",
@@ -55,6 +56,6 @@
     "tsx": "4.21.0",
     "typescript": "^5.4.0",
     "vite-tsconfig-paths": "6.1.0",
-    "vitest": "4.0.0"
+    "vitest": "^4.0.16"
   }
 }

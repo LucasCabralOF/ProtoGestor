@@ -1,4 +1,4 @@
-// src/app/(private)/clientes/import/route.ts
+// src/app/(private)/clients/import/route.ts
 import { NextResponse } from "next/server";
 import { requireOrgId } from "@/lib/auth-tenant";
 import prisma from "@/lib/prisma";

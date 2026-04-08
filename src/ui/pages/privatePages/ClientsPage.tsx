@@ -141,7 +141,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
   const [importing, setImporting] = useState(false);
   const fileRef = useRef<HTMLInputElement | null>(null);
 
-  const exportHref = "/clientes/export";
+  const exportHref = "/clients/export";
 
   const filteredStatusValue =
     status === "active" || status === "inactive" ? status : "all";
@@ -158,7 +158,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
     next.delete("page");
 
     const qs = next.toString();
-    const href = qs ? `${pathname}?${qs}` : pathname; // ✅ não força /clientes
+    const href = qs ? `${pathname}?${qs}` : pathname;
     router.replace(href, { scroll: false }); // opcional: não pular pro topo
   }
 
@@ -243,7 +243,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
       const fd = new FormData();
       fd.append("file", file);
 
-      const r = await fetch("/clientes/import", {
+      const r = await fetch("/clients/import", {
         method: "POST",
         body: fd,
       });
