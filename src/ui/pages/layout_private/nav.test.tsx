@@ -9,7 +9,10 @@ const NAV_GROUPS: readonly NavLookupGroup[] = [
   },
   {
     label: "Operação",
-    items: [{ href: "/clients", label: "Clientes" }],
+    items: [
+      { href: "/clients", label: "Clientes" },
+      { href: "/services", label: "Serviços" },
+    ],
   },
 ];
 
@@ -21,12 +24,12 @@ describe("nav helpers", () => {
   });
 
   it("finds the registered nav item for the current route", () => {
-    const found = findNavItem("/clients", NAV_GROUPS);
+    const found = findNavItem("/services", NAV_GROUPS);
 
     expect(found).not.toBeNull();
     expect(found?.group).toBe("Operação");
-    expect(found?.item.href).toBe("/clients");
-    expect(found?.item.label).toBe("Clientes");
+    expect(found?.item.href).toBe("/services");
+    expect(found?.item.label).toBe("Serviços");
   });
 
   it("builds a fallback breadcrumb for unknown pages", () => {

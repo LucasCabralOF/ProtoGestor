@@ -1,5 +1,11 @@
 import type { BreadcrumbProps } from "antd";
-import { FiHome, FiLayout, FiSettings, FiUsers } from "react-icons/fi";
+import {
+  FiCalendar,
+  FiHome,
+  FiLayout,
+  FiSettings,
+  FiUsers,
+} from "react-icons/fi";
 import {
   buildBreadcrumbItems as buildBreadcrumbItemsForGroups,
   findNavItem as findNavItemForGroups,
@@ -26,6 +32,7 @@ export const PRIVATE_NAV: NavGroup[] = [
     label: "Operação",
     items: [
       { href: "/clients", label: "Clientes", icon: <FiUsers /> },
+      { href: "/services", label: "Serviços", icon: <FiCalendar /> },
       { href: "/projects", label: "Projetos", icon: <FiLayout /> },
     ],
   },

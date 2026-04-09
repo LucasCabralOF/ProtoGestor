@@ -5,15 +5,14 @@ import { ClientsPage } from "@/ui/pages/privatePages/ClientsPage";
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const q = typeof searchParams?.q === "string" ? searchParams.q : "";
-  const statusRaw =
-    typeof searchParams?.status === "string" ? searchParams.status : "all";
+  const params = searchParams ? await searchParams : undefined;
+
+  const q = typeof params?.q === "string" ? params.q : "";
+  const statusRaw = typeof params?.status === "string" ? params.status : "all";
   const recurringRaw =
-    typeof searchParams?.recurring === "string"
-      ? searchParams.recurring
-      : "all";
+    typeof params?.recurring === "string" ? params.recurring : "all";
 
   const status =
     statusRaw === "active" || statusRaw === "inactive" ? statusRaw : "all";

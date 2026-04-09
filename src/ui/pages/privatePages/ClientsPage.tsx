@@ -7,7 +7,6 @@ import {
   FiCheck,
   FiDownload,
   FiEdit2,
-  FiMoreVertical,
   FiPlus,
   FiSearch,
   FiSlash,
@@ -23,6 +22,8 @@ import type { ClientRow, ClientsPageData } from "@/lib/clients";
 import { Button } from "@/ui/base/Button";
 import { Card } from "@/ui/base/Card";
 import { Input } from "@/ui/base/Input";
+import { RowActionMenu } from "@/ui/base/RowActionMenu";
+import { useAppFeedback } from "@/ui/base/useAppFeedback";
 
 import {
   ClientFormModal,
@@ -75,52 +76,23 @@ function RowActions({
   onEdit: () => void;
   onToggleActive: () => void;
 }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  function close() {
-    setOpen(false);
-  }
-
   return (
-    <div className="relative" ref={ref}>
-      <button
-        className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-(--color-border) bg-(--color-base-1) hover:bg-(--color-base-2)"
-        title="Ações"
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-      >
-        <FiMoreVertical />
-      </button>
-
-      {open ? (
-        <div className="absolute right-0 top-11 w-52 overflow-hidden rounded-xl border border-(--color-border) bg-(--color-base-1) shadow-lg">
-          <button
-            type="button"
-            className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-(--color-base-2)"
-            onClick={() => {
-              close();
-              onEdit();
-            }}
-          >
-            <FiEdit2 />
-            Editar
-          </button>
-
-          <button
-            type="button"
-            className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-(--color-base-2)"
-            onClick={() => {
-              close();
-              onToggleActive();
-            }}
-          >
-            {row.isActive ? <FiSlash /> : <FiCheck />}
-            {row.isActive ? "Inativar" : "Reativar"}
-          </button>
-        </div>
-      ) : null}
-    </div>
+    <RowActionMenu
+      items={[
+        {
+          key: "edit",
+          icon: <FiEdit2 />,
+          label: "Editar",
+          onSelect: onEdit,
+        },
+        {
+          key: "toggle-active",
+          icon: row.isActive ? <FiSlash /> : <FiCheck />,
+          label: row.isActive ? "Inativar" : "Reativar",
+          onSelect: onToggleActive,
+        },
+      ]}
+    />
   );
 }
 
@@ -128,6 +100,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
   const router = useRouter();
   const pathname = usePathname(); // ✅ pega o path real atual
   const sp = useSearchParams();
+  const feedback = useAppFeedback();
 
   const q = sp.get("q") ?? "";
   const status = sp.get("status") ?? "all";
@@ -209,10 +182,16 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
       }
 
       setModalOpen(false);
+      feedback.notifySuccess(
+        modalMode === "create"
+          ? "Cliente criado com sucesso."
+          : "Cliente atualizado com sucesso.",
+      );
       router.refresh();
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Erro";
-      alert(msg);
+      feedback.notifyError(e, {
+        fallback: "Erro ao salvar cliente.",
+      });
     } finally {
       setSaving(false);
     }
@@ -220,20 +199,34 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
 
   async function toggleActive(r: ClientRow) {
     const next = !r.isActive;
-    const confirmMsg = next
-      ? "Reativar este cliente?"
-      : "Inativar este cliente?";
-    const ok = window.confirm(confirmMsg);
+    const ok = await feedback.confirm({
+      title: next ? "Reativar cliente" : "Inativar cliente",
+      content: next
+        ? `Deseja reativar o cliente "${r.name}"?`
+        : `Deseja inativar o cliente "${r.name}"?`,
+      okText: next ? "Reativar" : "Inativar",
+      cancelText: "Cancelar",
+      danger: !next,
+    });
+
     if (!ok) return;
 
     try {
       const res = await setClientActiveAction({ id: r.id, isActive: next });
       if (!res?.data?.ok)
         throw new Error(res?.serverError || "Falha ao atualizar status");
+
+      feedback.notifySuccess(
+        next
+          ? "Cliente reativado com sucesso."
+          : "Cliente inativado com sucesso.",
+      );
+
       router.refresh();
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Erro";
-      alert(msg);
+      feedback.notifyError(e, {
+        fallback: "Erro ao atualizar status do cliente.",
+      });
     }
   }
 
@@ -256,13 +249,14 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
       };
       if (!json.ok) throw new Error(json.error || "Falha ao importar");
 
-      alert(
+      feedback.notifySuccess(
         `Importação concluída: ${json.created ?? 0} criados, ${json.updated ?? 0} atualizados.`,
       );
       router.refresh();
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Erro";
-      alert(msg);
+      feedback.notifyError(e, {
+        fallback: "Erro ao importar clientes.",
+      });
     } finally {
       setImporting(false);
     }

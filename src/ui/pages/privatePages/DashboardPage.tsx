@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   FiCalendar,
   FiDollarSign,
@@ -145,7 +146,11 @@ export function DashboardPage({
         <Card className="border border-(--color-border)">
           <div className="flex items-center justify-between gap-3">
             <h2 className="text-xl font-bold">Próximos Serviços</h2>
-            <Button type="default">Ver Todos</Button>
+            <Link href="/services">
+              <Button fit type="default">
+                Ver Todos
+              </Button>
+            </Link>
           </div>
 
           <div className="mt-4">
