@@ -66,11 +66,23 @@ async function main() {
     create: { id: "org_demo", name: "Empresa Teste", slug: "empresa-teste" },
   });
 
+  const branchOrg = await prisma.organization.upsert({
+    where: { id: "org_branch" },
+    update: { name: "Filial Norte", slug: "filial-norte" },
+    create: { id: "org_branch", name: "Filial Norte", slug: "filial-norte" },
+  });
+
   // 3) Membership (vínculo user ↔ org)
   await prisma.membership.upsert({
     where: { orgId_userId: { orgId: org.id, userId: demo.id } },
     update: { role: "owner" },
     create: { orgId: org.id, userId: demo.id, role: "owner" },
+  });
+
+  await prisma.membership.upsert({
+    where: { orgId_userId: { orgId: branchOrg.id, userId: demo.id } },
+    update: { role: "admin" },
+    create: { orgId: branchOrg.id, userId: demo.id, role: "admin" },
   });
 
   // 4) Limpa dados da ORG (idempotente) — ordem respeita FKs

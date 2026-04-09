@@ -7,6 +7,7 @@ import {
   startOfWeek,
   subMonths,
 } from "date-fns";
+import { getTenantContext } from "@/lib/auth-tenant";
 import prisma from "@/lib/prisma";
 
 export type DashboardData = {
@@ -30,12 +31,11 @@ export type DashboardData = {
 };
 
 export async function getDashboardData(userId: string): Promise<DashboardData> {
-  const membership = await prisma.membership.findFirst({
-    where: { userId },
-    select: { orgId: true, org: { select: { name: true } } },
-  });
+  let tenantContext: Awaited<ReturnType<typeof getTenantContext>>;
 
-  if (!membership) {
+  try {
+    tenantContext = await getTenantContext(userId);
+  } catch {
     return {
       orgName: "Minha Empresa",
       kpis: {
@@ -52,8 +52,8 @@ export async function getDashboardData(userId: string): Promise<DashboardData> {
     };
   }
 
-  const orgId = membership.orgId;
-  const orgName = membership.org?.name ?? "Minha Empresa";
+  const orgId = tenantContext.orgId;
+  const orgName = tenantContext.org.name;
 
   const now = new Date();
   const monthStart = startOfMonth(now);

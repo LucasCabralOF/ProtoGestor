@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import { auth } from "@/lib/auth";
+import { getTenantContext } from "@/lib/auth-tenant";
 import type { User } from "@/types/base";
 import { PrivateShell } from "@/ui/pages/layout_private/PrivateShell";
 
@@ -20,5 +21,15 @@ export default async function PrivateLayout({
     role: "user",
   };
 
-  return <PrivateShell user={user}>{children}</PrivateShell>;
+  const tenant = await getTenantContext(session.user.id);
+
+  return (
+    <PrivateShell
+      activeOrg={tenant.org}
+      organizations={tenant.organizations}
+      user={user}
+    >
+      {children}
+    </PrivateShell>
+  );
 }

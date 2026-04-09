@@ -2,17 +2,21 @@
 
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import type { User } from "@/types/base";
+import type { OrganizationSummary, User } from "@/types/base";
 import { MobileSidebar } from "@/ui/pages/layout_private/MobileSidebar";
 import { Navbar } from "@/ui/pages/layout_private/Navbar";
 import { PRIVATE_NAV } from "@/ui/pages/layout_private/nav";
 import { Sidebar } from "@/ui/pages/layout_private/Sidebar";
 
 export function PrivateShell({
+  activeOrg,
   children,
+  organizations,
   user,
 }: {
+  activeOrg: OrganizationSummary;
   children: React.ReactNode;
+  organizations: OrganizationSummary[];
   user: User;
 }) {
   const pathname = usePathname();
@@ -33,6 +37,8 @@ export function PrivateShell({
 
         <div className="flex-1 min-w-0 flex flex-col">
           <Navbar
+            activeOrg={activeOrg}
+            organizations={organizations}
             pathname={pathname}
             user={user}
             onOpenMobileSidebar={() => setMobileOpen(true)}

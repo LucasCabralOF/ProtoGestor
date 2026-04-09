@@ -20,6 +20,9 @@ export type ThemeKey = (typeof THEMES)[number];
 
 export const DEFAULT_THEME: ThemeKey = "light";
 
+// Cookies ---------------------------------------------------------------------
+export const ACTIVE_ORG_COOKIE = "ACTIVE_ORG_ID";
+
 /**
  * Tokens baseados em CSS variables (globals.css).
  * Mantém AntD e CSS alinhados e evita bugs de overlay (Popover/Dropdown/Modal)
