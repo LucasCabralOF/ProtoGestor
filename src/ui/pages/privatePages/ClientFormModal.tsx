@@ -91,7 +91,7 @@ export function ClientFormModal({
   const title = mode === "create" ? "Adicionar Cliente" : "Editar Cliente";
 
   return (
-    <div className="fixed inset-0 z-[60]">
+    <div className="fixed inset-0 z-60">
       <button
         type="button"
         className="absolute inset-0 bg-black/50"
@@ -104,7 +104,7 @@ export function ClientFormModal({
           role="dialog"
           aria-modal="true"
           aria-labelledby={titleId}
-          className="h-[min(720px,calc(100vh-32px))] w-full max-w-[920px]"
+          className="h-[min(720px,calc(100vh-32px))] w-full max-w-230"
         >
           <Card
             className="h-full overflow-hidden border border-(--color-border) bg-(--color-base-1)"
@@ -308,7 +308,7 @@ export function ClientFormModal({
                       {({ labelId }) => (
                         <textarea
                           aria-labelledby={labelId}
-                          className="mt-1 min-h-[96px] w-full rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 py-2 text-sm"
+                          className="mt-1 min-h-24 w-full rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 py-2 text-sm"
                           value={form.notes}
                           onChange={(e) => onChange({ notes: e.target.value })}
                           placeholder="Observações…"
