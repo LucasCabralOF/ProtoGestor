@@ -13,7 +13,7 @@ const BaseClientSchema = z.object({
   name: z.string().min(2, "Nome é obrigatório"),
   legalName: z.string().optional().nullable(),
   document: z.string().optional().nullable(),
-  email: z.string().email("E-mail inválido").optional().nullable(),
+  email: z.email("E-mail inválido").optional().nullable(),
   phone: z.string().optional().nullable(),
   whatsapp: z.string().optional().nullable(),
   notes: z.string().optional().nullable(),
@@ -26,7 +26,7 @@ const BaseClientSchema = z.object({
 });
 
 export const createClientAction = actionClient
-  .schema(BaseClientSchema)
+  .inputSchema(BaseClientSchema)
   .action(async ({ parsedInput }) => {
     const { orgId } = await requireOrgId();
 
@@ -79,7 +79,7 @@ export const createClientAction = actionClient
   });
 
 export const updateClientAction = actionClient
-  .schema(
+  .inputSchema(
     BaseClientSchema.extend({
       id: z.string().min(1),
     }),
@@ -157,7 +157,7 @@ export const updateClientAction = actionClient
   });
 
 export const setClientActiveAction = actionClient
-  .schema(
+  .inputSchema(
     z.object({
       id: z.string().min(1),
       isActive: z.boolean(),

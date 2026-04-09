@@ -5,12 +5,8 @@ import { useEffect, useMemo, useRef } from "react";
 import { IconContext } from "react-icons";
 import { useAppStore } from "@/stores/appStore";
 import type { AppSettings, User } from "@/types/base";
+import { setClientCookie } from "@/utils/clientCookies";
 import { LOCALES_ANTD, THEMES_ANTD } from "@/utils/constants";
-
-function setCookie(name: string, value: string) {
-  const maxAge = 60 * 60 * 24 * 365;
-  document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
-}
 
 export function ClientProviders({
   children,
@@ -57,8 +53,8 @@ export function ClientProviders({
     if (storeSettings.theme === "dark") root.classList.add("dark");
     else root.classList.remove("dark");
 
-    setCookie("NEXT_LOCALE", storeSettings.locale);
-    setCookie("APP_THEME", storeSettings.theme);
+    void setClientCookie("NEXT_LOCALE", storeSettings.locale);
+    void setClientCookie("APP_THEME", storeSettings.theme);
   }, [storeSettings.theme, storeSettings.locale]);
 
   return (

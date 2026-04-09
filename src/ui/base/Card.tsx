@@ -1,8 +1,8 @@
 // src/ui/base/Card.tsx
 "use client";
 
-import type { ReactNode } from "react";
 import { Card as CardAntd, type CardProps } from "antd";
+import type { ReactNode } from "react";
 
 export function Card({
   className,

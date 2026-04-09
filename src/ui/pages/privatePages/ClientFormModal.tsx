@@ -191,9 +191,7 @@ export function ClientFormModal({
                         aria-labelledby={labelId}
                         className="mt-1 w-full"
                         value={form.document}
-                        onChange={(e) =>
-                          onChange({ document: e.target.value })
-                        }
+                        onChange={(e) => onChange({ document: e.target.value })}
                         placeholder="Somente números ou formato livre"
                       />
                     )}
@@ -217,9 +215,7 @@ export function ClientFormModal({
                         aria-labelledby={labelId}
                         className="mt-1 w-full"
                         value={form.whatsapp}
-                        onChange={(e) =>
-                          onChange({ whatsapp: e.target.value })
-                        }
+                        onChange={(e) => onChange({ whatsapp: e.target.value })}
                         placeholder="(00) 00000-0000"
                       />
                     )}

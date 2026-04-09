@@ -19,6 +19,7 @@ import { Breadcrumb } from "@/ui/base/Breadcrumb";
 import { Button } from "@/ui/base/Button";
 import { Input } from "@/ui/base/Input";
 import { Popover } from "@/ui/base/Popover";
+import { setClientCookie } from "@/utils/clientCookies";
 import { LOCALES, type LocaleKey } from "@/utils/constants";
 import { buildBreadcrumbItems } from "./nav";
 
@@ -45,20 +46,20 @@ export function Navbar({
 
   const [_busyLogout, setBusyLogout] = useState(false);
 
-  function toggleTheme() {
+  async function toggleTheme() {
     const nextTheme: AppSettings["theme"] =
       appSettings.theme === "dark" ? "light" : "dark";
     setTheme(nextTheme);
 
-    document.cookie = `APP_THEME=${encodeURIComponent(nextTheme)}; Path=/; Max-Age=${60 * 60 * 24 * 365}`;
+    await setClientCookie("APP_THEME", nextTheme);
     router.refresh();
   }
 
-  function changeLocale(locale: LocaleKey) {
+  async function changeLocale(locale: LocaleKey) {
     setLocale(locale);
 
     // seta cookie pro server ler e força rerender server components
-    document.cookie = `NEXT_LOCALE=${encodeURIComponent(locale)}; Path=/; Max-Age=${60 * 60 * 24 * 365}`;
+    await setClientCookie("NEXT_LOCALE", locale);
     router.refresh();
   }
 
@@ -126,7 +127,7 @@ export function Navbar({
                   }`}
                   onClick={() => {
                     close();
-                    changeLocale(loc);
+                    void changeLocale(loc);
                   }}
                 >
                   <span className="inline-flex items-center gap-2">
@@ -147,7 +148,7 @@ export function Navbar({
         </Popover>
 
         {/* Theme */}
-        <Button fit testid="theme-toggle" onClick={toggleTheme}>
+        <Button fit testid="theme-toggle" onClick={() => void toggleTheme()}>
           {appSettings.theme === "dark" ? <FiSun /> : <FiMoon />}
         </Button>
 

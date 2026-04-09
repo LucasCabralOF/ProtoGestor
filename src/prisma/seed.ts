@@ -25,7 +25,7 @@ async function ensureUserViaAuth(params: {
       },
     });
     return res.user;
-  } catch (err: any) {
+  } catch (err: unknown) {
     const existing = await prisma.user.findUnique({
       where: { email: params.email },
     });

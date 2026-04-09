@@ -411,7 +411,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
         <h2 className="text-2xl font-bold">Lista de Contatos</h2>
 
         <div className="mt-4 overflow-x-auto">
-          <table className="min-w-[980px] w-full border-separate border-spacing-0">
+          <table className="min-w-245 w-full border-separate border-spacing-0">
             <thead>
               <tr className="text-left text-sm text-(--color-text-2)">
                 <th className="w-12 border-b border-(--color-border) px-4 py-3">
