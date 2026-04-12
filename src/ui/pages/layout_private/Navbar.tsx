@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useTranslations } from "next-intl";
+import { useMemo, useState, useTransition } from "react";
 import {
   FiBell,
   FiBriefcase,
@@ -22,19 +23,7 @@ import { Input } from "@/ui/base/Input";
 import { Popover } from "@/ui/base/Popover";
 import { setClientCookie } from "@/utils/clientCookies";
 import { ACTIVE_ORG_COOKIE, LOCALES, type LocaleKey } from "@/utils/constants";
-import { buildBreadcrumbItems } from "./nav";
-
-function labelLocale(locale: LocaleKey) {
-  if (locale === "pt-BR") return "PT";
-  if (locale === "en") return "EN";
-  return locale;
-}
-
-function labelOrgRole(role: OrganizationSummary["role"]) {
-  if (role === "owner") return "Owner";
-  if (role === "admin") return "Admin";
-  return "Member";
-}
+import { buildBreadcrumbItems, buildPrivateNav } from "./nav";
 
 export function Navbar({
   activeOrg,
@@ -50,13 +39,32 @@ export function Navbar({
   onOpenMobileSidebar: () => void;
 }) {
   const router = useRouter();
+  const t = useTranslations("navigation");
   const [isSwitchingOrg, startSwitchingOrg] = useTransition();
+  const groups = useMemo(() => buildPrivateNav(t), [t]);
 
   const appSettings = useAppStore((s) => s.appSettings);
   const setTheme = useAppStore((s) => s.setTheme);
   const setLocale = useAppStore((s) => s.setLocale);
 
   const [_busyLogout, setBusyLogout] = useState(false);
+
+  function labelLocale(locale: LocaleKey) {
+    if (locale === "pt-BR") return "PT";
+    if (locale === "en") return "EN";
+    return locale;
+  }
+
+  function labelLocaleOption(locale: LocaleKey) {
+    if (locale === "pt-BR") return t("localePtBR");
+    return t("localeEn");
+  }
+
+  function labelOrgRole(role: OrganizationSummary["role"]) {
+    if (role === "owner") return t("roleOwner");
+    if (role === "admin") return t("roleAdmin");
+    return t("roleMember");
+  }
 
   async function toggleTheme() {
     const nextTheme: AppSettings["theme"] =
@@ -106,7 +114,10 @@ export function Navbar({
       {/* Breadcrumb */}
       <div className="min-w-0">
         <Breadcrumb
-          items={buildBreadcrumbItems(pathname)}
+          items={buildBreadcrumbItems(pathname, groups, {
+            dashboard: t("breadcrumbDashboard"),
+            page: t("breadcrumbPage"),
+          })}
           className="text-sm"
         />
       </div>
@@ -121,7 +132,7 @@ export function Navbar({
             <Input
               className="pl-10"
               testid="top-search"
-              placeholder="Buscar..."
+              placeholder={t("searchPlaceholder")}
             />
           </div>
         </div>
@@ -133,7 +144,7 @@ export function Navbar({
           content={(close) => (
             <div className="min-w-[260px]">
               <div className="border-b border-(--color-border) px-3 py-2 text-xs text-(--color-text-2)">
-                Organização ativa
+                {t("activeOrganization")}
               </div>
 
               {organizations.map((organization) => {
@@ -158,14 +169,14 @@ export function Navbar({
                           {organization.name}
                         </div>
                         <div className="mt-1 truncate text-xs text-(--color-text-2)">
-                          {organization.slug ?? "Sem slug"} •{" "}
+                          {organization.slug ?? t("unknownSlug")} •{" "}
                           {labelOrgRole(organization.role)}
                         </div>
                       </div>
 
                       {isCurrent ? (
                         <span className="rounded-full border border-(--color-border) bg-(--color-base-1) px-2 py-1 text-[11px] font-semibold">
-                          Atual
+                          {t("current")}
                         </span>
                       ) : null}
                     </div>
@@ -195,7 +206,7 @@ export function Navbar({
           content={(close) => (
             <div className="min-w-[180px]">
               <div className="px-3 py-2 border-b border-(--color-border) text-xs text-(--color-text-2)">
-                Idioma
+                {t("language")}
               </div>
 
               {(LOCALES as readonly LocaleKey[]).map((loc) => (
@@ -212,7 +223,7 @@ export function Navbar({
                 >
                   <span className="inline-flex items-center gap-2">
                     <FiGlobe />
-                    {loc === "pt-BR" ? "Português (BR)" : "English"}
+                    {labelLocaleOption(loc)}
                   </span>
                 </button>
               ))}
@@ -235,6 +246,7 @@ export function Navbar({
         {/* Notifications */}
         <Button fit testid="notif">
           <FiBell />
+          <span className="sr-only">{t("notifications")}</span>
         </Button>
 
         {/* User menu */}
@@ -259,7 +271,7 @@ export function Navbar({
               {organizations.length > 1 ? (
                 <div className="border-t border-(--color-border) px-2 py-2">
                   <div className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-wide text-(--color-text-2)">
-                    Organizações
+                    {t("organizations")}
                   </div>
 
                   <div className="grid gap-1">
@@ -300,7 +312,7 @@ export function Navbar({
                   router.push("/settings");
                 }}
               >
-                Configurações
+                {t("settings")}
               </button>
 
               <button
@@ -312,7 +324,7 @@ export function Navbar({
                 }}
               >
                 <span className="inline-flex items-center gap-2">
-                  <FiLogOut /> Sair
+                  <FiLogOut /> {t("logout")}
                 </span>
               </button>
             </div>

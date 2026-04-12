@@ -1,4 +1,5 @@
 import type { BreadcrumbProps } from "antd";
+import type { ReactNode } from "react";
 import {
   FiCalendar,
   FiHome,
@@ -14,7 +15,7 @@ import {
 
 export type NavItem = {
   href: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   label: string;
 };
 
@@ -23,35 +24,44 @@ export type NavGroup = {
   items: NavItem[];
 };
 
-export const PRIVATE_NAV: NavGroup[] = [
-  {
-    label: "Geral",
-    items: [{ href: "/dashboard", label: "Dashboard", icon: <FiHome /> }],
-  },
-  {
-    label: "Operação",
-    items: [
-      { href: "/clients", label: "Clientes", icon: <FiUsers /> },
-      { href: "/services", label: "Serviços", icon: <FiCalendar /> },
-      { href: "/projects", label: "Projetos", icon: <FiLayout /> },
-    ],
-  },
-  {
-    label: "Sistema",
-    items: [
-      { href: "/settings", label: "Configurações", icon: <FiSettings /> },
-    ],
-  },
-];
+export function buildPrivateNav(t: (key: string) => string): NavGroup[] {
+  return [
+    {
+      label: t("groupGeneral"),
+      items: [
+        { href: "/dashboard", label: t("itemDashboard"), icon: <FiHome /> },
+      ],
+    },
+    {
+      label: t("groupOperations"),
+      items: [
+        { href: "/clients", label: t("itemClients"), icon: <FiUsers /> },
+        { href: "/services", label: t("itemServices"), icon: <FiCalendar /> },
+        { href: "/projects", label: t("itemProjects"), icon: <FiLayout /> },
+      ],
+    },
+    {
+      label: t("groupSystem"),
+      items: [
+        { href: "/settings", label: t("itemSettings"), icon: <FiSettings /> },
+      ],
+    },
+  ];
+}
 
-export function findNavItem(pathname: string) {
-  return findNavItemForGroups(pathname, PRIVATE_NAV);
+export function findNavItem(pathname: string, groups: readonly NavGroup[]) {
+  return findNavItemForGroups(pathname, groups);
 }
 
 export function buildBreadcrumbItems(
   pathname: string,
+  groups: readonly NavGroup[],
+  labels?: {
+    dashboard: string;
+    page: string;
+  },
 ): BreadcrumbProps["items"] {
-  return buildBreadcrumbItemsForGroups(pathname, PRIVATE_NAV);
+  return buildBreadcrumbItemsForGroups(pathname, groups, labels);
 }
 
 export { firstPath };

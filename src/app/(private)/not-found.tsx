@@ -1,23 +1,26 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { Button } from "@/ui/base/Button";
 import { ResultPage } from "@/ui/pages/system/ResultPage";
 
-export default function PrivateNotFound() {
+export default async function PrivateNotFound() {
+  const t = await getTranslations("errors");
+
   return (
     <ResultPage
       compact
       status="404"
-      title="Conteúdo não encontrado"
-      subTitle="Esta rota não existe dentro do painel atual ou foi removida."
+      title={t("privateNotFoundTitle")}
+      subTitle={t("privateNotFoundSubtitle")}
       extra={[
         <Link key="dashboard" href="/dashboard">
           <Button fit type="primary">
-            Voltar ao dashboard
+            {t("backDashboard")}
           </Button>
         </Link>,
         <Link key="services" href="/services">
           <Button fit type="default">
-            Abrir serviços
+            {t("openServices")}
           </Button>
         </Link>,
       ]}

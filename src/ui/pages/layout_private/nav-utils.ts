@@ -34,15 +34,25 @@ export function findNavItem<TItem extends NavLookupItem>(
 export function buildBreadcrumbItems<TItem extends NavLookupItem>(
   pathname: string,
   groups: readonly NavLookupGroup<TItem>[],
+  labels: {
+    dashboard: string;
+    page: string;
+  } = {
+    dashboard: "Painel",
+    page: "Página",
+  },
 ): BreadcrumbItem[] {
   const found = findNavItem(pathname, groups);
 
   if (!found) {
-    return [{ title: "Painel", href: "/dashboard" }, { title: "Página" }];
+    return [
+      { title: labels.dashboard, href: "/dashboard" },
+      { title: labels.page },
+    ];
   }
 
   return [
-    { title: "Painel", href: "/dashboard" },
+    { title: labels.dashboard, href: "/dashboard" },
     { title: found.group },
     { title: found.item.label },
   ];

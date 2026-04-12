@@ -1,0 +1,16 @@
+{
+  "appErrorTitle": "Something went wrong",
+  "appErrorSubtitle": "An error occurred while rendering this page. You can try again or return to a safe area of the system.",
+  "retry": "Try again",
+  "goDashboard": "Go to dashboard",
+  "notFoundTitle": "Page not found",
+  "notFoundSubtitle": "The requested address does not exist, was moved, or is not available in this environment.",
+  "backHome": "Back to home",
+  "openLogin": "Open login",
+  "privateErrorTitle": "Failed to load the private area",
+  "privateErrorSubtitle": "The panel encountered an unexpected error. You can try again or go back to the dashboard.",
+  "backDashboard": "Back to dashboard",
+  "privateNotFoundTitle": "Content not found",
+  "privateNotFoundSubtitle": "This route does not exist inside the current panel or has been removed.",
+  "openServices": "Open services"
+}

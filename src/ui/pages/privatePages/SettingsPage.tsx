@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useTransition } from "react";
 import { FiGlobe, FiMonitor, FiMoon, FiSun } from "react-icons/fi";
 import { useAppStore } from "@/stores/appStore";
@@ -8,46 +9,6 @@ import type { LocaleKey, ThemeKey } from "@/types/base";
 import { Button } from "@/ui/base/Button";
 import { Card } from "@/ui/base/Card";
 import { setClientCookie } from "@/utils/clientCookies";
-
-const THEME_OPTIONS: {
-  description: string;
-  icon: React.ReactNode;
-  label: string;
-  value: ThemeKey;
-}[] = [
-  {
-    description: "Visual claro e limpo para o trabalho do dia a dia.",
-    icon: <FiSun />,
-    label: "Claro",
-    value: "light",
-  },
-  {
-    description: "Contraste mais forte para ambientes de baixa luminosidade.",
-    icon: <FiMoon />,
-    label: "Escuro",
-    value: "dark",
-  },
-];
-
-const LOCALE_OPTIONS: {
-  description: string;
-  icon: React.ReactNode;
-  label: string;
-  value: LocaleKey;
-}[] = [
-  {
-    description: "Interface em Português do Brasil.",
-    icon: <FiGlobe />,
-    label: "Português (BR)",
-    value: "pt-BR",
-  },
-  {
-    description: "Interface em inglês para operação bilíngue.",
-    icon: <FiMonitor />,
-    label: "English",
-    value: "en",
-  },
-];
 
 export function SettingsPage({
   orgName,
@@ -61,11 +22,52 @@ export function SettingsPage({
   userName: string;
 }) {
   const router = useRouter();
+  const t = useTranslations("settings");
   const [isPending, startTransition] = useTransition();
 
   const appSettings = useAppStore((s) => s.appSettings);
   const setTheme = useAppStore((s) => s.setTheme);
   const setLocale = useAppStore((s) => s.setLocale);
+
+  const themeOptions: {
+    description: string;
+    icon: React.ReactNode;
+    label: string;
+    value: ThemeKey;
+  }[] = [
+    {
+      description: t("themeLightDescription"),
+      icon: <FiSun />,
+      label: t("themeLightLabel"),
+      value: "light",
+    },
+    {
+      description: t("themeDarkDescription"),
+      icon: <FiMoon />,
+      label: t("themeDarkLabel"),
+      value: "dark",
+    },
+  ];
+
+  const localeOptions: {
+    description: string;
+    icon: React.ReactNode;
+    label: string;
+    value: LocaleKey;
+  }[] = [
+    {
+      description: t("localePtBRDescription"),
+      icon: <FiGlobe />,
+      label: t("localePtBRLabel"),
+      value: "pt-BR",
+    },
+    {
+      description: t("localeEnDescription"),
+      icon: <FiMonitor />,
+      label: t("localeEnLabel"),
+      value: "en",
+    },
+  ];
 
   async function applyTheme(theme: ThemeKey) {
     if (theme === appSettings.theme) return;
@@ -86,24 +88,21 @@ export function SettingsPage({
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-black tracking-tight">Configurações</h1>
-        <p className="text-(--color-text-2)">
-          Ajuste preferências do painel, revise sua conta e confira o contexto
-          atual da organização.
-        </p>
+        <h1 className="text-3xl font-black tracking-tight">{t("title")}</h1>
+        <p className="text-(--color-text-2)">{t("subtitle")}</p>
       </header>
 
       <section className="grid grid-cols-1 gap-4 xl:grid-cols-[1.25fr_0.9fr]">
         <Card className="border border-(--color-border)">
-          <h2 className="text-xl font-bold">Preferências da Interface</h2>
+          <h2 className="text-xl font-bold">{t("interfaceTitle")}</h2>
 
           <div className="mt-5 grid gap-5">
             <div>
               <p className="text-sm font-semibold text-(--color-text-2)">
-                Tema atual
+                {t("currentTheme")}
               </p>
               <div className="mt-3 flex flex-wrap gap-3">
-                {THEME_OPTIONS.map((option) => {
+                {themeOptions.map((option) => {
                   const active = appSettings.theme === option.value;
 
                   return (
@@ -136,10 +135,10 @@ export function SettingsPage({
 
             <div>
               <p className="text-sm font-semibold text-(--color-text-2)">
-                Idioma do sistema
+                {t("currentLanguage")}
               </p>
               <div className="mt-3 flex flex-wrap gap-3">
-                {LOCALE_OPTIONS.map((option) => {
+                {localeOptions.map((option) => {
                   const active = appSettings.locale === option.value;
 
                   return (
@@ -174,52 +173,56 @@ export function SettingsPage({
 
         <div className="grid gap-4">
           <Card className="border border-(--color-border)">
-            <h2 className="text-xl font-bold">Conta</h2>
+            <h2 className="text-xl font-bold">{t("accountTitle")}</h2>
             <div className="mt-4 grid gap-3 text-sm">
               <div className="rounded-2xl border border-(--color-border) bg-(--color-base-2) p-4">
-                <p className="text-(--color-text-2)">Usuário</p>
+                <p className="text-(--color-text-2)">{t("userLabel")}</p>
                 <p className="mt-1 font-semibold">{userName}</p>
               </div>
 
               <div className="rounded-2xl border border-(--color-border) bg-(--color-base-2) p-4">
-                <p className="text-(--color-text-2)">E-mail</p>
+                <p className="text-(--color-text-2)">{t("emailLabel")}</p>
                 <p className="mt-1 font-semibold">
-                  {userEmail ?? "Não informado"}
+                  {userEmail ?? t("emailUnknown")}
                 </p>
               </div>
             </div>
           </Card>
 
           <Card className="border border-(--color-border)">
-            <h2 className="text-xl font-bold">Organização Atual</h2>
+            <h2 className="text-xl font-bold">{t("organizationTitle")}</h2>
             <div className="mt-4 grid gap-3 text-sm">
               <div className="rounded-2xl border border-(--color-border) bg-(--color-base-2) p-4">
-                <p className="text-(--color-text-2)">Nome</p>
+                <p className="text-(--color-text-2)">{t("organizationName")}</p>
                 <p className="mt-1 font-semibold">{orgName}</p>
               </div>
 
               <div className="rounded-2xl border border-(--color-border) bg-(--color-base-2) p-4">
-                <p className="text-(--color-text-2)">Slug</p>
+                <p className="text-(--color-text-2)">{t("organizationSlug")}</p>
                 <p className="mt-1 font-semibold">
-                  {orgSlug ?? "Ainda não definido"}
+                  {orgSlug ?? t("organizationSlugUnknown")}
                 </p>
               </div>
             </div>
           </Card>
 
           <Card className="border border-(--color-border)">
-            <h2 className="text-xl font-bold">Estado Atual</h2>
+            <h2 className="text-xl font-bold">{t("stateTitle")}</h2>
             <p className="mt-4 text-sm text-(--color-text-2)">
-              Preferências salvas em cookie para o server refletir o tema e o
-              idioma nos componentes renderizados no servidor.
+              {t("stateDescription")}
             </p>
 
             <div className="mt-4 flex flex-wrap gap-2">
               <Button fit disabled={isPending} type="default">
-                Tema: {appSettings.theme === "dark" ? "Escuro" : "Claro"}
+                {t("themeChip", {
+                  theme:
+                    appSettings.theme === "dark"
+                      ? t("themeDarkChip")
+                      : t("themeLightChip"),
+                })}
               </Button>
               <Button fit disabled={isPending} type="default">
-                Idioma: {appSettings.locale}
+                {t("languageChip", { locale: appSettings.locale })}
               </Button>
             </div>
           </Card>

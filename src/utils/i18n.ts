@@ -3,14 +3,22 @@ import { getRequestConfig } from "next-intl/server";
 
 export const locales = ["pt-BR", "en"] as const;
 export const defaultLocale = "pt-BR";
+export const namespaces = [
+  "auth",
+  "common",
+  "errors",
+  "navigation",
+  "settings",
+] as const;
 
-type AppLocale = (typeof locales)[number];
+export type AppLocale = (typeof locales)[number];
+export type AppNamespace = (typeof namespaces)[number];
 
-function isAppLocale(locale: string): locale is AppLocale {
+export function isAppLocale(locale: string): locale is AppLocale {
   return locales.includes(locale as AppLocale);
 }
 
-async function resolveLocale(): Promise<AppLocale> {
+export async function resolveLocale(): Promise<AppLocale> {
   const jar = await cookies();
   const cookieLocale = jar.get("NEXT_LOCALE")?.value;
 
@@ -21,13 +29,25 @@ async function resolveLocale(): Promise<AppLocale> {
   return defaultLocale;
 }
 
+export async function getMessagesForLocale(
+  locale: AppLocale,
+  targetNamespaces: readonly AppNamespace[] = namespaces,
+) {
+  const entries = await Promise.all(
+    targetNamespaces.map(async (namespace) => {
+      const module = await import(`../locales/${locale}/${namespace}.json`);
+      return [namespace, module.default] as const;
+    }),
+  );
+
+  return Object.fromEntries(entries) as Record<AppNamespace, unknown>;
+}
+
 export default getRequestConfig(async () => {
   const locale = await resolveLocale();
 
-  const common = (await import(`../locales/${locale}/common.json`)).default;
-
   return {
     locale,
-    messages: { common },
+    messages: await getMessagesForLocale(locale),
   };
 });

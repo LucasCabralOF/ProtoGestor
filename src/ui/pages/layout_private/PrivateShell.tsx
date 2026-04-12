@@ -1,11 +1,12 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { useMemo, useState } from "react";
 import type { OrganizationSummary, User } from "@/types/base";
 import { MobileSidebar } from "@/ui/pages/layout_private/MobileSidebar";
 import { Navbar } from "@/ui/pages/layout_private/Navbar";
-import { PRIVATE_NAV } from "@/ui/pages/layout_private/nav";
+import { buildPrivateNav } from "@/ui/pages/layout_private/nav";
 import { Sidebar } from "@/ui/pages/layout_private/Sidebar";
 
 export function PrivateShell({
@@ -20,19 +21,27 @@ export function PrivateShell({
   user: User;
 }) {
   const pathname = usePathname();
+  const t = useTranslations("navigation");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const groups = useMemo(() => buildPrivateNav(t), [t]);
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-(--color-base-3) text-(--color-text-1)">
       <div className="flex h-full w-full">
         {/* Desktop sidebar */}
-        <Sidebar groups={PRIVATE_NAV} />
+        <Sidebar
+          groups={groups}
+          brandSubtitle={t("sidebarSystem")}
+          toggleTitle={t("toggleSidebar")}
+        />
 
         {/* Mobile drawer sidebar */}
         <MobileSidebar
           open={mobileOpen}
           onClose={() => setMobileOpen(false)}
-          groups={PRIVATE_NAV}
+          closeLabel={t("close")}
+          groups={groups}
+          title={t("mobileMenu")}
         />
 
         <div className="flex-1 min-w-0 flex flex-col">

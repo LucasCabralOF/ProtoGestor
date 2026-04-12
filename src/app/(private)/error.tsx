@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Button } from "@/ui/base/Button";
 import { ResultPage } from "@/ui/pages/system/ResultPage";
 
@@ -10,19 +11,21 @@ export default function PrivateError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslations("errors");
+
   return (
     <ResultPage
       compact
       status="500"
-      title="Falha ao carregar a área privada"
-      subTitle="O painel encontrou um erro inesperado. Você pode tentar novamente ou voltar ao dashboard."
+      title={t("privateErrorTitle")}
+      subTitle={t("privateErrorSubtitle")}
       extra={[
         <Button key="retry" fit type="primary" onClick={() => reset()}>
-          Tentar novamente
+          {t("retry")}
         </Button>,
         <Link key="dashboard" href="/dashboard">
           <Button fit type="default">
-            Voltar ao dashboard
+            {t("backDashboard")}
           </Button>
         </Link>,
       ]}

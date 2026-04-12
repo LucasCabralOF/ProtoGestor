@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Button } from "@/ui/base/Button";
 import { ResultPage } from "@/ui/pages/system/ResultPage";
 
@@ -10,18 +11,20 @@ export default function AppErrorPage({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslations("errors");
+
   return (
     <ResultPage
       status="500"
-      title="Algo saiu do esperado"
-      subTitle="Ocorreu um erro ao renderizar esta página. Você pode tentar novamente ou voltar para uma área segura do sistema."
+      title={t("appErrorTitle")}
+      subTitle={t("appErrorSubtitle")}
       extra={[
         <Button key="retry" fit type="primary" onClick={() => reset()}>
-          Tentar novamente
+          {t("retry")}
         </Button>,
         <Link key="dashboard" href="/dashboard">
           <Button fit type="default">
-            Ir para dashboard
+            {t("goDashboard")}
           </Button>
         </Link>,
       ]}
