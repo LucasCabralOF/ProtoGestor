@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import {
   FiCheck,
@@ -76,23 +77,26 @@ function rowToForm(row: ServiceRow): ServiceFormState {
   };
 }
 
-function nextPrimaryStatus(status: ServiceStatus): {
+function nextPrimaryStatus(
+  status: ServiceStatus,
+  t: ReturnType<typeof useTranslations<"services">>,
+): {
   label: string;
   status: ServiceStatus;
 } {
   if (status === "draft") {
-    return { label: "Mover para agendado", status: "scheduled" };
+    return { label: t("actions.moveToScheduled"), status: "scheduled" };
   }
 
   if (status === "scheduled") {
-    return { label: "Iniciar serviço", status: "in_progress" };
+    return { label: t("actions.startService"), status: "in_progress" };
   }
 
   if (status === "in_progress") {
-    return { label: "Concluir serviço", status: "completed" };
+    return { label: t("actions.completeService"), status: "completed" };
   }
 
-  return { label: "Reabrir como agendado", status: "scheduled" };
+  return { label: t("actions.reopenScheduled"), status: "scheduled" };
 }
 
 function RowActions({
@@ -104,7 +108,8 @@ function RowActions({
   onEdit: () => void;
   row: ServiceRow;
 }) {
-  const primaryStatus = nextPrimaryStatus(row.status);
+  const t = useTranslations("services");
+  const primaryStatus = nextPrimaryStatus(row.status, t);
 
   return (
     <RowActionMenu
@@ -113,7 +118,7 @@ function RowActions({
         {
           key: "edit",
           icon: <FiEdit2 />,
-          label: "Editar",
+          label: t("actions.edit"),
           onSelect: onEdit,
         },
         {
@@ -127,14 +132,14 @@ function RowActions({
           disabled: row.status === "canceled",
           danger: true,
           icon: <FiSlash />,
-          label: "Cancelar serviço",
+          label: t("actions.cancelService"),
           onSelect: () => onChangeStatus("canceled"),
         },
         {
           key: "complete",
           disabled: row.status === "completed",
           icon: <FiCheck />,
-          label: "Marcar como concluído",
+          label: t("actions.markCompleted"),
           onSelect: () => onChangeStatus("completed"),
         },
       ]}
@@ -143,6 +148,7 @@ function RowActions({
 }
 
 export function ServicesPage({ data }: { data: ServicesPageData }) {
+  const t = useTranslations("services");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -200,7 +206,7 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
         hasAnyAppointmentCore &&
         (!appointmentDate || !appointmentStartTime || !appointmentEndTime)
       ) {
-        feedback.notifyError("APPOINTMENT_INCOMPLETE");
+        feedback.notifyError(t("feedback.appointmentIncomplete"));
         return;
       }
 
@@ -209,7 +215,7 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
         (appointmentDate < MIN_APPOINTMENT_DATE ||
           appointmentDate > MAX_APPOINTMENT_DATE)
       ) {
-        feedback.notifyError("APPOINTMENT_INVALID_DATE");
+        feedback.notifyError(t("feedback.appointmentInvalidDate"));
         return;
       }
 
@@ -219,7 +225,7 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
         appointmentEndTime &&
         appointmentEndTime <= appointmentStartTime
       ) {
-        feedback.notifyError("APPOINTMENT_INVALID_RANGE");
+        feedback.notifyError(t("feedback.appointmentInvalidRange"));
         return;
       }
 
@@ -242,10 +248,10 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
       if (modalMode === "create") {
         const result = await createServiceAction(payload);
         if (!result?.data?.ok) {
-          throw new Error(result?.serverError || "Falha ao criar serviço");
+          throw new Error(result?.serverError || t("feedback.createError"));
         }
       } else {
-        if (!form.id) throw new Error("ID inválido");
+        if (!form.id) throw new Error(t("feedback.invalidId"));
 
         const result = await updateServiceAction({
           ...payload,
@@ -253,20 +259,18 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
         });
 
         if (!result?.data?.ok) {
-          throw new Error(result?.serverError || "Falha ao atualizar serviço");
+          throw new Error(result?.serverError || t("feedback.updateError"));
         }
       }
 
       setModalOpen(false);
       feedback.notifySuccess(
-        modalMode === "create"
-          ? "Serviço criado com sucesso."
-          : "Serviço atualizado com sucesso.",
+        modalMode === "create" ? t("feedback.created") : t("feedback.updated"),
       );
       router.refresh();
     } catch (error) {
       feedback.notifyError(error, {
-        fallback: "Erro ao salvar serviço.",
+        fallback: t("feedback.saveFallback"),
       });
     } finally {
       setSaving(false);
@@ -276,16 +280,16 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
   async function changeStatus(row: ServiceRow, nextStatus: ServiceStatus) {
     const verb =
       nextStatus === "completed"
-        ? "concluir"
+        ? t("confirm.verbComplete")
         : nextStatus === "canceled"
-          ? "cancelar"
-          : "atualizar";
+          ? t("confirm.verbCancel")
+          : t("confirm.verbUpdate");
 
     const confirmed = await feedback.confirm({
-      title: "Confirmar ação",
-      content: `Deseja ${verb} o serviço "${row.title}"?`,
-      okText: "Continuar",
-      cancelText: "Voltar",
+      title: t("confirm.title"),
+      content: t("confirm.content", { verb, name: row.title }),
+      okText: t("confirm.ok"),
+      cancelText: t("confirm.cancel"),
       danger: nextStatus === "canceled",
     });
 
@@ -298,14 +302,14 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
       });
 
       if (!result?.data?.ok) {
-        throw new Error(result?.serverError || "Falha ao atualizar status");
+        throw new Error(result?.serverError || t("feedback.statusError"));
       }
 
-      feedback.notifySuccess("Status do serviço atualizado.");
+      feedback.notifySuccess(t("feedback.statusUpdated"));
       router.refresh();
     } catch (error) {
       feedback.notifyError(error, {
-        fallback: "Erro ao atualizar status do serviço.",
+        fallback: t("feedback.statusFallback"),
       });
     }
   }
@@ -314,18 +318,17 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <h1 className="text-4xl font-black tracking-tight">Serviços</h1>
-          <p className="mt-1 text-(--color-text-2)">
-            Cadastre ordens de serviço, vincule clientes e reserve o primeiro
-            atendimento.
-          </p>
+          <h1 className="text-4xl font-black tracking-tight">
+            {t("pageTitle")}
+          </h1>
+          <p className="mt-1 text-(--color-text-2)">{t("pageSubtitle")}</p>
         </div>
 
         <div className="flex gap-2">
           <Button type="primary" onClick={openCreate}>
             <span className="inline-flex items-center gap-2">
               <FiPlus />
-              Novo Serviço
+              {t("actions.new")}
             </span>
           </Button>
         </div>
@@ -333,40 +336,44 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
         <Card className="border border-(--color-border)">
-          <p className="text-sm text-(--color-text-2)">Total</p>
+          <p className="text-sm text-(--color-text-2)">{t("kpis.total")}</p>
           <p className="mt-2 text-3xl font-extrabold">{data.kpis.total}</p>
           <p className="mt-2 text-sm text-(--color-text-2)">
-            ordens cadastradas
+            {t("kpis.totalHint")}
           </p>
         </Card>
 
         <Card className="border border-(--color-border)">
-          <p className="text-sm text-(--color-text-2)">Agendados</p>
+          <p className="text-sm text-(--color-text-2)">{t("kpis.scheduled")}</p>
           <p className="mt-2 text-3xl font-extrabold">{data.kpis.scheduled}</p>
           <p className="mt-2 text-sm text-(--color-text-2)">
-            aguardando execução
+            {t("kpis.scheduledHint")}
           </p>
         </Card>
 
         <Card className="border border-(--color-border)">
-          <p className="text-sm text-(--color-text-2)">Em andamento</p>
+          <p className="text-sm text-(--color-text-2)">
+            {t("kpis.inProgress")}
+          </p>
           <p className="mt-2 text-3xl font-extrabold">{data.kpis.inProgress}</p>
-          <p className="mt-2 text-sm text-(--color-text-2)">serviços ativos</p>
+          <p className="mt-2 text-sm text-(--color-text-2)">
+            {t("kpis.inProgressHint")}
+          </p>
         </Card>
 
         <Card className="border border-(--color-border)">
-          <p className="text-sm text-(--color-text-2)">Concluídos</p>
+          <p className="text-sm text-(--color-text-2)">{t("kpis.completed")}</p>
           <p className="mt-2 text-3xl font-extrabold">{data.kpis.completed}</p>
           <p className="mt-2 text-sm text-(--color-text-2)">
-            entregas finalizadas
+            {t("kpis.completedHint")}
           </p>
         </Card>
 
         <Card className="border border-(--color-border)">
-          <p className="text-sm text-(--color-text-2)">Próximas Visitas</p>
+          <p className="text-sm text-(--color-text-2)">{t("kpis.upcoming")}</p>
           <p className="mt-2 text-3xl font-extrabold">{data.kpis.upcoming}</p>
           <p className="mt-2 text-sm text-(--color-text-2)">
-            agendamentos futuros
+            {t("kpis.upcomingHint")}
           </p>
         </Card>
       </section>
@@ -379,7 +386,7 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
 
           <Input
             className="w-full pl-10"
-            placeholder="Pesquisar serviço ou cliente..."
+            placeholder={t("filters.searchPlaceholder")}
             value={q}
             onChange={(e) => setParam("q", e.target.value)}
           />
@@ -391,12 +398,12 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
             onChange={(e) => setParam("status", e.target.value)}
             className="h-10 rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 text-sm"
           >
-            <option value="all">Todos os status</option>
-            <option value="draft">Rascunho</option>
-            <option value="scheduled">Agendado</option>
-            <option value="in_progress">Em andamento</option>
-            <option value="completed">Concluído</option>
-            <option value="canceled">Cancelado</option>
+            <option value="all">{t("filters.allStatuses")}</option>
+            <option value="draft">{t("filters.draft")}</option>
+            <option value="scheduled">{t("filters.scheduled")}</option>
+            <option value="in_progress">{t("filters.inProgress")}</option>
+            <option value="completed">{t("filters.completed")}</option>
+            <option value="canceled">{t("filters.canceled")}</option>
           </select>
 
           <select
@@ -404,7 +411,7 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
             onChange={(e) => setParam("customerId", e.target.value)}
             className="h-10 rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 text-sm"
           >
-            <option value="">Todos os clientes</option>
+            <option value="">{t("filters.allCustomers")}</option>
             {data.customerOptions.map((option) => (
               <option key={option.id} value={option.id}>
                 {option.name}
@@ -415,32 +422,32 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
       </section>
 
       <Card className="border border-(--color-border)">
-        <h2 className="text-2xl font-bold">Ordens de Serviço</h2>
+        <h2 className="text-2xl font-bold">{t("table.title")}</h2>
 
         <div className="mt-4 overflow-x-auto">
           <table className="min-w-[980px] w-full border-separate border-spacing-0">
             <thead>
               <tr className="text-left text-sm text-(--color-text-2)">
                 <th className="border-b border-(--color-border) px-4 py-3">
-                  Serviço
+                  {t("table.service")}
                 </th>
                 <th className="border-b border-(--color-border) px-4 py-3">
-                  Cliente
+                  {t("table.client")}
                 </th>
                 <th className="border-b border-(--color-border) px-4 py-3">
-                  Status
+                  {t("table.status")}
                 </th>
                 <th className="border-b border-(--color-border) px-4 py-3">
-                  Valor
+                  {t("table.value")}
                 </th>
                 <th className="border-b border-(--color-border) px-4 py-3">
-                  Agendamento
+                  {t("table.schedule")}
                 </th>
                 <th className="border-b border-(--color-border) px-4 py-3">
-                  Atualizado
+                  {t("table.updated")}
                 </th>
                 <th className="w-16 border-b border-(--color-border) px-4 py-3">
-                  Ações
+                  {t("table.actions")}
                 </th>
               </tr>
             </thead>
@@ -452,7 +459,7 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
                     colSpan={7}
                     className="px-4 py-10 text-center text-(--color-text-2)"
                   >
-                    Nenhum serviço encontrado
+                    {t("table.empty")}
                   </td>
                 </tr>
               ) : (
@@ -472,8 +479,8 @@ export function ServicesPage({ data }: { data: ServicesPageData }) {
                         <span>{row.customerLabel}</span>
                         <span className="text-xs text-(--color-text-2)">
                           {row.customerName
-                            ? "Cliente vinculado"
-                            : "Sem vínculo"}
+                            ? t("table.linkedClient")
+                            : t("table.noLink")}
                         </span>
                       </div>
                     </td>

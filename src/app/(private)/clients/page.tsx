@@ -1,6 +1,7 @@
 // src/app/(private)/clients/page.tsx
 import { getClientsPageData } from "@/lib/clients";
 import { ClientsPage } from "@/ui/pages/privatePages/ClientsPage";
+import { resolveLocale } from "@/utils/i18n";
 
 export default async function Page({
   searchParams,
@@ -18,7 +19,8 @@ export default async function Page({
     statusRaw === "active" || statusRaw === "inactive" ? statusRaw : "all";
   const recurring = recurringRaw === "yes" ? "yes" : "all";
 
-  const data = await getClientsPageData({ q, status, recurring });
+  const locale = await resolveLocale();
+  const data = await getClientsPageData({ q, status, recurring }, locale);
 
   return <ClientsPage data={data} />;
 }

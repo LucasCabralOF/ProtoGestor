@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getDashboardData } from "@/lib/dashboard";
 import { DashboardPage } from "@/ui/pages/privatePages/DashboardPage";
+import { resolveLocale } from "@/utils/i18n";
 
 function headersToObject(h: Headers) {
   const obj: Record<string, string> = {};
@@ -17,7 +18,8 @@ export default async function DashboardRoute() {
   const session = await auth.api.getSession({ headers: headersToObject(h) });
   if (!session) redirect("/login");
 
-  const data = await getDashboardData(session.user.id);
+  const locale = await resolveLocale();
+  const data = await getDashboardData(session.user.id, locale);
 
   return <DashboardPage userName={session.user.name ?? "Admin"} data={data} />;
 }

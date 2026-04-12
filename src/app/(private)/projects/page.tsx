@@ -1,6 +1,7 @@
 import { getPrivatePageContext } from "@/lib/private-context";
 import { getProjectsPageData, type ProjectStage } from "@/lib/projects";
 import { ProjectsPage } from "@/ui/pages/privatePages/ProjectsPage";
+import { resolveLocale } from "@/utils/i18n";
 
 export default async function ProjectsRoute({
   searchParams,
@@ -20,10 +21,11 @@ export default async function ProjectsRoute({
       ? (stageRaw as ProjectStage)
       : "all";
 
-  const [{ org, user }, data] = await Promise.all([
+  const [{ org, user }, locale] = await Promise.all([
     getPrivatePageContext(),
-    getProjectsPageData({ q, stage }),
+    resolveLocale(),
   ]);
+  const data = await getProjectsPageData({ q, stage }, locale);
 
   return (
     <ProjectsPage

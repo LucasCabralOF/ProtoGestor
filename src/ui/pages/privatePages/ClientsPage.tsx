@@ -2,6 +2,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useMemo, useRef, useState } from "react";
 import {
   FiCheck,
@@ -76,19 +77,22 @@ function RowActions({
   onEdit: () => void;
   onToggleActive: () => void;
 }) {
+  const t = useTranslations("clients");
   return (
     <RowActionMenu
       items={[
         {
           key: "edit",
           icon: <FiEdit2 />,
-          label: "Editar",
+          label: t("actions.edit"),
           onSelect: onEdit,
         },
         {
           key: "toggle-active",
           icon: row.isActive ? <FiSlash /> : <FiCheck />,
-          label: row.isActive ? "Inativar" : "Reativar",
+          label: row.isActive
+            ? t("actions.deactivate")
+            : t("actions.reactivate"),
           onSelect: onToggleActive,
         },
       ]}
@@ -97,6 +101,7 @@ function RowActions({
 }
 
 export function ClientsPage({ data }: { data: ClientsPageData }) {
+  const t = useTranslations("clients");
   const router = useRouter();
   const pathname = usePathname(); // ✅ pega o path real atual
   const sp = useSearchParams();
@@ -173,24 +178,22 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
       if (modalMode === "create") {
         const res = await createClientAction(payload);
         if (!res?.data?.ok)
-          throw new Error(res?.serverError || "Falha ao criar");
+          throw new Error(res?.serverError || t("feedback.createError"));
       } else {
-        if (!form.id) throw new Error("ID inválido");
+        if (!form.id) throw new Error(t("feedback.invalidId"));
         const res = await updateClientAction({ ...payload, id: form.id });
         if (!res?.data?.ok)
-          throw new Error(res?.serverError || "Falha ao atualizar");
+          throw new Error(res?.serverError || t("feedback.updateError"));
       }
 
       setModalOpen(false);
       feedback.notifySuccess(
-        modalMode === "create"
-          ? "Cliente criado com sucesso."
-          : "Cliente atualizado com sucesso.",
+        modalMode === "create" ? t("feedback.created") : t("feedback.updated"),
       );
       router.refresh();
     } catch (e) {
       feedback.notifyError(e, {
-        fallback: "Erro ao salvar cliente.",
+        fallback: t("feedback.saveFallback"),
       });
     } finally {
       setSaving(false);
@@ -200,12 +203,12 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
   async function toggleActive(r: ClientRow) {
     const next = !r.isActive;
     const ok = await feedback.confirm({
-      title: next ? "Reativar cliente" : "Inativar cliente",
+      title: next ? t("confirm.reactivateTitle") : t("confirm.deactivateTitle"),
       content: next
-        ? `Deseja reativar o cliente "${r.name}"?`
-        : `Deseja inativar o cliente "${r.name}"?`,
-      okText: next ? "Reativar" : "Inativar",
-      cancelText: "Cancelar",
+        ? t("confirm.reactivateContent", { name: r.name })
+        : t("confirm.deactivateContent", { name: r.name }),
+      okText: next ? t("actions.reactivate") : t("actions.deactivate"),
+      cancelText: t("actions.cancel"),
       danger: !next,
     });
 
@@ -214,18 +217,16 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
     try {
       const res = await setClientActiveAction({ id: r.id, isActive: next });
       if (!res?.data?.ok)
-        throw new Error(res?.serverError || "Falha ao atualizar status");
+        throw new Error(res?.serverError || t("feedback.statusError"));
 
       feedback.notifySuccess(
-        next
-          ? "Cliente reativado com sucesso."
-          : "Cliente inativado com sucesso.",
+        next ? t("feedback.reactivated") : t("feedback.deactivated"),
       );
 
       router.refresh();
     } catch (e) {
       feedback.notifyError(e, {
-        fallback: "Erro ao atualizar status do cliente.",
+        fallback: t("feedback.statusFallback"),
       });
     }
   }
@@ -247,15 +248,18 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
         updated?: number;
         error?: string;
       };
-      if (!json.ok) throw new Error(json.error || "Falha ao importar");
+      if (!json.ok) throw new Error(json.error || t("feedback.importError"));
 
       feedback.notifySuccess(
-        `Importação concluída: ${json.created ?? 0} criados, ${json.updated ?? 0} atualizados.`,
+        t("feedback.importDone", {
+          created: json.created ?? 0,
+          updated: json.updated ?? 0,
+        }),
       );
       router.refresh();
     } catch (e) {
       feedback.notifyError(e, {
-        fallback: "Erro ao importar clientes.",
+        fallback: t("feedback.importFallback"),
       });
     } finally {
       setImporting(false);
@@ -266,10 +270,10 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <h1 className="text-4xl font-black tracking-tight">Clientes</h1>
-          <p className="mt-1 text-(--color-text-2)">
-            Gerencie sua base de clientes
-          </p>
+          <h1 className="text-4xl font-black tracking-tight">
+            {t("pageTitle")}
+          </h1>
+          <p className="mt-1 text-(--color-text-2)">{t("pageSubtitle")}</p>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -277,7 +281,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
             <Button type="default">
               <span className="inline-flex items-center gap-2">
                 <FiDownload />
-                Exportar
+                {t("actions.export")}
               </span>
             </Button>
           </a>
@@ -301,14 +305,14 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
           >
             <span className="inline-flex items-center gap-2">
               <FiUpload />
-              {importing ? "Importando..." : "Importar"}
+              {importing ? t("actions.importing") : t("actions.import")}
             </span>
           </Button>
 
           <Button type="primary" onClick={openCreate}>
             <span className="inline-flex items-center gap-2">
               <FiPlus />
-              Adicionar Cliente
+              {t("actions.add")}
             </span>
           </Button>
         </div>
@@ -316,51 +320,78 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
         <Card className="border border-(--color-border)">
-          <p className="text-sm text-(--color-text-2)">Novos Clientes</p>
+          <p className="text-sm text-(--color-text-2)">
+            {t("kpis.newClients")}
+          </p>
           <p className="mt-2 text-3xl font-extrabold">
             {data.kpis.newThisWeek}
           </p>
           <p className="mt-2 text-sm text-emerald-500">
-            +{data.kpis.newThisWeek} esta semana
+            {t("kpis.newThisWeek", { value: data.kpis.newThisWeek })}
           </p>
         </Card>
 
         <Card className="border border-(--color-border)">
-          <p className="text-sm text-(--color-text-2)">Clientes Ativos</p>
+          <p className="text-sm text-(--color-text-2)">
+            {t("kpis.activeClients")}
+          </p>
           <p className="mt-2 text-3xl font-extrabold">{data.kpis.active}</p>
           <p className="mt-2 text-sm text-(--color-text-2)">
             {data.kpis.total > 0
               ? Math.round((data.kpis.active / data.kpis.total) * 100)
               : 0}
-            % do total
+            {t("kpis.percentOfTotal", {
+              value:
+                data.kpis.total > 0
+                  ? Math.round((data.kpis.active / data.kpis.total) * 100)
+                  : 0,
+            })}
           </p>
         </Card>
 
         <Card className="border border-(--color-border)">
-          <p className="text-sm text-(--color-text-2)">Clientes Inativos</p>
+          <p className="text-sm text-(--color-text-2)">
+            {t("kpis.inactiveClients")}
+          </p>
           <p className="mt-2 text-3xl font-extrabold">{data.kpis.inactive}</p>
           <p className="mt-2 text-sm text-(--color-text-2)">
             {data.kpis.total > 0
               ? Math.round((data.kpis.inactive / data.kpis.total) * 100)
               : 0}
-            % do total
+            {t("kpis.percentOfTotal", {
+              value:
+                data.kpis.total > 0
+                  ? Math.round((data.kpis.inactive / data.kpis.total) * 100)
+                  : 0,
+            })}
           </p>
         </Card>
 
         <Card className="border border-(--color-border)">
-          <p className="text-sm text-(--color-text-2)">Total de Clientes</p>
+          <p className="text-sm text-(--color-text-2)">
+            {t("kpis.totalClients")}
+          </p>
           <p className="mt-2 text-3xl font-extrabold">{data.kpis.total}</p>
-          <p className="mt-2 text-sm text-(--color-text-2)">cadastrados</p>
+          <p className="mt-2 text-sm text-(--color-text-2)">
+            {t("kpis.registered")}
+          </p>
         </Card>
 
         <Card className="border border-(--color-border)">
-          <p className="text-sm text-(--color-text-2)">Clientes Recorrentes</p>
+          <p className="text-sm text-(--color-text-2)">
+            {t("kpis.recurringClients")}
+          </p>
           <p className="mt-2 text-3xl font-extrabold">{data.kpis.recurring}</p>
           <p className="mt-2 text-sm text-(--color-text-2)">
             {data.kpis.active > 0
               ? Math.round((data.kpis.recurring / data.kpis.active) * 100)
               : 0}
-            % de ativos
+            {t("kpis.percentOfActive", {
+              value:
+                data.kpis.active > 0
+                  ? Math.round((data.kpis.recurring / data.kpis.active) * 100)
+                  : 0,
+            })}
           </p>
         </Card>
       </section>
@@ -372,7 +403,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
           </span>
 
           <Input
-            placeholder="Pesquisar clientes..."
+            placeholder={t("filters.searchPlaceholder")}
             className="w-full pl-10"
             value={q}
             onChange={(e) => setParam("q", e.target.value)}
@@ -385,9 +416,9 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
             onChange={(e) => setParam("status", e.target.value)}
             className="h-10 rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 text-sm"
           >
-            <option value="all">Todos</option>
-            <option value="active">Ativos</option>
-            <option value="inactive">Inativos</option>
+            <option value="all">{t("filters.all")}</option>
+            <option value="active">{t("filters.active")}</option>
+            <option value="inactive">{t("filters.inactive")}</option>
           </select>
 
           <select
@@ -395,14 +426,14 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
             onChange={(e) => setParam("recurring", e.target.value)}
             className="h-10 rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 text-sm"
           >
-            <option value="all">Todos</option>
-            <option value="yes">Recorrentes</option>
+            <option value="all">{t("filters.all")}</option>
+            <option value="yes">{t("filters.recurring")}</option>
           </select>
         </div>
       </section>
 
       <Card className="border border-(--color-border)">
-        <h2 className="text-2xl font-bold">Lista de Contatos</h2>
+        <h2 className="text-2xl font-bold">{t("table.title")}</h2>
 
         <div className="mt-4 overflow-x-auto">
           <table className="min-w-245 w-full border-separate border-spacing-0">
@@ -412,28 +443,28 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
                   <input type="radio" />
                 </th>
                 <th className="border-b border-(--color-border) px-4 py-3">
-                  Cliente
+                  {t("table.client")}
                 </th>
                 <th className="border-b border-(--color-border) px-4 py-3">
-                  Contato
+                  {t("table.contact")}
                 </th>
                 <th className="border-b border-(--color-border) px-4 py-3">
-                  Endereço
+                  {t("table.address")}
                 </th>
                 <th className="border-b border-(--color-border) px-4 py-3">
-                  Tipo de Pagamento
+                  {t("table.paymentType")}
                 </th>
                 <th className="border-b border-(--color-border) px-4 py-3">
-                  Status
+                  {t("table.status")}
                 </th>
                 <th className="border-b border-(--color-border) px-4 py-3">
-                  Último Serviço
+                  {t("table.lastService")}
                 </th>
                 <th className="border-b border-(--color-border) px-4 py-3">
-                  Total de Serviços
+                  {t("table.totalServices")}
                 </th>
                 <th className="w-16 border-b border-(--color-border) px-4 py-3">
-                  Ações
+                  {t("table.actions")}
                 </th>
               </tr>
             </thead>
@@ -445,7 +476,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
                     colSpan={9}
                     className="px-4 py-10 text-center text-(--color-text-2)"
                   >
-                    Nenhum cliente cadastrado
+                    {t("table.empty")}
                   </td>
                 </tr>
               ) : (
@@ -459,7 +490,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
                       <div className="flex flex-col">
                         <span className="font-semibold">{r.name}</span>
                         <span className="text-xs text-(--color-text-2)">
-                          ID: {r.id.slice(0, 8)}
+                          {t("table.id", { id: r.id.slice(0, 8) })}
                         </span>
                       </div>
                     </td>

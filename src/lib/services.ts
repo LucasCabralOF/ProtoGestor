@@ -2,6 +2,7 @@ import "server-only";
 
 import { requireOrgId } from "@/lib/auth-tenant";
 import prisma from "@/lib/prisma";
+import type { AppLocale } from "@/utils/i18n";
 
 const BUSINESS_TIME_ZONE = "America/Sao_Paulo";
 
@@ -86,10 +87,10 @@ function dateParts(value: Date): Record<string, string> {
   return out;
 }
 
-function formatDateTimeLabel(value: Date | null): string {
-  if (!value) return "Sem agendamento";
+function formatDateTimeLabel(value: Date | null, locale: AppLocale): string {
+  if (!value) return locale === "en" ? "No schedule" : "Sem agendamento";
 
-  return new Intl.DateTimeFormat("pt-BR", {
+  return new Intl.DateTimeFormat(locale, {
     timeZone: BUSINESS_TIME_ZONE,
     day: "2-digit",
     month: "2-digit",
@@ -99,8 +100,8 @@ function formatDateTimeLabel(value: Date | null): string {
   }).format(value);
 }
 
-function formatUpdatedAtLabel(value: Date): string {
-  return new Intl.DateTimeFormat("pt-BR", {
+function formatUpdatedAtLabel(value: Date, locale: AppLocale): string {
+  return new Intl.DateTimeFormat(locale, {
     timeZone: BUSINESS_TIME_ZONE,
     day: "2-digit",
     month: "2-digit",
@@ -120,40 +121,56 @@ function formatTimeInput(value: Date | null): string {
   return `${parts.hour}:${parts.minute}`;
 }
 
-function formatCurrencyLabel(cents: number): string {
-  return new Intl.NumberFormat("pt-BR", {
+function formatCurrencyLabel(cents: number, locale: AppLocale): string {
+  return new Intl.NumberFormat(locale, {
     style: "currency",
     currency: "BRL",
   }).format(cents / 100);
 }
 
-function formatCurrencyInput(cents: number): string {
-  return new Intl.NumberFormat("pt-BR", {
+function formatCurrencyInput(cents: number, locale: AppLocale): string {
+  return new Intl.NumberFormat(locale, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(cents / 100);
 }
 
-function statusMeta(status: ServiceStatus): {
+function statusMeta(
+  status: ServiceStatus,
+  locale: AppLocale,
+): {
   label: string;
   tone: StatusTone;
 } {
   switch (status) {
     case "draft":
-      return { label: "Rascunho", tone: "neutral" };
+      return { label: locale === "en" ? "Draft" : "Rascunho", tone: "neutral" };
     case "scheduled":
-      return { label: "Agendado", tone: "accent" };
+      return {
+        label: locale === "en" ? "Scheduled" : "Agendado",
+        tone: "accent",
+      };
     case "in_progress":
-      return { label: "Em andamento", tone: "warning" };
+      return {
+        label: locale === "en" ? "In progress" : "Em andamento",
+        tone: "warning",
+      };
     case "completed":
-      return { label: "Concluído", tone: "success" };
+      return {
+        label: locale === "en" ? "Completed" : "Concluído",
+        tone: "success",
+      };
     case "canceled":
-      return { label: "Cancelado", tone: "danger" };
+      return {
+        label: locale === "en" ? "Canceled" : "Cancelado",
+        tone: "danger",
+      };
   }
 }
 
 export async function getServicesPageData(
   filters: ServicesFilters,
+  locale: AppLocale = "pt-BR",
 ): Promise<ServicesPageData> {
   const { orgId } = await requireOrgId();
 
@@ -255,30 +272,40 @@ export async function getServicesPageData(
 
   const rows: ServiceRow[] = orders.map((order) => {
     const appointment = order.appointments[0] ?? null;
-    const statusInfo = statusMeta(order.status as ServiceStatus);
+    const statusInfo = statusMeta(order.status as ServiceStatus, locale);
     const appointmentStatusLabel =
       appointment?.status === "done"
-        ? "Visita concluída"
+        ? locale === "en"
+          ? "Visit completed"
+          : "Visita concluída"
         : appointment?.status === "canceled"
-          ? "Visita cancelada"
+          ? locale === "en"
+            ? "Visit canceled"
+            : "Visita cancelada"
           : appointment
-            ? "Próxima visita"
-            : "Agendamento opcional";
+            ? locale === "en"
+              ? "Next visit"
+              : "Próxima visita"
+            : locale === "en"
+              ? "Optional scheduling"
+              : "Agendamento opcional";
 
     return {
       id: order.id,
       title: order.title,
       description: order.description ?? null,
       customerId: order.customer?.id ?? null,
-      customerLabel: order.customer?.name ?? "Sem cliente vinculado",
+      customerLabel:
+        order.customer?.name ??
+        (locale === "en" ? "No linked client" : "Sem cliente vinculado"),
       customerName: order.customer?.name ?? null,
       status: order.status as ServiceStatus,
       statusLabel: statusInfo.label,
       statusTone: statusInfo.tone,
       valueCents: order.valueCents,
-      valueInput: formatCurrencyInput(order.valueCents),
-      valueLabel: formatCurrencyLabel(order.valueCents),
-      scheduleLabel: formatDateTimeLabel(appointment?.startsAt ?? null),
+      valueInput: formatCurrencyInput(order.valueCents, locale),
+      valueLabel: formatCurrencyLabel(order.valueCents, locale),
+      scheduleLabel: formatDateTimeLabel(appointment?.startsAt ?? null, locale),
       scheduleMetaLabel: appointment
         ? `${appointmentStatusLabel}${appointment.locationText ? ` • ${appointment.locationText}` : ""}`
         : appointmentStatusLabel,
@@ -287,7 +314,7 @@ export async function getServicesPageData(
       appointmentId: appointment?.id ?? null,
       appointmentStartTime: formatTimeInput(appointment?.startsAt ?? null),
       locationText: appointment?.locationText ?? "",
-      updatedAtLabel: formatUpdatedAtLabel(order.updatedAt),
+      updatedAtLabel: formatUpdatedAtLabel(order.updatedAt, locale),
     };
   });
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import {
   FiActivity,
@@ -16,36 +17,6 @@ import {
 import type { ProjectRow, ProjectsPageData } from "@/lib/projects";
 import { Button } from "@/ui/base/Button";
 import { Card } from "@/ui/base/Card";
-
-const SHORTCUTS = [
-  {
-    description:
-      "Use a base de clientes atual para definir responsáveis e contatos.",
-    href: "/clients",
-    icon: <FiUsers />,
-    label: "Clientes",
-  },
-  {
-    description:
-      "Abra a operação detalhada para editar escopo, status e agendamentos.",
-    href: "/services",
-    icon: <FiBriefcase />,
-    label: "Serviços",
-  },
-  {
-    description: "Acompanhe indicadores gerais e capacidade do tenant ativo.",
-    href: "/dashboard",
-    icon: <FiArrowRight />,
-    label: "Dashboard",
-  },
-  {
-    description:
-      "Ajuste idioma e aparência do painel antes de alinhar o fluxo com o time.",
-    href: "/settings",
-    icon: <FiSettings />,
-    label: "Configurações",
-  },
-] as const;
 
 function toneClass(tone: ProjectRow["statusTone"]) {
   const base =
@@ -115,28 +86,56 @@ export function ProjectsPage({
   orgName: string;
   userName: string;
 }) {
+  const t = useTranslations("projects");
+  const shortcuts = [
+    {
+      description: t("shortcuts.clientsDescription"),
+      href: "/clients",
+      icon: <FiUsers />,
+      label: t("shortcuts.clientsLabel"),
+    },
+    {
+      description: t("shortcuts.servicesDescription"),
+      href: "/services",
+      icon: <FiBriefcase />,
+      label: t("shortcuts.servicesLabel"),
+    },
+    {
+      description: t("shortcuts.dashboardDescription"),
+      href: "/dashboard",
+      icon: <FiArrowRight />,
+      label: t("shortcuts.dashboardLabel"),
+    },
+    {
+      description: t("shortcuts.settingsDescription"),
+      href: "/settings",
+      icon: <FiSettings />,
+      label: t("shortcuts.settingsLabel"),
+    },
+  ] as const;
+
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="max-w-3xl">
-          <h1 className="text-4xl font-black tracking-tight">Projetos</h1>
+          <h1 className="text-4xl font-black tracking-tight">
+            {t("pageTitle")}
+          </h1>
           <p className="mt-1 text-(--color-text-2)">
-            {userName}, aqui está a visão operacional de {orgName}: escopo,
-            andamento, próximos marcos e links rápidos para execução sem sair do
-            tenant ativo.
+            {t("pageSubtitle", { userName, orgName })}
           </p>
         </div>
 
         <div className="flex flex-wrap gap-2">
           <Link href="/services">
             <Button fit type="primary">
-              Abrir serviços
+              {t("actions.openServices")}
             </Button>
           </Link>
 
           <Link href="/clients">
             <Button fit type="default">
-              Ver clientes
+              {t("actions.viewClients")}
             </Button>
           </Link>
         </div>
@@ -147,16 +146,12 @@ export function ProjectsPage({
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/10 px-3 py-1 text-xs font-semibold text-sky-400">
               <FiClock />
-              Fluxo ativo
+              {t("hero.badge")}
             </div>
 
-            <h2 className="mt-4 text-2xl font-extrabold">
-              Um cockpit para transformar serviços em entregas acompanháveis
-            </h2>
+            <h2 className="mt-4 text-2xl font-extrabold">{t("hero.title")}</h2>
             <p className="mt-2 text-(--color-text-2)">
-              A tela agora consolida pipeline, receita projetada, marcos e
-              pontos de atenção. O dado continua vindo do servidor com base na
-              organização ativa e sem depender de `orgId` enviado pelo client.
+              {t("hero.description")}
             </p>
           </div>
 
@@ -166,7 +161,9 @@ export function ProjectsPage({
                 <FiFolder className="text-2xl" />
               </div>
               <div>
-                <p className="text-sm text-(--color-text-2)">Projetos ativos</p>
+                <p className="text-sm text-(--color-text-2)">
+                  {t("hero.activeProjects")}
+                </p>
                 <p className="text-lg font-bold">{data.kpis.active}</p>
               </div>
             </div>
@@ -177,27 +174,27 @@ export function ProjectsPage({
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
         <SummaryCard
           icon={<FiLayers />}
-          label="Projetos no tenant"
+          label={t("kpis.tenantProjects")}
           value={data.kpis.total}
         />
         <SummaryCard
           icon={<FiActivity />}
-          label="Em andamento"
+          label={t("kpis.inProgress")}
           value={data.kpis.active}
         />
         <SummaryCard
           icon={<FiTarget />}
-          label="Concluídos"
+          label={t("kpis.completed")}
           value={data.kpis.completed}
         />
         <SummaryCard
           icon={<FiClock />}
-          label="Próximas visitas"
+          label={t("kpis.upcomingVisits")}
           value={data.kpis.upcomingVisits}
         />
         <SummaryCard
           icon={<FiUsers />}
-          label="Clientes atendidos"
+          label={t("kpis.servedClients")}
           value={data.kpis.customerCount}
         />
       </section>
@@ -208,7 +205,9 @@ export function ProjectsPage({
             <div>
               <h2 className="text-xl font-bold">Pipeline do módulo</h2>
               <p className="text-sm text-(--color-text-2)">
-                Receita projetada atual: {data.kpis.projectedRevenueLabel}
+                {t("pipeline.projectedRevenue", {
+                  value: data.kpis.projectedRevenueLabel,
+                })}
               </p>
             </div>
 
@@ -217,20 +216,24 @@ export function ProjectsPage({
               method="get"
             >
               <label className="flex flex-col gap-1 text-sm">
-                <span className="text-(--color-text-2)">Buscar</span>
+                <span className="text-(--color-text-2)">
+                  {t("pipeline.search")}
+                </span>
                 <div className="flex items-center gap-2 rounded-2xl border border-(--color-border) bg-(--color-base-2) px-3 py-2">
                   <FiSearch className="shrink-0 text-(--color-text-2)" />
                   <input
                     className="w-full bg-transparent text-sm outline-none placeholder:text-(--color-text-2)"
                     defaultValue={filters.q}
                     name="q"
-                    placeholder="Projeto, cliente ou descrição"
+                    placeholder={t("pipeline.searchPlaceholder")}
                   />
                 </div>
               </label>
 
               <label className="flex flex-col gap-1 text-sm">
-                <span className="text-(--color-text-2)">Etapa</span>
+                <span className="text-(--color-text-2)">
+                  {t("pipeline.stage")}
+                </span>
                 <div className="flex items-center gap-2 rounded-2xl border border-(--color-border) bg-(--color-base-2) px-3 py-2">
                   <FiFilter className="shrink-0 text-(--color-text-2)" />
                   <select
@@ -238,23 +241,23 @@ export function ProjectsPage({
                     defaultValue={filters.stage}
                     name="stage"
                   >
-                    <option value="all">Todas</option>
-                    <option value="scoping">Escopo</option>
-                    <option value="planned">Planejamento</option>
-                    <option value="execution">Execução</option>
-                    <option value="delivery">Entrega</option>
-                    <option value="archived">Arquivo</option>
+                    <option value="all">{t("pipeline.all")}</option>
+                    <option value="scoping">{t("pipeline.scoping")}</option>
+                    <option value="planned">{t("pipeline.planned")}</option>
+                    <option value="execution">{t("pipeline.execution")}</option>
+                    <option value="delivery">{t("pipeline.delivery")}</option>
+                    <option value="archived">{t("pipeline.archived")}</option>
                   </select>
                 </div>
               </label>
 
               <div className="flex gap-2">
                 <Button fit htmlType="submit" type="primary">
-                  Filtrar
+                  {t("actions.filter")}
                 </Button>
                 <Link href="/projects">
                   <Button fit type="default">
-                    Limpar
+                    {t("actions.clear")}
                   </Button>
                 </Link>
               </div>
@@ -284,9 +287,9 @@ export function ProjectsPage({
         </Card>
 
         <Card className="border border-(--color-border)">
-          <h2 className="text-xl font-bold">Atalhos Úteis</h2>
+          <h2 className="text-xl font-bold">{t("shortcuts.title")}</h2>
           <div className="mt-4 grid gap-3">
-            {SHORTCUTS.map((shortcut) => (
+            {shortcuts.map((shortcut) => (
               <div
                 key={shortcut.href}
                 className="rounded-2xl border border-(--color-border) bg-(--color-base-2) p-4"
@@ -306,7 +309,7 @@ export function ProjectsPage({
                 <div className="mt-4">
                   <Link href={shortcut.href}>
                     <Button fit type="default">
-                      Abrir {shortcut.label}
+                      {t("actions.open", { label: shortcut.label })}
                     </Button>
                   </Link>
                 </div>
@@ -320,14 +323,16 @@ export function ProjectsPage({
         <Card className="border border-(--color-border)">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <h2 className="text-xl font-bold">Projetos do momento</h2>
+              <h2 className="text-xl font-bold">
+                {t("currentProjects.title")}
+              </h2>
               <p className="text-sm text-(--color-text-2)">
-                A lista abaixo respeita os filtros atuais da página.
+                {t("currentProjects.subtitle")}
               </p>
             </div>
             <Link href="/services">
               <Button fit type="default">
-                Gerenciar no módulo de serviços
+                {t("actions.manageInServices")}
               </Button>
             </Link>
           </div>
@@ -335,7 +340,7 @@ export function ProjectsPage({
           <div className="mt-4 grid gap-3">
             {data.rows.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-(--color-border) bg-(--color-base-2) p-6 text-sm text-(--color-text-2)">
-                Nenhum projeto encontrado com os filtros atuais.
+                {t("currentProjects.empty")}
               </div>
             ) : (
               data.rows.map((row) => (
@@ -356,22 +361,21 @@ export function ProjectsPage({
                       </div>
 
                       <p className="mt-2 text-sm text-(--color-text-2)">
-                        {row.description ||
-                          "Sem descrição registrada até aqui."}
+                        {row.description || t("currentProjects.noDescription")}
                       </p>
                     </div>
 
                     <div className="flex flex-wrap gap-2">
                       <Link href={row.detailHref}>
                         <Button fit type="primary">
-                          Abrir fluxo
+                          {t("actions.openFlow")}
                         </Button>
                       </Link>
 
                       {row.customerHref ? (
                         <Link href={row.customerHref}>
                           <Button fit type="default">
-                            Ver cliente
+                            {t("actions.viewClient")}
                           </Button>
                         </Link>
                       ) : null}
@@ -381,30 +385,30 @@ export function ProjectsPage({
                   <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wide text-(--color-text-2)">
-                        Cliente
+                        {t("currentProjects.client")}
                       </p>
                       <p className="mt-1 font-semibold">
-                        {row.customerName || "Cliente pendente"}
+                        {row.customerName || t("currentProjects.pendingClient")}
                       </p>
                     </div>
 
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wide text-(--color-text-2)">
-                        Valor previsto
+                        {t("currentProjects.plannedValue")}
                       </p>
                       <p className="mt-1 font-semibold">{row.valueLabel}</p>
                     </div>
 
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wide text-(--color-text-2)">
-                        Próximo marco
+                        {t("currentProjects.nextMilestone")}
                       </p>
                       <p className="mt-1 font-semibold">{row.scheduleLabel}</p>
                     </div>
 
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wide text-(--color-text-2)">
-                        Responsável
+                        {t("currentProjects.owner")}
                       </p>
                       <p className="mt-1 font-semibold">{row.ownerLabel}</p>
                     </div>
@@ -413,7 +417,7 @@ export function ProjectsPage({
                   <div className="mt-4">
                     <div className="flex items-center justify-between gap-3 text-sm">
                       <span className="text-(--color-text-2)">
-                        Progresso estimado
+                        {t("currentProjects.estimatedProgress")}
                       </span>
                       <span className="font-semibold">{row.progressPct}%</span>
                     </div>
@@ -426,8 +430,16 @@ export function ProjectsPage({
                   </div>
 
                   <div className="mt-4 flex flex-col gap-2 text-sm text-(--color-text-2) lg:flex-row lg:items-center lg:justify-between">
-                    <p>Próxima ação: {row.nextStepLabel}</p>
-                    <p>Atualizado em {row.updatedAtLabel}</p>
+                    <p>
+                      {t("currentProjects.nextAction", {
+                        value: row.nextStepLabel,
+                      })}
+                    </p>
+                    <p>
+                      {t("currentProjects.updatedAt", {
+                        value: row.updatedAtLabel,
+                      })}
+                    </p>
                   </div>
                 </div>
               ))
@@ -437,11 +449,11 @@ export function ProjectsPage({
 
         <div className="grid gap-4">
           <Card className="border border-(--color-border)">
-            <h2 className="text-xl font-bold">Pontos de atenção</h2>
+            <h2 className="text-xl font-bold">{t("attention.title")}</h2>
             <div className="mt-4 grid gap-3">
               {data.attentionItems.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-(--color-border) bg-(--color-base-2) p-4 text-sm text-(--color-text-2)">
-                  Nenhum item crítico no recorte atual.
+                  {t("attention.empty")}
                 </div>
               ) : (
                 data.attentionItems.map((item) => (
@@ -468,7 +480,7 @@ export function ProjectsPage({
           </Card>
 
           <Card className="border border-(--color-border)">
-            <h2 className="text-xl font-bold">Atividade recente</h2>
+            <h2 className="text-xl font-bold">{t("activity.title")}</h2>
             <div className="mt-4 grid gap-3">
               {data.recentActivity.map((item) => (
                 <div

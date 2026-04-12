@@ -1,6 +1,7 @@
 // src/ui/pages/private/ClientFormModal.tsx
 "use client";
 
+import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { useId } from "react";
 import { FiX } from "react-icons/fi";
@@ -84,18 +85,20 @@ export function ClientFormModal({
   onSubmit: () => void;
   subtitle?: ReactNode;
 }) {
+  const t = useTranslations("clients");
   const titleId = useId();
 
   if (!open) return null;
 
-  const title = mode === "create" ? "Adicionar Cliente" : "Editar Cliente";
+  const title =
+    mode === "create" ? t("modal.createTitle") : t("modal.editTitle");
 
   return (
     <div className="fixed inset-0 z-60">
       <button
         type="button"
         className="absolute inset-0 bg-black/50"
-        aria-label="Fechar"
+        aria-label={t("modal.close")}
         onClick={onClose}
       />
 
@@ -119,7 +122,7 @@ export function ClientFormModal({
                     {title}
                   </h3>
                   <p className="mt-1 text-sm text-(--color-text-2)">
-                    {subtitle ?? "Dados do cliente"}
+                    {subtitle ?? t("modal.subtitle")}
                   </p>
                 </div>
 
@@ -127,8 +130,8 @@ export function ClientFormModal({
                   type="button"
                   className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-(--color-border) bg-(--color-base-1) hover:bg-(--color-base-2)"
                   onClick={onClose}
-                  title="Fechar"
-                  aria-label="Fechar"
+                  title={t("modal.close")}
+                  aria-label={t("modal.close")}
                 >
                   <FiX />
                 </button>
@@ -138,7 +141,7 @@ export function ClientFormModal({
               <div className="mt-5 flex-1 min-h-0 overflow-y-auto px-6 pb-6">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="md:col-span-2">
-                    <Field label="Tipo">
+                    <Field label={t("modal.type")}>
                       {({ labelId }) => (
                         <select
                           aria-labelledby={labelId}
@@ -150,28 +153,32 @@ export function ClientFormModal({
                           }
                           className="mt-1 h-10 w-full rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 text-sm"
                         >
-                          <option value="person">Pessoa</option>
-                          <option value="company">Empresa</option>
+                          <option value="person">
+                            {t("modal.typePerson")}
+                          </option>
+                          <option value="company">
+                            {t("modal.typeCompany")}
+                          </option>
                         </select>
                       )}
                     </Field>
                   </div>
 
                   <div className="md:col-span-2">
-                    <Field label="Nome">
+                    <Field label={t("modal.name")}>
                       {({ labelId }) => (
                         <Input
                           aria-labelledby={labelId}
                           className="mt-1 w-full"
                           value={form.name}
                           onChange={(e) => onChange({ name: e.target.value })}
-                          placeholder="Ex: João da Silva / ACME Ltda"
+                          placeholder={t("modal.namePlaceholder")}
                         />
                       )}
                     </Field>
                   </div>
 
-                  <Field label="Razão social (opcional)">
+                  <Field label={t("modal.legalName")}>
                     {({ labelId }) => (
                       <Input
                         aria-labelledby={labelId}
@@ -180,60 +187,60 @@ export function ClientFormModal({
                         onChange={(e) =>
                           onChange({ legalName: e.target.value })
                         }
-                        placeholder="Ex: ACME Comércio LTDA"
+                        placeholder={t("modal.legalNamePlaceholder")}
                       />
                     )}
                   </Field>
 
-                  <Field label="Documento (CPF/CNPJ)">
+                  <Field label={t("modal.document")}>
                     {({ labelId }) => (
                       <Input
                         aria-labelledby={labelId}
                         className="mt-1 w-full"
                         value={form.document}
                         onChange={(e) => onChange({ document: e.target.value })}
-                        placeholder="Somente números ou formato livre"
+                        placeholder={t("modal.documentPlaceholder")}
                       />
                     )}
                   </Field>
 
-                  <Field label="E-mail">
+                  <Field label={t("modal.email")}>
                     {({ labelId }) => (
                       <Input
                         aria-labelledby={labelId}
                         className="mt-1 w-full"
                         value={form.email}
                         onChange={(e) => onChange({ email: e.target.value })}
-                        placeholder="cliente@email.com"
+                        placeholder={t("modal.emailPlaceholder")}
                       />
                     )}
                   </Field>
 
-                  <Field label="WhatsApp">
+                  <Field label={t("modal.whatsapp")}>
                     {({ labelId }) => (
                       <Input
                         aria-labelledby={labelId}
                         className="mt-1 w-full"
                         value={form.whatsapp}
                         onChange={(e) => onChange({ whatsapp: e.target.value })}
-                        placeholder="(00) 00000-0000"
+                        placeholder={t("modal.whatsappPlaceholder")}
                       />
                     )}
                   </Field>
 
-                  <Field label="Telefone">
+                  <Field label={t("modal.phone")}>
                     {({ labelId }) => (
                       <Input
                         aria-labelledby={labelId}
                         className="mt-1 w-full"
                         value={form.phone}
                         onChange={(e) => onChange({ phone: e.target.value })}
-                        placeholder="(00) 0000-0000"
+                        placeholder={t("modal.phonePlaceholder")}
                       />
                     )}
                   </Field>
 
-                  <Field label="CEP">
+                  <Field label={t("modal.postalCode")}>
                     {({ labelId }) => (
                       <Input
                         aria-labelledby={labelId}
@@ -242,13 +249,13 @@ export function ClientFormModal({
                         onChange={(e) =>
                           onChange({ postalCode: e.target.value })
                         }
-                        placeholder="00000-000"
+                        placeholder={t("modal.postalCodePlaceholder")}
                       />
                     )}
                   </Field>
 
                   <div className="md:col-span-2">
-                    <Field label="Endereço (linha 1)">
+                    <Field label={t("modal.addressLine1")}>
                       {({ labelId }) => (
                         <Input
                           aria-labelledby={labelId}
@@ -257,14 +264,14 @@ export function ClientFormModal({
                           onChange={(e) =>
                             onChange({ addressLine1: e.target.value })
                           }
-                          placeholder="Rua, número, bairro"
+                          placeholder={t("modal.addressLine1Placeholder")}
                         />
                       )}
                     </Field>
                   </div>
 
                   <div className="md:col-span-2">
-                    <Field label="Endereço (linha 2)">
+                    <Field label={t("modal.addressLine2")}>
                       {({ labelId }) => (
                         <Input
                           aria-labelledby={labelId}
@@ -273,45 +280,45 @@ export function ClientFormModal({
                           onChange={(e) =>
                             onChange({ addressLine2: e.target.value })
                           }
-                          placeholder="Complemento (opcional)"
+                          placeholder={t("modal.addressLine2Placeholder")}
                         />
                       )}
                     </Field>
                   </div>
 
-                  <Field label="Cidade">
+                  <Field label={t("modal.city")}>
                     {({ labelId }) => (
                       <Input
                         aria-labelledby={labelId}
                         className="mt-1 w-full"
                         value={form.city}
                         onChange={(e) => onChange({ city: e.target.value })}
-                        placeholder="Ex: Florianópolis"
+                        placeholder={t("modal.cityPlaceholder")}
                       />
                     )}
                   </Field>
 
-                  <Field label="Estado">
+                  <Field label={t("modal.state")}>
                     {({ labelId }) => (
                       <Input
                         aria-labelledby={labelId}
                         className="mt-1 w-full"
                         value={form.state}
                         onChange={(e) => onChange({ state: e.target.value })}
-                        placeholder="Ex: SC"
+                        placeholder={t("modal.statePlaceholder")}
                       />
                     )}
                   </Field>
 
                   <div className="md:col-span-2">
-                    <Field label="Notas">
+                    <Field label={t("modal.notes")}>
                       {({ labelId }) => (
                         <textarea
                           aria-labelledby={labelId}
                           className="mt-1 min-h-24 w-full rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 py-2 text-sm"
                           value={form.notes}
                           onChange={(e) => onChange({ notes: e.target.value })}
-                          placeholder="Observações…"
+                          placeholder={t("modal.notesPlaceholder")}
                         />
                       )}
                     </Field>
@@ -323,12 +330,12 @@ export function ClientFormModal({
               <div className="shrink-0 border-t border-(--color-border) px-6 py-4">
                 <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
                   <Button type="default" disabled={saving} onClick={onClose}>
-                    Cancelar
+                    {t("actions.cancel")}
                   </Button>
 
                   <Button type="primary" disabled={saving} onClick={onSubmit}>
                     <span className="inline-flex items-center gap-2">
-                      {saving ? "Salvando..." : "Salvar"}
+                      {saving ? t("actions.saving") : t("actions.save")}
                     </span>
                   </Button>
                 </div>

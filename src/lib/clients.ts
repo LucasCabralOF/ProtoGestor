@@ -3,6 +3,7 @@ import "server-only";
 
 import { requireOrgId } from "@/lib/auth-tenant";
 import prisma from "@/lib/prisma";
+import type { AppLocale } from "@/utils/i18n";
 
 type StatusTone = "success" | "neutral";
 
@@ -52,9 +53,9 @@ export type ClientsFilters = {
   recurring?: "all" | "yes";
 };
 
-function formatDateLabel(dt: Date | null): string {
+function formatDateLabel(dt: Date | null, locale: AppLocale): string {
   if (!dt) return "—";
-  return new Intl.DateTimeFormat("pt-BR", {
+  return new Intl.DateTimeFormat(locale, {
     timeZone: "America/Sao_Paulo",
     day: "2-digit",
     month: "2-digit",
@@ -68,6 +69,7 @@ function normalizeQ(q: string | undefined): string {
 
 export async function getClientsPageData(
   filters: ClientsFilters,
+  locale: AppLocale = "pt-BR",
 ): Promise<ClientsPageData> {
   const { orgId } = await requireOrgId();
 
@@ -161,7 +163,11 @@ export async function getClientsPageData(
       const contactLabelParts: string[] = [];
       if (c.email) contactLabelParts.push(c.email);
       if (c.whatsapp) contactLabelParts.push(`WhatsApp: ${c.whatsapp}`);
-      else if (c.phone) contactLabelParts.push(`Tel: ${c.phone}`);
+      else if (c.phone) {
+        contactLabelParts.push(
+          locale === "en" ? `Phone: ${c.phone}` : `Tel: ${c.phone}`,
+        );
+      }
 
       const addressLabelParts: string[] = [];
       if (addr?.line1) addressLabelParts.push(addr.line1);
@@ -178,9 +184,15 @@ export async function getClientsPageData(
         addressLabel:
           addressLabelParts.length > 0 ? addressLabelParts.join(" • ") : "—",
         paymentLabel: "—",
-        statusLabel: c.isActive ? "Ativo" : "Inativo",
+        statusLabel: c.isActive
+          ? locale === "en"
+            ? "Active"
+            : "Ativo"
+          : locale === "en"
+            ? "Inactive"
+            : "Inativo",
         statusTone,
-        lastServiceLabel: formatDateLabel(lastAt),
+        lastServiceLabel: formatDateLabel(lastAt, locale),
         totalServices,
         isActive: c.isActive,
 

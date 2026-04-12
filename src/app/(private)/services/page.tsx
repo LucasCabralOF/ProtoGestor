@@ -1,5 +1,6 @@
 import { getServicesPageData } from "@/lib/services";
 import { ServicesPage } from "@/ui/pages/privatePages/ServicesPage";
+import { resolveLocale } from "@/utils/i18n";
 
 export default async function ServicesRoute({
   searchParams,
@@ -22,11 +23,15 @@ export default async function ServicesRoute({
       ? statusRaw
       : "all";
 
-  const data = await getServicesPageData({
-    q,
-    status,
-    customerId,
-  });
+  const locale = await resolveLocale();
+  const data = await getServicesPageData(
+    {
+      q,
+      status,
+      customerId,
+    },
+    locale,
+  );
 
   return <ServicesPage data={data} />;
 }

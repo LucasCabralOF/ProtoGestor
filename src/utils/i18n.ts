@@ -5,9 +5,13 @@ export const locales = ["pt-BR", "en"] as const;
 export const defaultLocale = "pt-BR";
 export const namespaces = [
   "auth",
+  "clients",
   "common",
+  "dashboard",
   "errors",
   "navigation",
+  "projects",
+  "services",
   "settings",
 ] as const;
 

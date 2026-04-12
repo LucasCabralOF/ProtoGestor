@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { useId } from "react";
 import { FiX } from "react-icons/fi";
@@ -76,18 +77,20 @@ export function ServiceFormModal({
   open: boolean;
   saving: boolean;
 }) {
+  const t = useTranslations("services");
   const titleId = useId();
 
   if (!open) return null;
 
-  const title = mode === "create" ? "Novo Serviço" : "Editar Serviço";
+  const title =
+    mode === "create" ? t("modal.createTitle") : t("modal.editTitle");
 
   return (
     <div className="fixed inset-0 z-60">
       <button
         type="button"
         className="absolute inset-0 bg-black/50"
-        aria-label="Fechar"
+        aria-label={t("modal.close")}
         onClick={onClose}
       />
 
@@ -110,7 +113,7 @@ export function ServiceFormModal({
                     {title}
                   </h3>
                   <p className="mt-1 text-sm text-(--color-text-2)">
-                    Dados do serviço e primeiro agendamento
+                    {t("modal.subtitle")}
                   </p>
                 </div>
 
@@ -118,8 +121,8 @@ export function ServiceFormModal({
                   type="button"
                   className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-(--color-border) bg-(--color-base-1) hover:bg-(--color-base-2)"
                   onClick={onClose}
-                  title="Fechar"
-                  aria-label="Fechar"
+                  title={t("modal.close")}
+                  aria-label={t("modal.close")}
                 >
                   <FiX />
                 </button>
@@ -128,12 +131,12 @@ export function ServiceFormModal({
               <div className="mt-5 flex-1 min-h-0 overflow-y-auto px-6 pb-6">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="md:col-span-2">
-                    <Field label="Título">
+                    <Field label={t("modal.title")}>
                       {({ labelId }) => (
                         <Input
                           aria-labelledby={labelId}
                           className="mt-1 w-full"
-                          placeholder="Ex: Limpeza pós-obra"
+                          placeholder={t("modal.titlePlaceholder")}
                           value={form.title}
                           onChange={(e) => onChange({ title: e.target.value })}
                         />
@@ -141,7 +144,7 @@ export function ServiceFormModal({
                     </Field>
                   </div>
 
-                  <Field label="Cliente">
+                  <Field label={t("modal.client")}>
                     {({ labelId }) => (
                       <select
                         aria-labelledby={labelId}
@@ -151,7 +154,7 @@ export function ServiceFormModal({
                         }
                         className="mt-1 h-10 w-full rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 text-sm"
                       >
-                        <option value="">Sem cliente</option>
+                        <option value="">{t("modal.noClient")}</option>
                         {customerOptions.map((option) => (
                           <option key={option.id} value={option.id}>
                             {option.name}
@@ -161,7 +164,7 @@ export function ServiceFormModal({
                     )}
                   </Field>
 
-                  <Field label="Status">
+                  <Field label={t("modal.status")}>
                     {({ labelId }) => (
                       <select
                         aria-labelledby={labelId}
@@ -173,22 +176,30 @@ export function ServiceFormModal({
                         }
                         className="mt-1 h-10 w-full rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 text-sm"
                       >
-                        <option value="draft">Rascunho</option>
-                        <option value="scheduled">Agendado</option>
-                        <option value="in_progress">Em andamento</option>
-                        <option value="completed">Concluído</option>
-                        <option value="canceled">Cancelado</option>
+                        <option value="draft">{t("filters.draft")}</option>
+                        <option value="scheduled">
+                          {t("filters.scheduled")}
+                        </option>
+                        <option value="in_progress">
+                          {t("filters.inProgress")}
+                        </option>
+                        <option value="completed">
+                          {t("filters.completed")}
+                        </option>
+                        <option value="canceled">
+                          {t("filters.canceled")}
+                        </option>
                       </select>
                     )}
                   </Field>
 
-                  <Field label="Valor (R$)">
+                  <Field label={t("modal.value")}>
                     {({ labelId }) => (
                       <Input
                         aria-labelledby={labelId}
                         className="mt-1 w-full"
                         inputMode="decimal"
-                        placeholder="0,00"
+                        placeholder={t("modal.valuePlaceholder")}
                         value={form.valueInput}
                         onChange={(e) =>
                           onChange({ valueInput: e.target.value })
@@ -198,12 +209,12 @@ export function ServiceFormModal({
                   </Field>
 
                   <div className="md:col-span-2">
-                    <Field label="Descrição">
+                    <Field label={t("modal.description")}>
                       {({ labelId }) => (
                         <textarea
                           aria-labelledby={labelId}
                           className="mt-1 min-h-24 w-full rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 py-2 text-sm"
-                          placeholder="Escopo, observações e instruções"
+                          placeholder={t("modal.descriptionPlaceholder")}
                           value={form.description}
                           onChange={(e) =>
                             onChange({ description: e.target.value })
@@ -216,16 +227,15 @@ export function ServiceFormModal({
                   <div className="md:col-span-2 pt-2">
                     <div className="rounded-2xl border border-(--color-border) bg-(--color-base-2) px-4 py-3">
                       <p className="text-sm font-semibold">
-                        Agendamento inicial
+                        {t("modal.appointmentTitle")}
                       </p>
                       <p className="mt-1 text-xs text-(--color-text-2)">
-                        Preencha data e horários apenas se quiser reservar a
-                        primeira visita agora.
+                        {t("modal.appointmentSubtitle")}
                       </p>
                     </div>
                   </div>
 
-                  <Field label="Data">
+                  <Field label={t("modal.date")}>
                     {({ labelId }) => (
                       <Input
                         aria-labelledby={labelId}
@@ -242,12 +252,12 @@ export function ServiceFormModal({
                     )}
                   </Field>
 
-                  <Field label="Local">
+                  <Field label={t("modal.location")}>
                     {({ labelId }) => (
                       <Input
                         aria-labelledby={labelId}
                         className="mt-1 w-full"
-                        placeholder="Ex: Rua das Flores, 123"
+                        placeholder={t("modal.locationPlaceholder")}
                         value={form.locationText}
                         onChange={(e) =>
                           onChange({ locationText: e.target.value })
@@ -256,7 +266,7 @@ export function ServiceFormModal({
                     )}
                   </Field>
 
-                  <Field label="Início">
+                  <Field label={t("modal.start")}>
                     {({ labelId }) => (
                       <Input
                         aria-labelledby={labelId}
@@ -271,7 +281,7 @@ export function ServiceFormModal({
                     )}
                   </Field>
 
-                  <Field label="Fim">
+                  <Field label={t("modal.end")}>
                     {({ labelId }) => (
                       <Input
                         aria-labelledby={labelId}
@@ -291,11 +301,11 @@ export function ServiceFormModal({
               <div className="shrink-0 border-t border-(--color-border) px-6 py-4">
                 <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
                   <Button type="default" disabled={saving} onClick={onClose}>
-                    Cancelar
+                    {t("actions.cancel")}
                   </Button>
 
                   <Button type="primary" disabled={saving} onClick={onSubmit}>
-                    {saving ? "Salvando..." : "Salvar"}
+                    {saving ? t("actions.saving") : t("actions.save")}
                   </Button>
                 </div>
               </div>
