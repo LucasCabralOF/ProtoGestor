@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "postinstall": "prisma generate",
-    "dev": "next dev --webpack --port 3001",
+    "dev": "next dev --hostname 0.0.0.0 --webpack --port 3001",
     "build": "prisma generate && next build",
     "start": "next start --port 3001",
     "check": "prisma generate && tsc --noEmit && biome check",
