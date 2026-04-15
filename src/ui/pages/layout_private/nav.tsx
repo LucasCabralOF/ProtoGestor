@@ -1,6 +1,7 @@
 import type { BreadcrumbProps } from "antd";
 import type { ReactNode } from "react";
 import {
+  FiBarChart2,
   FiCalendar,
   FiHome,
   FiLayout,
@@ -38,6 +39,7 @@ export function buildPrivateNav(t: (key: string) => string): NavGroup[] {
         { href: "/clients", label: t("itemClients"), icon: <FiUsers /> },
         { href: "/services", label: t("itemServices"), icon: <FiCalendar /> },
         { href: "/projects", label: t("itemProjects"), icon: <FiLayout /> },
+        { href: "/reports", label: t("itemReports"), icon: <FiBarChart2 /> },
       ],
     },
     {

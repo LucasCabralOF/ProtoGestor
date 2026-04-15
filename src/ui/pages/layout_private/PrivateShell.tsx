@@ -26,14 +26,16 @@ export function PrivateShell({
   const groups = useMemo(() => buildPrivateNav(t), [t]);
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-(--color-base-3) text-(--color-text-1)">
-      <div className="flex h-full w-full">
+    <div className="app-shell h-screen w-screen overflow-hidden bg-(--color-base-3) text-(--color-text-1)">
+      <div className="app-shell-layout flex h-full w-full">
         {/* Desktop sidebar */}
-        <Sidebar
-          groups={groups}
-          brandSubtitle={t("sidebarSystem")}
-          toggleTitle={t("toggleSidebar")}
-        />
+        <div className="app-shell-sidebar">
+          <Sidebar
+            groups={groups}
+            brandSubtitle={t("sidebarSystem")}
+            toggleTitle={t("toggleSidebar")}
+          />
+        </div>
 
         {/* Mobile drawer sidebar */}
         <MobileSidebar
@@ -44,17 +46,19 @@ export function PrivateShell({
           title={t("mobileMenu")}
         />
 
-        <div className="flex-1 min-w-0 flex flex-col">
-          <Navbar
-            activeOrg={activeOrg}
-            organizations={organizations}
-            pathname={pathname}
-            user={user}
-            onOpenMobileSidebar={() => setMobileOpen(true)}
-          />
+        <div className="app-shell-body flex-1 min-w-0 flex flex-col">
+          <div className="app-shell-navbar">
+            <Navbar
+              activeOrg={activeOrg}
+              organizations={organizations}
+              pathname={pathname}
+              user={user}
+              onOpenMobileSidebar={() => setMobileOpen(true)}
+            />
+          </div>
 
-          <main className="flex-1 min-h-0 overflow-auto">
-            <div className="p-4">{children}</div>
+          <main className="app-shell-main flex-1 min-h-0 overflow-auto">
+            <div className="app-shell-page p-4">{children}</div>
           </main>
         </div>
       </div>

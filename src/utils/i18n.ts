@@ -11,6 +11,7 @@ export const namespaces = [
   "errors",
   "navigation",
   "projects",
+  "reports",
   "services",
   "settings",
 ] as const;
