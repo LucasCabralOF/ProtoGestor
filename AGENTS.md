@@ -163,6 +163,9 @@ Seed atual em [`src/prisma/seed.ts`](/home/app/src/prisma/seed.ts):
 - Antes de concluir uma tarefa, rodar ao menos os testes impactados; quando a mudança tocar navegação, auth, layout, páginas privadas ou fluxos principais, rodar `npm run test:unit` e `npm run test:e2e`
 - Se algum teste não puder ser executado, explicitar o motivo no handoff final
 
+11) Documentação
+- codigo deve ser bem documentado
+
 ## Padrões Recomendados
 - Filtros por querystring:
   - usar `usePathname()`, `useSearchParams()` e `router.replace()`

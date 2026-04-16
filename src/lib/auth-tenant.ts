@@ -7,6 +7,12 @@ import { pickActiveOrganization } from "@/lib/tenant-utils";
 import type { OrganizationSummary } from "@/types/base";
 import { ACTIVE_ORG_COOKIE } from "@/utils/constants";
 
+export const NO_ORG_ERROR_CODE = "NO_ORG";
+
+export function isNoOrgError(error: unknown): boolean {
+  return error instanceof Error && error.message === NO_ORG_ERROR_CODE;
+}
+
 function headersToObject(h: Headers): Record<string, string> {
   const out: Record<string, string> = {};
   h.forEach((value, key) => {
@@ -67,7 +73,7 @@ export async function getTenantContext(userIdFromCaller?: string): Promise<{
   const org = pickActiveOrganization(organizations, preferredOrgId);
 
   if (!org) {
-    throw new Error("NO_ORG");
+    throw new Error(NO_ORG_ERROR_CODE);
   }
 
   return {

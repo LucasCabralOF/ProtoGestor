@@ -10,6 +10,7 @@ export const namespaces = [
   "dashboard",
   "errors",
   "navigation",
+  "onboarding",
   "projects",
   "reports",
   "services",

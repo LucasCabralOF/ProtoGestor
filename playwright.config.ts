@@ -32,10 +32,11 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `npx next dev --hostname 0.0.0.0 --webpack --port ${port}`,
+    command: "bash scripts/start-playwright-webserver.sh",
     env: {
       ...process.env,
       BETTER_AUTH_URL: baseURL,
+      PLAYWRIGHT_PORT: String(port),
     },
     reuseExistingServer: false,
     stderr: "pipe",

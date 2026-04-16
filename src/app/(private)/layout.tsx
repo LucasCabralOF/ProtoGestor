@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import { auth } from "@/lib/auth";
-import { getTenantContext } from "@/lib/auth-tenant";
+import { getTenantContext, isNoOrgError } from "@/lib/auth-tenant";
 import type { User } from "@/types/base";
 import { PrivateShell } from "@/ui/pages/layout_private/PrivateShell";
 
@@ -21,7 +21,15 @@ export default async function PrivateLayout({
     role: "user",
   };
 
-  const tenant = await getTenantContext(session.user.id);
+  let tenant: Awaited<ReturnType<typeof getTenantContext>>;
+  try {
+    tenant = await getTenantContext(session.user.id);
+  } catch (error) {
+    if (isNoOrgError(error)) {
+      redirect("/onboarding");
+    }
+    throw error;
+  }
 
   return (
     <PrivateShell

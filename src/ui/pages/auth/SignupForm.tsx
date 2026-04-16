@@ -71,7 +71,7 @@ export function SignupForm() {
         name: values.name,
         email: values.email,
         pass: values.pass,
-        callbackURL: "/dashboard",
+        callbackURL: "/onboarding",
       });
 
       const fieldErrors = extractFieldErrors(result);
@@ -100,7 +100,7 @@ export function SignupForm() {
         return;
       }
 
-      router.push("/dashboard");
+      router.push("/onboarding");
     } finally {
       setLoading(false);
     }
