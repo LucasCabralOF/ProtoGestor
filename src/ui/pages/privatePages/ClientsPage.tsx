@@ -278,7 +278,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
 
         <div className="flex flex-wrap gap-2">
           <a href={exportHref}>
-            <Button type="default">
+            <Button testid="clients-export" type="default">
               <span className="inline-flex items-center gap-2">
                 <FiDownload />
                 {t("actions.export")}
@@ -299,6 +299,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
           />
 
           <Button
+            testid="clients-import"
             type="default"
             disabled={importing}
             onClick={() => fileRef.current?.click()}
@@ -309,7 +310,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
             </span>
           </Button>
 
-          <Button type="primary" onClick={openCreate}>
+          <Button testid="clients-add" type="primary" onClick={openCreate}>
             <span className="inline-flex items-center gap-2">
               <FiPlus />
               {t("actions.add")}
@@ -403,6 +404,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
           </span>
 
           <Input
+            testid="clients-search"
             placeholder={t("filters.searchPlaceholder")}
             className="w-full pl-10"
             value={q}
@@ -412,6 +414,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
 
         <div className="flex gap-3">
           <select
+            data-testid="select-clients-status"
             value={filteredStatusValue}
             onChange={(e) => setParam("status", e.target.value)}
             className="h-10 rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 text-sm"
@@ -422,6 +425,7 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
           </select>
 
           <select
+            data-testid="select-clients-recurring"
             value={recurringValue}
             onChange={(e) => setParam("recurring", e.target.value)}
             className="h-10 rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 text-sm"
@@ -436,7 +440,10 @@ export function ClientsPage({ data }: { data: ClientsPageData }) {
         <h2 className="text-2xl font-bold">{t("table.title")}</h2>
 
         <div className="mt-4 overflow-x-auto">
-          <table className="min-w-245 w-full border-separate border-spacing-0">
+          <table
+            data-testid="table-clients-list"
+            className="min-w-245 w-full border-separate border-spacing-0"
+          >
             <thead>
               <tr className="text-left text-sm text-(--color-text-2)">
                 <th className="w-12 border-b border-(--color-border) px-4 py-3">

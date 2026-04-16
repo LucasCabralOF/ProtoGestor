@@ -22,6 +22,7 @@ Ambiente local atual:
 - Zustand `5.0.0`
 - Biome `2.3.14`
 - Vitest + Testing Library
+- Playwright `1.59.x` para smoke/E2E
 
 ## Arquitetura Atual
 - Providers encadeados em [`src/ui/providers/Providers.tsx`](/home/app/src/ui/providers/Providers.tsx):
@@ -155,6 +156,13 @@ Seed atual em [`src/prisma/seed.ts`](/home/app/src/prisma/seed.ts):
 - Configuração atual fica em `.devcontainer/*`
 - Se houver problema de file watch em Docker/Windows/WSL, ajustar polling no `next.config.ts` só quando necessário
 
+10) Testes
+- Toda mudança de componente novo deve vir com teste relativo ao comportamento entregue
+- Componentes, hooks e utilitários novos ou alterados devem ter teste de unidade/integração com Vitest + Testing Library quando aplicável
+- Fluxos críticos alterados ou criados (auth, navegação privada, filtros, mutations, multi-tenant, rotas protegidas) devem ganhar cobertura E2E com Playwright
+- Antes de concluir uma tarefa, rodar ao menos os testes impactados; quando a mudança tocar navegação, auth, layout, páginas privadas ou fluxos principais, rodar `npm run test:unit` e `npm run test:e2e`
+- Se algum teste não puder ser executado, explicitar o motivo no handoff final
+
 ## Padrões Recomendados
 - Filtros por querystring:
   - usar `usePathname()`, `useSearchParams()` e `router.replace()`
@@ -168,6 +176,9 @@ Seed atual em [`src/prisma/seed.ts`](/home/app/src/prisma/seed.ts):
   - usar `styles={{ body: ... }}`
 - I18n:
   - antes de usar um namespace novo, garantir que ele foi carregado em [`src/utils/i18n.ts`](/home/app/src/utils/i18n.ts)
+- Testes:
+  - preferir seletores estáveis (`data-testid`, `role`, `label`) para Playwright
+  - novas interações visuais relevantes devem considerar cobertura unitária e, se fizer sentido, smoke E2E
 
 ## Checklist Antes de Enviar PR
 - Importei `antd` direto fora dos pontos permitidos? Não.
@@ -179,6 +190,8 @@ Seed atual em [`src/prisma/seed.ts`](/home/app/src/prisma/seed.ts):
 - `Card` usa `bodyStyle`? Não.
 - Criei mais um helper de safe action? Não.
 - Adicionei namespace de tradução sem atualizar [`src/utils/i18n.ts`](/home/app/src/utils/i18n.ts)? Não.
+- Criei/atualizei testes relativos aos componentes e fluxos alterados? Sim.
+- Rodei `npm run test:unit` e `npm run test:e2e` quando houve impacto transversal? Sim.
 
 ## Roadmap Imediato
 - Clientes:

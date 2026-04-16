@@ -12,6 +12,7 @@ Aplicacao administrativa em `Next.js` com autenticacao, multi-tenant por organiz
 - `next-intl`
 - `next-safe-action`
 - `Vitest`
+- `Playwright`
 
 ## Requisitos
 
@@ -91,9 +92,47 @@ npm run start
 npm run check
 npm run check:ci
 npm run test:unit
+npm run test:e2e
+npm run test:e2e:headed
+npm run test:all
 npm run db:generate
 npm run db:migrate:dev
 npm run db:studio
+```
+
+## Testes E2E com Playwright
+
+O projeto agora possui uma base de smoke/E2E em `playwright/tests` com autenticacao reaproveitando o usuario demo da seed.
+
+```bash
+npm run test:e2e
+```
+
+Esse comando:
+
+- reseta e popula o banco com a seed
+- garante a instalacao do Chromium do Playwright
+- sobe o app automaticamente
+- executa a suite E2E
+
+Para depuracao visual:
+
+```bash
+npm run test:e2e:headed
+```
+
+Fluxos cobertos inicialmente:
+
+- redirects publicos e protecao de rotas privadas
+- login autenticado com o usuario demo
+- smoke do dashboard com dados seed
+- filtros e criacao de cliente no modulo de clientes
+
+Credenciais demo usadas nos testes:
+
+```bash
+demo@local.dev
+Demo@1234
 ```
 
 ## Estrutura principal
