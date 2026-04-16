@@ -1,0 +1,16 @@
+{
+  "title": "Bem-vindo, {userName}!",
+  "subtitle": "Aqui está uma visão geral do seu negócio de limpeza",
+  "monthlyRevenue": "Receita mensal",
+  "vsLastMonth": "{prefix}{value}% do mês passado",
+  "activeClients": "Clientes ativos",
+  "newClientsThisMonth": "{value} novos este mês",
+  "servicesThisWeek": "Serviços esta semana",
+  "servicesWeekSummary": "{completed} concluídos, {pending} pendentes",
+  "growthRate": "Taxa de crescimento",
+  "recentActivity": "Atividade recente",
+  "noRecentActivity": "Nenhuma atividade recente",
+  "upcomingServices": "Próximos serviços",
+  "viewAll": "Ver todos",
+  "noUpcomingServices": "Nenhum serviço agendado"
+}

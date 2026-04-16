@@ -1,0 +1,16 @@
+{
+  "appErrorTitle": "Algo saiu do esperado",
+  "appErrorSubtitle": "Ocorreu um erro ao renderizar esta página. Você pode tentar novamente ou voltar para uma área segura do sistema.",
+  "retry": "Tentar novamente",
+  "goDashboard": "Ir para dashboard",
+  "notFoundTitle": "Página não encontrada",
+  "notFoundSubtitle": "O endereço solicitado não existe, foi movido ou não está disponível neste ambiente.",
+  "backHome": "Voltar ao início",
+  "openLogin": "Abrir login",
+  "privateErrorTitle": "Falha ao carregar a área privada",
+  "privateErrorSubtitle": "O painel encontrou um erro inesperado. Você pode tentar novamente ou voltar ao dashboard.",
+  "backDashboard": "Voltar ao dashboard",
+  "privateNotFoundTitle": "Conteúdo não encontrado",
+  "privateNotFoundSubtitle": "Esta rota não existe dentro do painel atual ou foi removida.",
+  "openServices": "Abrir serviços"
+}

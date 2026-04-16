@@ -1,9 +1,22 @@
 import type { BreadcrumbProps } from "antd";
-import { FiHome, FiLayout, FiSettings, FiUsers } from "react-icons/fi";
+import type { ReactNode } from "react";
+import {
+  FiBarChart2,
+  FiCalendar,
+  FiHome,
+  FiLayout,
+  FiSettings,
+  FiUsers,
+} from "react-icons/fi";
+import {
+  buildBreadcrumbItems as buildBreadcrumbItemsForGroups,
+  findNavItem as findNavItemForGroups,
+  firstPath,
+} from "./nav-utils";
 
 export type NavItem = {
   href: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   label: string;
 };
 
@@ -12,51 +25,45 @@ export type NavGroup = {
   items: NavItem[];
 };
 
-export const PRIVATE_NAV: NavGroup[] = [
-  {
-    label: "Geral",
-    items: [{ href: "/dashboard", label: "Dashboard", icon: <FiHome /> }],
-  },
-  {
-    label: "Operação",
-    items: [
-      { href: "/clients", label: "Clientes", icon: <FiUsers /> },
-      { href: "/projects", label: "Projetos", icon: <FiLayout /> },
-    ],
-  },
-  {
-    label: "Sistema",
-    items: [
-      { href: "/settings", label: "Configurações", icon: <FiSettings /> },
-    ],
-  },
-];
-
-export function firstPath(pathname: string) {
-  return pathname.split("/")[1] ?? "";
+export function buildPrivateNav(t: (key: string) => string): NavGroup[] {
+  return [
+    {
+      label: t("groupGeneral"),
+      items: [
+        { href: "/dashboard", label: t("itemDashboard"), icon: <FiHome /> },
+      ],
+    },
+    {
+      label: t("groupOperations"),
+      items: [
+        { href: "/clients", label: t("itemClients"), icon: <FiUsers /> },
+        { href: "/services", label: t("itemServices"), icon: <FiCalendar /> },
+        { href: "/projects", label: t("itemProjects"), icon: <FiLayout /> },
+        { href: "/reports", label: t("itemReports"), icon: <FiBarChart2 /> },
+      ],
+    },
+    {
+      label: t("groupSystem"),
+      items: [
+        { href: "/settings", label: t("itemSettings"), icon: <FiSettings /> },
+      ],
+    },
+  ];
 }
 
-export function findNavItem(pathname: string) {
-  const key = `/${firstPath(pathname)}`;
-  for (const group of PRIVATE_NAV) {
-    const found = group.items.find((i) => i.href === key);
-    if (found) return { group: group.label, item: found };
-  }
-  return null;
+export function findNavItem(pathname: string, groups: readonly NavGroup[]) {
+  return findNavItemForGroups(pathname, groups);
 }
 
 export function buildBreadcrumbItems(
   pathname: string,
+  groups: readonly NavGroup[],
+  labels?: {
+    dashboard: string;
+    page: string;
+  },
 ): BreadcrumbProps["items"] {
-  const found = findNavItem(pathname);
-
-  if (!found) {
-    return [{ title: "Painel", href: "/dashboard" }, { title: "Página" }];
-  }
-
-  return [
-    { title: "Painel", href: "/dashboard" },
-    { title: found.group },
-    { title: found.item.label },
-  ];
+  return buildBreadcrumbItemsForGroups(pathname, groups, labels);
 }
+
+export { firstPath };

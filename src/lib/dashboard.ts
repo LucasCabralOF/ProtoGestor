@@ -7,12 +7,14 @@ import {
   startOfWeek,
   subMonths,
 } from "date-fns";
+import { getTenantContext } from "@/lib/auth-tenant";
 import prisma from "@/lib/prisma";
+import type { AppLocale } from "@/utils/i18n";
 
 export type DashboardData = {
   orgName: string;
   kpis: {
-    monthlyRevenueCents: number;
+    monthlyRevenueLabel: string;
     monthlyRevenueDeltaPct: number;
     activeClients: number;
     newClientsThisMonth: number;
@@ -20,26 +22,46 @@ export type DashboardData = {
     servicesCompletedThisWeek: number;
     pendingIssues: number;
   };
-  recentActivity: { id: string; message: string; createdAt: Date }[];
+  recentActivity: { createdAtLabel: string; id: string; message: string }[];
   upcomingServices: {
     id: string;
     title: string;
-    startsAt: Date;
+    startsAtLabel: string;
     customerName: string | null;
   }[];
 };
 
-export async function getDashboardData(userId: string): Promise<DashboardData> {
-  const membership = await prisma.membership.findFirst({
-    where: { userId },
-    select: { orgId: true, org: { select: { name: true } } },
-  });
+function formatCurrency(cents: number, locale: AppLocale) {
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: "BRL",
+  }).format(cents / 100);
+}
 
-  if (!membership) {
+function formatDateTime(value: Date, locale: AppLocale) {
+  return new Intl.DateTimeFormat(locale, {
+    timeZone: "America/Sao_Paulo",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(value);
+}
+
+export async function getDashboardData(
+  userId: string,
+  locale: AppLocale = "pt-BR",
+): Promise<DashboardData> {
+  let tenantContext: Awaited<ReturnType<typeof getTenantContext>>;
+
+  try {
+    tenantContext = await getTenantContext(userId);
+  } catch {
     return {
       orgName: "Minha Empresa",
       kpis: {
-        monthlyRevenueCents: 0,
+        monthlyRevenueLabel: formatCurrency(0, locale),
         monthlyRevenueDeltaPct: 0,
         activeClients: 0,
         newClientsThisMonth: 0,
@@ -52,8 +74,8 @@ export async function getDashboardData(userId: string): Promise<DashboardData> {
     };
   }
 
-  const orgId = membership.orgId;
-  const orgName = membership.org?.name ?? "Minha Empresa";
+  const orgId = tenantContext.orgId;
+  const orgName = tenantContext.org.name;
 
   const now = new Date();
   const monthStart = startOfMonth(now);
@@ -155,15 +177,15 @@ export async function getDashboardData(userId: string): Promise<DashboardData> {
 
   const upcomingServices = upcoming.map((a) => ({
     id: a.id,
-    startsAt: a.startsAt,
-    title: a.serviceOrder?.title ?? "Serviço",
+    startsAtLabel: formatDateTime(a.startsAt, locale),
+    title: a.serviceOrder?.title ?? (locale === "en" ? "Service" : "Serviço"),
     customerName: a.serviceOrder?.customer?.name ?? null,
   }));
 
   return {
     orgName,
     kpis: {
-      monthlyRevenueCents: thisMonth,
+      monthlyRevenueLabel: formatCurrency(thisMonth, locale),
       monthlyRevenueDeltaPct: deltaPct,
       activeClients,
       newClientsThisMonth,
@@ -171,7 +193,11 @@ export async function getDashboardData(userId: string): Promise<DashboardData> {
       servicesCompletedThisWeek,
       pendingIssues,
     },
-    recentActivity,
+    recentActivity: recentActivity.map((item) => ({
+      id: item.id,
+      message: item.message,
+      createdAtLabel: formatDateTime(item.createdAt, locale),
+    })),
     upcomingServices,
   };
 }

@@ -1,0 +1,178 @@
+{
+  "pageTitle": "Relatórios",
+  "pageSubtitle": "Uma leitura executiva do tenant ativo, combinando financeiro, clientes, serviços e agenda de {orgName}.",
+  "generatedAt": "Período: {period} • Gerado em {generatedAt}",
+  "actions": {
+    "export": "Exportar CSV",
+    "apply": "Aplicar filtros",
+    "clear": "Limpar"
+  },
+  "print": {
+    "badge": "Impressão A4",
+    "title": "Relatório imprimível e montável",
+    "description": "Monte um documento em folha A4 selecionando exatamente os blocos que entram no relatório. A prévia abaixo já respeita paginação e quebra de página para impressão.",
+    "defaultTitle": "Relatório executivo de {orgName}",
+    "titleField": "Título do relatório",
+    "selected": "Selecionado",
+    "notSelected": "Opcional",
+    "empty": "Selecione ao menos um bloco para gerar a pré-visualização imprimível.",
+    "actions": {
+      "print": "Imprimir A4",
+      "resetTitle": "Restaurar título",
+      "clearSelection": "Limpar seleção"
+    },
+    "presets": {
+      "executive": "Executivo",
+      "finance": "Financeiro",
+      "operations": "Operação",
+      "complete": "Completo"
+    },
+    "meta": {
+      "selectedSections": "{count} blocos selecionados",
+      "pages": "{count} páginas estimadas",
+      "rules": "Quebras aplicadas por página A4",
+      "pageNumber": "Página {page} de {total}"
+    },
+    "cover": {
+      "badge": "Documento pronto para impressão",
+      "description": "Este material reúne os indicadores e recortes escolhidos para {orgName}, em um formato adequado para folha A4 e distribuição impressa.",
+      "organization": "Organização",
+      "focus": "Foco do relatório",
+      "period": "Período analisado",
+      "generatedAt": "Gerado em",
+      "sectionsTitle": "Blocos incluídos"
+    },
+    "summary": {
+      "title": "Resumo executivo"
+    },
+    "trends": {
+      "title": "Variações contra o período anterior",
+      "previous": "Período anterior"
+    },
+    "monthlyTable": {
+      "month": "Mês",
+      "balance": "Saldo"
+    },
+    "categories": {
+      "title": "Categorias financeiras"
+    },
+    "statusTable": {
+      "status": "Status",
+      "count": "Quantidade"
+    },
+    "charts": {
+      "monthlyAriaLabel": "Gráfico mensal de receitas, despesas e saldo",
+      "categoriesAriaLabel": "Gráfico de categorias de receita e despesa",
+      "serviceStatusAriaLabel": "Gráfico de distribuição de serviços por status",
+      "topCustomersAriaLabel": "Gráfico de receita por cliente"
+    },
+    "sections": {
+      "cover": {
+        "label": "Capa e contexto",
+        "description": "Página inicial com título, organização, foco e período."
+      },
+      "summary": {
+        "label": "Resumo executivo",
+        "description": "KPIs principais para leitura rápida."
+      },
+      "trends": {
+        "label": "Variações",
+        "description": "Comparativo contra o período anterior."
+      },
+      "attention": {
+        "label": "Pontos de atenção",
+        "description": "Alertas e sinais que merecem acompanhamento."
+      },
+      "monthlySeries": {
+        "label": "Série mensal",
+        "description": "Tabela mensal de receitas, despesas e saldo."
+      },
+      "categories": {
+        "label": "Categorias financeiras",
+        "description": "Resumo por categoria de receita e despesa."
+      },
+      "serviceStatus": {
+        "label": "Funil operacional",
+        "description": "Quantitativo por status de serviço."
+      },
+      "upcomingAppointments": {
+        "label": "Próximos atendimentos",
+        "description": "Agenda futura para anexar ao relatório."
+      },
+      "topCustomers": {
+        "label": "Clientes mais relevantes",
+        "description": "Ranking de clientes no período."
+      },
+      "overdue": {
+        "label": "Pendências vencidas",
+        "description": "Itens financeiros vencidos e ainda pendentes."
+      }
+    }
+  },
+  "hero": {
+    "badge": "Cockpit analítico"
+  },
+  "filters": {
+    "title": "Recorte do relatório",
+    "description": "A visão abaixo é calculada no servidor com base na organização ativa e não depende de `orgId` vindo do client.",
+    "range": "Janela",
+    "focus": "Foco",
+    "range30d": "Últimos 30 dias",
+    "range90d": "Últimos 90 dias",
+    "range365d": "Últimos 12 meses",
+    "focusOverview": "Visão geral",
+    "focusFinance": "Financeiro",
+    "focusOperations": "Operação"
+  },
+  "kpis": {
+    "receivedRevenue": "Receita recebida",
+    "paidExpenses": "Despesas pagas",
+    "netResult": "Resultado líquido",
+    "avgTicket": "Ticket médio",
+    "activeCustomers": "Clientes ativos",
+    "completionRate": "Taxa de conclusão"
+  },
+  "trends": {
+    "revenue": "Receita vs. período anterior",
+    "expenses": "Despesas vs. período anterior",
+    "net": "Resultado líquido vs. período anterior",
+    "customers": "Novos clientes vs. período anterior"
+  },
+  "attention": {
+    "title": "Pontos de atenção",
+    "empty": "Nenhum alerta crítico apareceu para o recorte atual."
+  },
+  "snapshot": {
+    "title": "Resumo rápido",
+    "newCustomers": "Novos clientes no período",
+    "scheduledLoad": "Próximos agendamentos / agendamentos no período",
+    "period": "Janela analisada"
+  },
+  "finance": {
+    "monthlyTitle": "Desempenho mensal",
+    "monthlySubtitle": "Receitas, despesas e saldo agrupados por mês dentro do recorte atual.",
+    "balance": "Saldo: {value}",
+    "income": "Receitas",
+    "expense": "Despesas",
+    "incomeCategories": "Categorias de receita",
+    "expenseCategories": "Categorias de despesa",
+    "transactionsCount": "{count} lançamentos",
+    "emptyCategories": "Não há categorias com pagamentos no recorte atual.",
+    "overdueTitle": "Pendências vencidas",
+    "emptyOverdue": "Nenhum lançamento pendente vencido até agora.",
+    "overdueLine": "{type} • {contact} • vencimento em {dueAt}",
+    "overdueLineNoContact": "{type} • vencimento em {dueAt}"
+  },
+  "operations": {
+    "statusTitle": "Funil operacional",
+    "upcomingTitle": "Próximos atendimentos",
+    "emptyUpcoming": "Nenhum atendimento agendado para os próximos 30 dias.",
+    "customerLine": "{customer} • {startsAt}",
+    "topCustomersTitle": "Clientes mais relevantes no período",
+    "emptyCustomers": "Nenhum cliente relevante encontrado para o período atual.",
+    "customer": "Cliente",
+    "services": "Serviços",
+    "revenue": "Valor",
+    "lastService": "Último serviço"
+  }
+}

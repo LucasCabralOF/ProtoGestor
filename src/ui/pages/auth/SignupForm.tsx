@@ -55,7 +55,7 @@ function extractServerError(value: unknown): string | null {
 }
 
 export function SignupForm() {
-  const t = useTranslations("common");
+  const t = useTranslations("auth");
   const router = useRouter();
 
   const [form] = Form.useForm<SignupValues>();
@@ -71,7 +71,7 @@ export function SignupForm() {
         name: values.name,
         email: values.email,
         pass: values.pass,
-        callbackURL: "/dashboard",
+        callbackURL: "/onboarding",
       });
 
       const fieldErrors = extractFieldErrors(result);
@@ -100,7 +100,7 @@ export function SignupForm() {
         return;
       }
 
-      router.push("/dashboard");
+      router.push("/onboarding");
     } finally {
       setLoading(false);
     }
@@ -129,7 +129,7 @@ export function SignupForm() {
             <Form.Item
               name="name"
               label={t("name")}
-              rules={[{ required: true, message: "Informe seu nome." }]}
+              rules={[{ required: true, message: t("nameRequired") }]}
             >
               <Input testid="signup-name" />
             </Form.Item>
@@ -138,8 +138,8 @@ export function SignupForm() {
               name="email"
               label={t("email")}
               rules={[
-                { required: true, message: "Informe seu email." },
-                { type: "email", message: "Email inválido." },
+                { required: true, message: t("emailRequired") },
+                { type: "email", message: t("emailInvalid") },
               ]}
             >
               <Input testid="signup-email" />
@@ -149,8 +149,8 @@ export function SignupForm() {
               name="pass"
               label={t("password")}
               rules={[
-                { required: true, message: "Informe sua senha." },
-                { min: 8, message: "Senha deve ter no mínimo 8 caracteres." },
+                { required: true, message: t("passwordRequired") },
+                { min: 8, message: t("passwordMin") },
               ]}
             >
               <Password testid="signup-password" />

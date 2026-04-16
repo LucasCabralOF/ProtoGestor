@@ -54,7 +54,7 @@ function extractServerError(value: unknown): string | null {
 }
 
 export function LoginForm() {
-  const t = useTranslations("common");
+  const t = useTranslations("auth");
   const router = useRouter();
 
   const [form] = Form.useForm<LoginValues>();
@@ -128,8 +128,8 @@ export function LoginForm() {
               name="email"
               label={t("email")}
               rules={[
-                { required: true, message: "Informe seu email." },
-                { type: "email", message: "Email inválido." },
+                { required: true, message: t("emailRequired") },
+                { type: "email", message: t("emailInvalid") },
               ]}
             >
               <Input testid="login-email" />
@@ -139,8 +139,8 @@ export function LoginForm() {
               name="pass"
               label={t("password")}
               rules={[
-                { required: true, message: "Informe sua senha." },
-                { min: 8, message: "Senha deve ter no mínimo 8 caracteres." },
+                { required: true, message: t("passwordRequired") },
+                { min: 8, message: t("passwordMin") },
               ]}
             >
               <Password testid="login-password" />

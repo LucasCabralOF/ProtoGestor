@@ -1,0 +1,178 @@
+{
+  "pageTitle": "Reports",
+  "pageSubtitle": "An executive read of the active tenant, combining finance, customers, services, and scheduling for {orgName}.",
+  "generatedAt": "Period: {period} • Generated at {generatedAt}",
+  "actions": {
+    "export": "Export CSV",
+    "apply": "Apply filters",
+    "clear": "Clear"
+  },
+  "print": {
+    "badge": "A4 printing",
+    "title": "Printable and configurable report",
+    "description": "Build an A4 document by selecting exactly which blocks should appear in the report. The preview below already respects pagination and page breaks for printing.",
+    "defaultTitle": "Executive report for {orgName}",
+    "titleField": "Report title",
+    "selected": "Selected",
+    "notSelected": "Optional",
+    "empty": "Select at least one block to generate the printable preview.",
+    "actions": {
+      "print": "Print A4",
+      "resetTitle": "Reset title",
+      "clearSelection": "Clear selection"
+    },
+    "presets": {
+      "executive": "Executive",
+      "finance": "Finance",
+      "operations": "Operations",
+      "complete": "Complete"
+    },
+    "meta": {
+      "selectedSections": "{count} selected blocks",
+      "pages": "{count} estimated pages",
+      "rules": "A4 page-break rules applied",
+      "pageNumber": "Page {page} of {total}"
+    },
+    "cover": {
+      "badge": "Print-ready document",
+      "description": "This material consolidates the chosen indicators and slices for {orgName} in a format suitable for A4 paper and printed sharing.",
+      "organization": "Organization",
+      "focus": "Report focus",
+      "period": "Analyzed period",
+      "generatedAt": "Generated at",
+      "sectionsTitle": "Included blocks"
+    },
+    "summary": {
+      "title": "Executive summary"
+    },
+    "trends": {
+      "title": "Changes against previous period",
+      "previous": "Previous period"
+    },
+    "monthlyTable": {
+      "month": "Month",
+      "balance": "Balance"
+    },
+    "categories": {
+      "title": "Financial categories"
+    },
+    "statusTable": {
+      "status": "Status",
+      "count": "Count"
+    },
+    "charts": {
+      "monthlyAriaLabel": "Monthly chart for revenue, expenses, and balance",
+      "categoriesAriaLabel": "Chart for revenue and expense categories",
+      "serviceStatusAriaLabel": "Service status distribution chart",
+      "topCustomersAriaLabel": "Revenue by customer chart"
+    },
+    "sections": {
+      "cover": {
+        "label": "Cover and context",
+        "description": "Opening page with title, organization, focus, and period."
+      },
+      "summary": {
+        "label": "Executive summary",
+        "description": "Main KPIs for quick reading."
+      },
+      "trends": {
+        "label": "Changes",
+        "description": "Comparison against the previous period."
+      },
+      "attention": {
+        "label": "Attention points",
+        "description": "Alerts and signals that need follow-up."
+      },
+      "monthlySeries": {
+        "label": "Monthly series",
+        "description": "Monthly table of revenue, expenses, and balance."
+      },
+      "categories": {
+        "label": "Financial categories",
+        "description": "Summary by revenue and expense categories."
+      },
+      "serviceStatus": {
+        "label": "Operational funnel",
+        "description": "Service counts by status."
+      },
+      "upcomingAppointments": {
+        "label": "Upcoming appointments",
+        "description": "Future schedule to attach to the report."
+      },
+      "topCustomers": {
+        "label": "Top customers",
+        "description": "Customer ranking for the period."
+      },
+      "overdue": {
+        "label": "Overdue items",
+        "description": "Financial items overdue and still pending."
+      }
+    }
+  },
+  "hero": {
+    "badge": "Analytics cockpit"
+  },
+  "filters": {
+    "title": "Report scope",
+    "description": "The view below is computed on the server from the active organization and does not rely on `orgId` from the client.",
+    "range": "Window",
+    "focus": "Focus",
+    "range30d": "Last 30 days",
+    "range90d": "Last 90 days",
+    "range365d": "Last 12 months",
+    "focusOverview": "Overview",
+    "focusFinance": "Finance",
+    "focusOperations": "Operations"
+  },
+  "kpis": {
+    "receivedRevenue": "Received revenue",
+    "paidExpenses": "Paid expenses",
+    "netResult": "Net result",
+    "avgTicket": "Average ticket",
+    "activeCustomers": "Active customers",
+    "completionRate": "Completion rate"
+  },
+  "trends": {
+    "revenue": "Revenue vs previous period",
+    "expenses": "Expenses vs previous period",
+    "net": "Net result vs previous period",
+    "customers": "New customers vs previous period"
+  },
+  "attention": {
+    "title": "Attention points",
+    "empty": "No critical alerts showed up for the current scope."
+  },
+  "snapshot": {
+    "title": "Quick snapshot",
+    "newCustomers": "New customers in period",
+    "scheduledLoad": "Upcoming appointments / appointments in period",
+    "period": "Analyzed window"
+  },
+  "finance": {
+    "monthlyTitle": "Monthly performance",
+    "monthlySubtitle": "Revenue, expenses, and balance grouped by month inside the current scope.",
+    "balance": "Balance: {value}",
+    "income": "Revenue",
+    "expense": "Expenses",
+    "incomeCategories": "Revenue categories",
+    "expenseCategories": "Expense categories",
+    "transactionsCount": "{count} entries",
+    "emptyCategories": "There are no paid categories in the current scope.",
+    "overdueTitle": "Overdue items",
+    "emptyOverdue": "There are no overdue pending entries right now.",
+    "overdueLine": "{type} • {contact} • due on {dueAt}",
+    "overdueLineNoContact": "{type} • due on {dueAt}"
+  },
+  "operations": {
+    "statusTitle": "Operational funnel",
+    "upcomingTitle": "Upcoming appointments",
+    "emptyUpcoming": "No scheduled appointments for the next 30 days.",
+    "customerLine": "{customer} • {startsAt}",
+    "topCustomersTitle": "Most relevant customers in period",
+    "emptyCustomers": "No relevant customers found for the current period.",
+    "customer": "Customer",
+    "services": "Services",
+    "revenue": "Value",
+    "lastService": "Last service"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "badge": "Setup inicial",
+  "title": "Vamos criar sua organização, {userName}",
+  "subtitle": "Seu primeiro workspace ativa o tenant principal do painel e libera os módulos privados do produto.",
+  "benefits": {
+    "ownerTitle": "Você entra como owner",
+    "ownerDescription": "A primeira organização já nasce vinculada à sua conta com acesso completo para configurar o ambiente.",
+    "tenantTitle": "O tenant ativo fica pronto",
+    "tenantDescription": "Assim que a organização for criada, definimos o tenant ativo e você já segue para o dashboard."
+  },
+  "form": {
+    "eyebrow": "Primeiro passo",
+    "title": "Crie a organização principal",
+    "subtitle": "Você poderá adicionar mais organizações e convidar outras pessoas nas próximas etapas do produto.",
+    "signedAs": "Logado como {email}",
+    "nameLabel": "Nome da organização",
+    "namePlaceholder": "Ex: Brilho Clean",
+    "nameRequired": "Informe o nome da organização.",
+    "nameMin": "Use pelo menos 2 caracteres.",
+    "slugPreviewLabel": "Slug inicial",
+    "slugPreviewEmpty": "Digite o nome para gerar o slug automaticamente.",
+    "submit": "Criar organização",
+    "submitting": "Criando..."
+  }
+}

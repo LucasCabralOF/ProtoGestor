@@ -1,0 +1,16 @@
+{
+  "title": "Welcome, {userName}!",
+  "subtitle": "Here is an overview of your cleaning business",
+  "monthlyRevenue": "Monthly revenue",
+  "vsLastMonth": "{prefix}{value}% from last month",
+  "activeClients": "Active clients",
+  "newClientsThisMonth": "{value} new this month",
+  "servicesThisWeek": "Services this week",
+  "servicesWeekSummary": "{completed} completed, {pending} pending",
+  "growthRate": "Growth rate",
+  "recentActivity": "Recent activity",
+  "noRecentActivity": "No recent activity",
+  "upcomingServices": "Upcoming services",
+  "viewAll": "View all",
+  "noUpcomingServices": "No scheduled services"
+}

@@ -13,7 +13,7 @@ const BaseClientSchema = z.object({
   name: z.string().min(2, "Nome é obrigatório"),
   legalName: z.string().optional().nullable(),
   document: z.string().optional().nullable(),
-  email: z.string().email("E-mail inválido").optional().nullable(),
+  email: z.email("E-mail inválido").optional().nullable(),
   phone: z.string().optional().nullable(),
   whatsapp: z.string().optional().nullable(),
   notes: z.string().optional().nullable(),
@@ -26,11 +26,13 @@ const BaseClientSchema = z.object({
 });
 
 export const createClientAction = actionClient
-  .schema(BaseClientSchema)
+  .inputSchema(BaseClientSchema)
   .action(async ({ parsedInput }) => {
     const { orgId } = await requireOrgId();
 
     const created = await prisma.$transaction(async (tx) => {
+      const line1 = parsedInput.addressLine1?.trim() || null;
+
       const c = await tx.contact.create({
         data: {
           orgId,
@@ -53,14 +55,13 @@ export const createClientAction = actionClient
         select: { id: true },
       });
 
-      const hasAddress = Boolean(parsedInput.addressLine1?.trim());
-      if (hasAddress) {
+      if (line1) {
         await tx.address.create({
           data: {
             orgId,
             contactId: c.id,
             label: parsedInput.type === "company" ? "Empresa" : "Principal",
-            line1: parsedInput.addressLine1?.trim(),
+            line1,
             line2: parsedInput.addressLine2?.trim() || null,
             city: parsedInput.city?.trim() || null,
             state: parsedInput.state?.trim() || null,
@@ -78,7 +79,7 @@ export const createClientAction = actionClient
   });
 
 export const updateClientAction = actionClient
-  .schema(
+  .inputSchema(
     BaseClientSchema.extend({
       id: z.string().min(1),
     }),
@@ -156,7 +157,7 @@ export const updateClientAction = actionClient
   });
 
 export const setClientActiveAction = actionClient
-  .schema(
+  .inputSchema(
     z.object({
       id: z.string().min(1),
       isActive: z.boolean(),

@@ -1,0 +1,25 @@
+{
+  "badge": "Initial setup",
+  "title": "Let's create your organization, {userName}",
+  "subtitle": "Your first workspace activates the main tenant for the admin panel and unlocks the private product modules.",
+  "benefits": {
+    "ownerTitle": "You start as the owner",
+    "ownerDescription": "Your first organization is linked to your account with full access to configure the workspace.",
+    "tenantTitle": "The active tenant is ready",
+    "tenantDescription": "As soon as the organization is created, we set the active tenant and send you straight to the dashboard."
+  },
+  "form": {
+    "eyebrow": "First step",
+    "title": "Create your main organization",
+    "subtitle": "You will be able to add more organizations and invite other people in the next product steps.",
+    "signedAs": "Signed in as {email}",
+    "nameLabel": "Organization name",
+    "namePlaceholder": "Example: Bright Clean",
+    "nameRequired": "Enter the organization name.",
+    "nameMin": "Use at least 2 characters.",
+    "slugPreviewLabel": "Initial slug",
+    "slugPreviewEmpty": "Type the name to generate the slug automatically.",
+    "submit": "Create organization",
+    "submitting": "Creating..."
+  }
+}

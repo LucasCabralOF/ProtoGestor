@@ -1,199 +1,209 @@
 # AGENTS.md
 
-## Contexto
-Protótipo SaaS multi-tenant em Next.js 16.1.x com App Router, TypeScript, Tailwind v4, Ant Design v6.3, Better Auth, Prisma v7 e `next-safe-action`.
+## Contexto Atual
+Protótipo SaaS multi-tenant em Next.js, rodando na raiz do repositório (sem `/web`), com App Router e DevContainer baseado em Docker Compose.
 
-O app roda na raiz do repositório, sem subpasta `/web`.
-
-Ambiente atual:
-- App em `http://localhost:3001`
-- Postgres local via DevContainer em `localhost:5433`
-- Workspace principal em `/home/app`
-- Alias de import: `@/* -> src/*`
+Ambiente local atual:
+- App: porta `3001`
+- Postgres 16: container local, exposto em `5433`
+- Prisma Studio: script usa porta `5556`
+- Workspace do DevContainer: `/home/app`
 
 ## Stack Atual
-- Next.js `^16.1.6`
+- Next.js `16.1.6`
 - React `19.2.0`
 - TypeScript `strict`
-- Tailwind CSS v4 via `@import "tailwindcss"`
+- Tailwind CSS `4.2.x` com tokens via CSS variables em [`src/app/globals.css`](/home/app/src/app/globals.css)
 - Ant Design `6.3.0`
-- `@ant-design/nextjs-registry`
 - `next-intl` `4.8.0`
-- Better Auth `^1.4.18`
-- Prisma `7.3.0` + `@prisma/adapter-pg`
-- `pg`
-- Zustand `5`
-- Zod `4`
-- `next-safe-action` `8`
-- Biome `2`
-- Vitest `4`
-
-## Estrutura do Projeto
-- `src/app/*`: rotas App Router
-- `src/app/(private)/*`: áreas autenticadas
-- `src/app/(public)/*`: login e signup
-- `src/app/api/*`: auth e locale
-- `src/actions/*`: server actions com `next-safe-action`
-- `src/lib/*`: auth, prisma e queries server-side
-- `src/ui/base/*`: wrappers tipados do AntD
-- `src/ui/providers/*`: providers globais
-- `src/ui/pages/*`: páginas e shells client-side
-- `src/stores/*`: Zustand
-- `src/utils/*`: constantes e i18n
-- `src/prisma/*`: schema, migrations e seed
-- `src/prisma/models/*`: schema Prisma modularizado por domínio
+- Better Auth `1.4.18` com email/senha
+- Prisma `7.7.0` + `@prisma/adapter-pg` + `pg.Pool`
+- `next-safe-action` `8.0.0`
+- Zustand `5.0.0`
+- Biome `2.3.14`
+- Vitest + Testing Library
+- Playwright `1.59.x` para smoke/E2E
 
 ## Arquitetura Atual
-- `src/app/layout.tsx` resolve locale/messages no server, lê cookies e injeta `Providers`.
-- `src/ui/providers/Providers.tsx` compõe `NextIntlClientProvider`, `AntdRegistry` e `ClientProviders`.
-- `src/ui/providers/ClientProviders.tsx` hidrata Zustand 1x, sincroniza cookies e aplica/remove `.dark` no `<html>`.
-- `src/app/(private)/layout.tsx` protege rotas privadas via Better Auth e entrega o `user` ao `PrivateShell`.
-- Multi-tenant é resolvido no server por `requireOrgId()` em `src/lib/auth-tenant.ts`.
-- Prisma usa `pg.Pool` + `PrismaPg` e mantém singleton em desenvolvimento.
+- Providers encadeados em [`src/ui/providers/Providers.tsx`](/home/app/src/ui/providers/Providers.tsx):
+  `NextIntlClientProvider` -> `AntdRegistry` -> `ClientProviders`
+- [`src/ui/providers/ClientProviders.tsx`](/home/app/src/ui/providers/ClientProviders.tsx):
+  hidrata Zustand 1x com `appSettings` e `user`, trata a store como fonte da verdade, aplica/remove `.dark` no `<html>` e persiste `NEXT_LOCALE` e `APP_THEME`
+- Tema AntD centralizado em [`src/utils/constants.ts`](/home/app/src/utils/constants.ts), com `THEMES_ANTD` e `LOCALES_ANTD` baseados em CSS vars
+- Auth server-side em [`src/lib/auth.ts`](/home/app/src/lib/auth.ts) com Better Auth + `nextCookies()`
+- Contexto tenant em [`src/lib/auth-tenant.ts`](/home/app/src/lib/auth-tenant.ts):
+  a organização ativa vem de membership do usuário autenticado e do cookie `ACTIVE_ORG_ID`
+- Helper de contexto de páginas privadas em [`src/lib/private-context.ts`](/home/app/src/lib/private-context.ts)
+- Prisma singleton em [`src/lib/prisma.ts`](/home/app/src/lib/prisma.ts), usando `PrismaPg(pool)` com `pg.Pool` reaproveitado em dev
 
-## Rotas Reais do Projeto
-- `/` redireciona para `/dashboard` se houver sessão; senão `/login`
-- `/login`
-- `/signup`
-- `/dashboard`
-- `/clients`
-- `/clients/export`
-- `/clients/import`
-- `/api/auth/[...all]`
-- `/api/locale`
+## Rotas Atuais
+- `/`: redireciona para `/dashboard` se houver sessão; senão `/login`
+- Públicas:
+  - `/login`
+  - `/signup`
+  - `/api/auth/[...all]`
+  - `/api/locale`
+- Privadas:
+  - `/dashboard`
+  - `/clients`
+  - `/projects`
+  - `/settings`
+- Rotas HTTP ligadas a clientes:
+  - `/clients/export`
+  - `/clients/import`
 
-## Internacionalização
-- Não usar middleware.
-- Não usar rota dinâmica `[locale]`.
-- Locale vem de cookie `NEXT_LOCALE`.
-- Configuração central em `src/utils/i18n.ts`.
-- Locales atuais: `pt-BR` e `en`.
-- Hoje o `getRequestConfig` carrega `common.json`; arquivos adicionais como `auth.json` existem, mas precisam ser conectados explicitamente se forem usados.
+## Prisma e Domínio
+Schema distribuído entre:
+- [`src/prisma/schema.prisma`](/home/app/src/prisma/schema.prisma): modelos do Better Auth
+- [`src/prisma/models/org.prisma`](/home/app/src/prisma/models/org.prisma)
+- [`src/prisma/models/rbac.prisma`](/home/app/src/prisma/models/rbac.prisma)
+- [`src/prisma/models/contacts.prisma`](/home/app/src/prisma/models/contacts.prisma)
+- [`src/prisma/models/services.prisma`](/home/app/src/prisma/models/services.prisma)
+- [`src/prisma/models/schedule.prisma`](/home/app/src/prisma/models/schedule.prisma)
+- [`src/prisma/models/finance.prisma`](/home/app/src/prisma/models/finance.prisma)
+- [`src/prisma/models/audit.prisma`](/home/app/src/prisma/models/audit.prisma)
 
-## Tema e UI
-- Tema global baseado em CSS variables em `src/app/globals.css`.
-- `THEMES_ANTD` e `LOCALES_ANTD` ficam em `src/utils/constants.ts`.
-- `ClientProviders` é a fonte de verdade para tema/locale no client.
-- Use wrappers em `src/ui/base/*` para Button, Card, Input, Form e afins.
-- Ícones preferenciais: `react-icons`.
-- Tailwind deve consumir tokens CSS já existentes antes de introduzir novas cores.
+Modelagem atual:
+- Multi-tenant via `Organization` + `Membership`
+- Contatos via `Contact`, `ContactRole`, `Address`, `Tag`, `ContactTagLink`
+- Serviços via `ServiceOrder` + `ServiceOrderItem`
+- Agenda via `Appointment` + `CalendarBlock`
+- Financeiro via `Transaction`, `FinancialAccount`, `Category`
+- Auditoria via `ActivityLog`
 
-## Auth e Tenant
-- Auth via Better Auth com email/senha.
-- Session é lida no server.
-- `orgId` nunca deve vir do client.
-- Sempre resolver tenant a partir de `Membership` do usuário autenticado.
-- Helpers canônicos:
-  - `requireUserId()`
-  - `requireOrgId()`
+Seed atual em [`src/prisma/seed.ts`](/home/app/src/prisma/seed.ts):
+- cria usuário demo
+- cria duas organizações (`org_demo` e `org_branch`)
+- cria memberships
+- popula contatos, tags, financeiro, serviço, agendamento e atividade recente
 
-## Prisma e Dados
-- Schema Prisma está em `src/prisma/schema.prisma` com modelos fragmentados em `src/prisma/models/*`.
-- Seed em `src/prisma/seed.ts` cria:
-  - usuário demo
-  - organização demo
-  - membership owner
-  - clientes, tags, financeiro, service order, appointments e activity log de exemplo
-- O projeto já possui migrations versionadas em `src/prisma/migrations/*`.
-
-## Convenções Operacionais
-1. AntD v6:
-- Proibido importar `antd` fora de `src/ui/base/*` e `src/ui/providers/*`.
-- Sempre preferir wrappers.
-
-2. Barrel exports:
-- Não criar `index.ts` agregador de exports.
-
-3. React:
-- Não usar `import React from "react"`.
-
-4. Server/client boundary:
-- `prisma`, `auth`, `headers`, `cookies` e queries sensíveis ficam no server.
-- Client component não deve acessar APIs server-only.
-
-5. Datas:
-- Formatar datas do banco no server.
-- Evitar `toLocaleString()` no client para dados vindos do banco.
-- O projeto já usa formatação server-side em partes como `src/lib/clients.ts`.
-
-6. Query string:
-- Para filtros e busca, usar `usePathname()`, `useSearchParams()` e `router.replace()`.
-- Não hardcode a rota atual quando o componente puder ser reutilizado.
-
-7. Actions:
-- Mutations devem usar `next-safe-action`.
-- Validar input com Zod.
-- Após mutation, usar `router.refresh()` no client e `revalidatePath()` quando fizer sentido no server.
-
-8. Acessibilidade:
-- Com wrappers do AntD, preferir `aria-labelledby` com ids estáveis.
-- Evitar depender de `<label>` envolvendo componentes wrapper quando isso conflitar com lint/a11y.
-
-9. Estilo:
-- `Card` do AntD v6 deve usar `styles={{ body: ... }}` em vez de `bodyStyle`.
-- Evitar hardcode de cores sem necessidade.
-
-10. DevContainer:
-- Não persistir `.next` como volume.
-- App exposto na porta `3001`.
-- Banco exposto na porta `5433`.
-
-## Regras Importantes para Next 16
-- `headers()` e `cookies()` são assíncronos.
-- Quando a API exigir objeto simples, converter `Headers` para `Record<string, string>`.
-- O helper de referência está em `src/lib/auth-tenant.ts`.
-
-## Domínios Já Mapeados
-- Auth / RBAC
-- Organization / Membership
-- Contacts
-- Tags
-- Addresses
-- Services / Schedule
-- Finance
-- Audit / ActivityLog
-
-## Estado Atual
-- Dashboard funcional com KPIs, atividade recente e próximos serviços.
-- Módulo de clientes funcional com:
-  - listagem
-  - filtros por querystring
-  - criação
-  - edição
+## Status Atual do Produto
+- Login, signup e guard privado funcionando
+- Troca de organização ativa funcionando por cookie `ACTIVE_ORG_ID`
+- Dashboard funcional com dados da seed
+- Clientes funcional com:
+  - busca por querystring
+  - filtros de status e recorrência
+  - modal de criação/edição
   - ativação/inativação
-  - export CSV
-  - import CSV
-- Store global já cobre `theme`, `locale` e `user`.
-- `README.md` ainda está no template padrão do Next e não descreve o projeto real.
+  - import/export CSV
+- Projetos existe como módulo placeholder com navegação pronta
+- Settings já permite trocar tema e idioma e exibe contexto da conta/organização
+- Schema de agenda, serviços, financeiro e auditoria já existe, mas a UI ainda não foi construída
+- Há testes unitários para utilitários de tenant e navegação
 
-## Scripts Úteis
-- `npm run dev`
-- `npm run build`
-- `npm run start`
-- `npm run check`
-- `npm run check:ci`
-- `npm run check:fix`
-- `npm run check:locales`
-- `npm run db:generate`
-- `npm run db:migrate:dev`
-- `npm run db:migrate:deploy`
-- `npm run db:push`
-- `npm run db:reset`
-- `npm run db:studio`
-- `npm run test:unit`
+## Observações Importantes do Estado Atual
+- `next-intl` continua sem middleware e sem rota dinâmica `[locale]`; locale vem de cookie `NEXT_LOCALE`
+- [`src/utils/i18n.ts`](/home/app/src/utils/i18n.ts) atualmente carrega apenas o namespace `common`
+  se uma tela nova precisar de `auth` ou outro namespace, atualize essa config
+- Há dois helpers de safe action hoje:
+  - [`src/actions/safe.ts`](/home/app/src/actions/safe.ts)
+  - [`src/actions/safeActions.ts`](/home/app/src/actions/safeActions.ts)
+  não criar um terceiro padrão
+- O dashboard ainda formata moeda/data no client em alguns pontos
+  trate isso como débito técnico, não como padrão a ser repetido
 
-## Checklist Antes de Alterar Código
-- Importei AntD direto fora de wrappers/providers? Não.
-- Criei barrel export? Não.
-- Coloquei lógica server-only em client component? Não.
-- Recebi `orgId` do client? Não.
-- Formatei data de banco no client? Não.
-- Hardcodei pathname onde deveria usar o caminho atual? Não.
-- Usei mutation fora de `next-safe-action` sem motivo forte? Não.
-- Usei `bodyStyle` em `Card`? Não.
+## Regras Obrigatórias
+1) AntD `6.3`
+- Não importar `antd` diretamente em páginas, features ou componentes de negócio
+- Imports diretos de runtime ficam restritos a:
+  - `src/ui/base/*`
+  - `src/ui/providers/*`
+  - [`src/utils/constants.ts`](/home/app/src/utils/constants.ts) para bridge de theme/locale
+- Import type-only direto deve ser exceção pontual, não regra
+- Fora desses pontos, usar wrappers
 
-## Observações para Próximas Tarefas
-- Preserve a separação entre dados server-side e rendering client-side.
-- Reaproveite componentes de `src/ui/pages` e wrappers de `src/ui/base` antes de criar novos.
-- Ao tocar em auth/sessão no Next 16, prefira seguir o padrão de `src/lib/auth-tenant.ts`.
-- Se adicionar novas telas privadas, mantenha o guard no grupo `(private)` e a resolução de tenant no server.
+2) Sem barrel exports
+- Não criar `index.ts` agregando exports
+
+3) Sem `import React from "react"`
+- Use imports nomeados de tipos/hooks quando necessário
+
+4) `next-intl`
+- Sem middleware
+- Sem rota `[locale]`
+- Locale sempre via cookie `NEXT_LOCALE`
+- Validar apenas `pt-BR` e `en`
+
+5) Server/Client boundaries
+- Prisma, auth, `headers()`, `cookies()` e helpers tenant são server-only
+- `headers()` e `cookies()` são async no Next 16
+- Quando alguma lib precisar de objeto simples, converter `Headers` para `Record<string, string>`
+- Evitar `toLocaleString` e formatação de datas do banco no client
+- Preferir strings já formatadas no server para evitar hydration mismatch
+
+6) Multi-tenant
+- `orgId` nunca vem do client
+- `orgId` sempre sai de membership do usuário autenticado
+- Reutilizar `requireOrgId()`, `getTenantContext()` e `getPrivatePageContext()`
+- A organização ativa é decidida no server com base em memberships + cookie `ACTIVE_ORG_ID`
+
+7) Actions e mutations
+- Preferir `next-safe-action` para mutations disparadas pela UI
+- Validar input com Zod
+- Após mutation, disparar `router.refresh()` no client e/ou `revalidatePath()` quando fizer sentido
+- Route Handlers são aceitáveis para fluxos HTTP nativos como upload/download CSV
+- Reaproveitar os helpers de action já existentes; não introduzir uma terceira variação
+
+8) UI e estilo
+- Tailwind v4 + CSS vars; evitar cores hardcoded sem motivo real
+- Preferir `react-icons`
+- Reusar wrappers e componentes existentes antes de criar novos
+- Preservar a linguagem visual atual do painel
+
+9) DevContainer
+- Não persistir `.next` em volume
+- Configuração atual fica em `.devcontainer/*`
+- Se houver problema de file watch em Docker/Windows/WSL, ajustar polling no `next.config.ts` só quando necessário
+
+10) Testes
+- Toda mudança de componente novo deve vir com teste relativo ao comportamento entregue
+- Componentes, hooks e utilitários novos ou alterados devem ter teste de unidade/integração com Vitest + Testing Library quando aplicável
+- Fluxos críticos alterados ou criados (auth, navegação privada, filtros, mutations, multi-tenant, rotas protegidas) devem ganhar cobertura E2E com Playwright
+- Antes de concluir uma tarefa, rodar ao menos os testes impactados; quando a mudança tocar navegação, auth, layout, páginas privadas ou fluxos principais, rodar `npm run test:unit` e `npm run test:e2e`
+- Se algum teste não puder ser executado, explicitar o motivo no handoff final
+
+11) Documentação
+- codigo deve ser bem documentado
+
+## Padrões Recomendados
+- Filtros por querystring:
+  - usar `usePathname()`, `useSearchParams()` e `router.replace()`
+  - não hardcode a rota atual para filtros/pesquisa
+- Páginas privadas:
+  - preferir o fluxo `page.tsx` server -> lib server-side -> componente client
+- A11y com wrappers:
+  - preferir `aria-labelledby` com `id` estável em vez de `<label>` envolvendo wrappers
+- AntD Card v6:
+  - `bodyStyle` está deprecated
+  - usar `styles={{ body: ... }}`
+- I18n:
+  - antes de usar um namespace novo, garantir que ele foi carregado em [`src/utils/i18n.ts`](/home/app/src/utils/i18n.ts)
+- Testes:
+  - preferir seletores estáveis (`data-testid`, `role`, `label`) para Playwright
+  - novas interações visuais relevantes devem considerar cobertura unitária e, se fizer sentido, smoke E2E
+
+## Checklist Antes de Enviar PR
+- Importei `antd` direto fora dos pontos permitidos? Não.
+- Criei `index.ts`? Não.
+- `orgId` veio do client? Não.
+- Usei Prisma/Auth/headers/cookies em client component? Não.
+- Copiei o padrão de formatar datas/moeda do banco no client? Não.
+- Navegação de filtros foi hardcoded? Não.
+- `Card` usa `bodyStyle`? Não.
+- Criei mais um helper de safe action? Não.
+- Adicionei namespace de tradução sem atualizar [`src/utils/i18n.ts`](/home/app/src/utils/i18n.ts)? Não.
+- Criei/atualizei testes relativos aos componentes e fluxos alterados? Sim.
+- Rodei `npm run test:unit` e `npm run test:e2e` quando houve impacto transversal? Sim.
+
+## Roadmap Imediato
+- Clientes:
+  - evoluir tags, UX do menu de ações, validações e import/export
+- Projetos:
+  - sair do placeholder e virar módulo real com escopo, etapas, responsáveis e progresso
+- Agenda/Serviços/Financeiro:
+  - construir UI em cima do schema já existente, mantendo as regras de tenant e server/client boundary
+- Dashboard:
+  - mover formatação de datas/moeda para o server
+- I18n:
+  - suportar namespaces além de `common` de forma consistente

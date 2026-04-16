@@ -9,13 +9,17 @@ import type { NavGroup } from "@/ui/pages/layout_private/nav";
 import { firstPath } from "@/ui/pages/layout_private/nav";
 
 export function MobileSidebar({
+  closeLabel,
   open,
   onClose,
   groups,
+  title,
 }: {
+  closeLabel: string;
   open: boolean;
   onClose: () => void;
   groups: NavGroup[];
+  title: string;
 }) {
   const pathname = usePathname();
   const current = firstPath(pathname);
@@ -28,7 +32,7 @@ export function MobileSidebar({
         placement="left"
         size="large"
         testid="mobile-sidebar"
-        title="Menu"
+        title={title}
       >
         <div className="h-full bg-(--color-base-4) flex flex-col">
           <div className="p-2">
@@ -72,7 +76,7 @@ export function MobileSidebar({
               onClick={onClose}
               className="w-full h-11 rounded-lg border border-(--color-border) hover:bg-(--color-base-3)"
             >
-              Fechar
+              {closeLabel}
             </button>
           </div>
         </div>

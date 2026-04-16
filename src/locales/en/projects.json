@@ -1,0 +1,72 @@
+{
+  "pageTitle": "Projects",
+  "pageSubtitle": "{userName}, here is the operational view of {orgName}: scope, progress, upcoming milestones, and quick links for execution without leaving the active tenant.",
+  "actions": {
+    "openServices": "Open services",
+    "viewClients": "View clients",
+    "filter": "Filter",
+    "clear": "Clear",
+    "open": "Open {label}",
+    "openFlow": "Open flow",
+    "manageInServices": "Manage in services module",
+    "viewClient": "View client"
+  },
+  "hero": {
+    "badge": "Active flow",
+    "title": "A cockpit to turn services into trackable deliveries",
+    "description": "The screen now consolidates pipeline, projected revenue, milestones, and attention points. Data still comes from the server based on the active organization and does not depend on `orgId` sent by the client.",
+    "activeProjects": "Active projects"
+  },
+  "kpis": {
+    "tenantProjects": "Projects in tenant",
+    "inProgress": "In progress",
+    "completed": "Completed",
+    "upcomingVisits": "Upcoming visits",
+    "servedClients": "Served clients"
+  },
+  "pipeline": {
+    "title": "Module pipeline",
+    "projectedRevenue": "Current projected revenue: {value}",
+    "search": "Search",
+    "searchPlaceholder": "Project, client, or description",
+    "stage": "Stage",
+    "all": "All",
+    "scoping": "Scoping",
+    "planned": "Planning",
+    "execution": "Execution",
+    "delivery": "Delivery",
+    "archived": "Archived"
+  },
+  "shortcuts": {
+    "title": "Useful shortcuts",
+    "clientsLabel": "Clients",
+    "clientsDescription": "Use the current client base to define owners and contacts.",
+    "servicesLabel": "Services",
+    "servicesDescription": "Open the detailed operation to edit scope, status, and schedules.",
+    "dashboardLabel": "Dashboard",
+    "dashboardDescription": "Track general indicators and capacity of the active tenant.",
+    "settingsLabel": "Settings",
+    "settingsDescription": "Adjust language and panel appearance before aligning the workflow with the team."
+  },
+  "currentProjects": {
+    "title": "Current projects",
+    "subtitle": "The list below respects the current page filters.",
+    "empty": "No projects found with the current filters.",
+    "noDescription": "No description recorded yet.",
+    "client": "Client",
+    "pendingClient": "Pending client",
+    "plannedValue": "Planned value",
+    "nextMilestone": "Next milestone",
+    "owner": "Owner",
+    "estimatedProgress": "Estimated progress",
+    "nextAction": "Next action: {value}",
+    "updatedAt": "Updated on {value}"
+  },
+  "attention": {
+    "title": "Attention points",
+    "empty": "No critical items in the current view."
+  },
+  "activity": {
+    "title": "Recent activity"
+  }
+}

@@ -56,11 +56,15 @@ function SidebarItem({
 }
 
 export function Sidebar({
+  brandSubtitle,
   groups,
   onNavigate,
+  toggleTitle,
 }: {
+  brandSubtitle: string;
   groups: NavGroup[];
   onNavigate?: () => void;
+  toggleTitle: string;
 }) {
   const pathname = usePathname();
   const current = firstPath(pathname);
@@ -82,7 +86,7 @@ export function Sidebar({
         <div className={`${collapsed ? "hidden" : "block"} min-w-0`}>
           <div className="text-sm font-semibold leading-4 truncate">Proto</div>
           <div className="text-xs text-(--color-text-2) leading-4 truncate">
-            Sistema
+            {brandSubtitle}
           </div>
         </div>
       </div>
@@ -118,7 +122,7 @@ export function Sidebar({
       <div className="p-2 border-t border-(--color-border)">
         <button
           type="button"
-          title="Alternar sidebar"
+          title={toggleTitle}
           onClick={() => setCollapsed((v) => !v)}
           className="flex size-10 items-center justify-center rounded-lg border border-transparent hover:bg-(--color-base-3) hover:border-(--color-border)"
         >

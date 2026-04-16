@@ -1,9 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { useMemo, useState, useTransition } from "react";
 import {
   FiBell,
+  FiBriefcase,
   FiChevronDown,
   FiGlobe,
   FiLogOut,
@@ -14,30 +16,32 @@ import {
 } from "react-icons/fi";
 import { signOut } from "@/actions/authActions";
 import { useAppStore } from "@/stores/appStore";
-import type { AppSettings, User } from "@/types/base";
+import type { AppSettings, OrganizationSummary, User } from "@/types/base";
 import { Breadcrumb } from "@/ui/base/Breadcrumb";
 import { Button } from "@/ui/base/Button";
 import { Input } from "@/ui/base/Input";
 import { Popover } from "@/ui/base/Popover";
-import { LOCALES, type LocaleKey } from "@/utils/constants";
-import { buildBreadcrumbItems } from "./nav";
-
-function labelLocale(locale: LocaleKey) {
-  if (locale === "pt-BR") return "PT";
-  if (locale === "en") return "EN";
-  return locale;
-}
+import { setClientCookie } from "@/utils/clientCookies";
+import { ACTIVE_ORG_COOKIE, LOCALES, type LocaleKey } from "@/utils/constants";
+import { buildBreadcrumbItems, buildPrivateNav } from "./nav";
 
 export function Navbar({
+  activeOrg,
+  organizations,
   pathname,
   user,
   onOpenMobileSidebar,
 }: {
+  activeOrg: OrganizationSummary;
+  organizations: OrganizationSummary[];
   pathname: string;
   user: User;
   onOpenMobileSidebar: () => void;
 }) {
   const router = useRouter();
+  const t = useTranslations("navigation");
+  const [isSwitchingOrg, startSwitchingOrg] = useTransition();
+  const groups = useMemo(() => buildPrivateNav(t), [t]);
 
   const appSettings = useAppStore((s) => s.appSettings);
   const setTheme = useAppStore((s) => s.setTheme);
@@ -45,21 +49,45 @@ export function Navbar({
 
   const [_busyLogout, setBusyLogout] = useState(false);
 
-  function toggleTheme() {
+  function labelLocale(locale: LocaleKey) {
+    if (locale === "pt-BR") return "PT";
+    if (locale === "en") return "EN";
+    return locale;
+  }
+
+  function labelLocaleOption(locale: LocaleKey) {
+    if (locale === "pt-BR") return t("localePtBR");
+    return t("localeEn");
+  }
+
+  function labelOrgRole(role: OrganizationSummary["role"]) {
+    if (role === "owner") return t("roleOwner");
+    if (role === "admin") return t("roleAdmin");
+    return t("roleMember");
+  }
+
+  async function toggleTheme() {
     const nextTheme: AppSettings["theme"] =
       appSettings.theme === "dark" ? "light" : "dark";
     setTheme(nextTheme);
 
-    document.cookie = `APP_THEME=${encodeURIComponent(nextTheme)}; Path=/; Max-Age=${60 * 60 * 24 * 365}`;
+    await setClientCookie("APP_THEME", nextTheme);
     router.refresh();
   }
 
-  function changeLocale(locale: LocaleKey) {
+  async function changeLocale(locale: LocaleKey) {
     setLocale(locale);
 
     // seta cookie pro server ler e força rerender server components
-    document.cookie = `NEXT_LOCALE=${encodeURIComponent(locale)}; Path=/; Max-Age=${60 * 60 * 24 * 365}`;
+    await setClientCookie("NEXT_LOCALE", locale);
     router.refresh();
+  }
+
+  async function changeOrganization(orgId: string) {
+    if (orgId === activeOrg.id) return;
+
+    await setClientCookie(ACTIVE_ORG_COOKIE, orgId);
+    startSwitchingOrg(() => router.refresh());
   }
 
   async function onLogout() {
@@ -86,7 +114,10 @@ export function Navbar({
       {/* Breadcrumb */}
       <div className="min-w-0">
         <Breadcrumb
-          items={buildBreadcrumbItems(pathname)}
+          items={buildBreadcrumbItems(pathname, groups, {
+            dashboard: t("breadcrumbDashboard"),
+            page: t("breadcrumbPage"),
+          })}
           className="text-sm"
         />
       </div>
@@ -101,10 +132,71 @@ export function Navbar({
             <Input
               className="pl-10"
               testid="top-search"
-              placeholder="Buscar..."
+              placeholder={t("searchPlaceholder")}
             />
           </div>
         </div>
+
+        <Popover
+          triggerClick
+          triggerHover={false}
+          placement="bottom"
+          content={(close) => (
+            <div className="min-w-[260px]">
+              <div className="border-b border-(--color-border) px-3 py-2 text-xs text-(--color-text-2)">
+                {t("activeOrganization")}
+              </div>
+
+              {organizations.map((organization) => {
+                const isCurrent = organization.id === activeOrg.id;
+
+                return (
+                  <button
+                    key={organization.id}
+                    type="button"
+                    className={`w-full px-3 py-3 text-left transition hover:bg-(--color-base-3) ${
+                      isCurrent ? "bg-(--color-base-3)" : ""
+                    }`}
+                    disabled={isSwitchingOrg}
+                    onClick={() => {
+                      close();
+                      void changeOrganization(organization.id);
+                    }}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="truncate text-sm font-semibold">
+                          {organization.name}
+                        </div>
+                        <div className="mt-1 truncate text-xs text-(--color-text-2)">
+                          {organization.slug ?? t("unknownSlug")} •{" "}
+                          {labelOrgRole(organization.role)}
+                        </div>
+                      </div>
+
+                      {isCurrent ? (
+                        <span className="rounded-full border border-(--color-border) bg-(--color-base-1) px-2 py-1 text-[11px] font-semibold">
+                          {t("current")}
+                        </span>
+                      ) : null}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        >
+          <button
+            type="button"
+            className="hidden h-9 items-center gap-2 rounded-xl border border-(--color-border) bg-(--color-base-4) px-3 hover:bg-(--color-base-3) md:flex"
+          >
+            <FiBriefcase />
+            <span className="max-w-[160px] truncate text-sm font-medium">
+              {activeOrg.name}
+            </span>
+            <FiChevronDown className="text-(--color-text-2)" />
+          </button>
+        </Popover>
 
         {/* Language */}
         <Popover
@@ -114,7 +206,7 @@ export function Navbar({
           content={(close) => (
             <div className="min-w-[180px]">
               <div className="px-3 py-2 border-b border-(--color-border) text-xs text-(--color-text-2)">
-                Idioma
+                {t("language")}
               </div>
 
               {(LOCALES as readonly LocaleKey[]).map((loc) => (
@@ -126,12 +218,12 @@ export function Navbar({
                   }`}
                   onClick={() => {
                     close();
-                    changeLocale(loc);
+                    void changeLocale(loc);
                   }}
                 >
                   <span className="inline-flex items-center gap-2">
                     <FiGlobe />
-                    {loc === "pt-BR" ? "Português (BR)" : "English"}
+                    {labelLocaleOption(loc)}
                   </span>
                 </button>
               ))}
@@ -147,13 +239,14 @@ export function Navbar({
         </Popover>
 
         {/* Theme */}
-        <Button fit testid="theme-toggle" onClick={toggleTheme}>
+        <Button fit testid="theme-toggle" onClick={() => void toggleTheme()}>
           {appSettings.theme === "dark" ? <FiSun /> : <FiMoon />}
         </Button>
 
         {/* Notifications */}
         <Button fit testid="notif">
           <FiBell />
+          <span className="sr-only">{t("notifications")}</span>
         </Button>
 
         {/* User menu */}
@@ -170,7 +263,46 @@ export function Navbar({
                 <div className="text-xs text-(--color-text-2) truncate">
                   {user.email ?? ""}
                 </div>
+                <div className="mt-1 truncate text-[11px] text-(--color-text-2)">
+                  {activeOrg.name}
+                </div>
               </div>
+
+              {organizations.length > 1 ? (
+                <div className="border-t border-(--color-border) px-2 py-2">
+                  <div className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-wide text-(--color-text-2)">
+                    {t("organizations")}
+                  </div>
+
+                  <div className="grid gap-1">
+                    {organizations.map((organization) => {
+                      const isCurrent = organization.id === activeOrg.id;
+
+                      return (
+                        <button
+                          key={organization.id}
+                          type="button"
+                          className={`rounded-lg px-2 py-2 text-left text-sm transition hover:bg-(--color-base-3) ${
+                            isCurrent ? "bg-(--color-base-3)" : ""
+                          }`}
+                          disabled={isSwitchingOrg}
+                          onClick={() => {
+                            close();
+                            void changeOrganization(organization.id);
+                          }}
+                        >
+                          <div className="truncate font-medium">
+                            {organization.name}
+                          </div>
+                          <div className="truncate text-[11px] text-(--color-text-2)">
+                            {labelOrgRole(organization.role)}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : null}
 
               <button
                 type="button"
@@ -180,7 +312,7 @@ export function Navbar({
                   router.push("/settings");
                 }}
               >
-                Configurações
+                {t("settings")}
               </button>
 
               <button
@@ -192,7 +324,7 @@ export function Navbar({
                 }}
               >
                 <span className="inline-flex items-center gap-2">
-                  <FiLogOut /> Sair
+                  <FiLogOut /> {t("logout")}
                 </span>
               </button>
             </div>

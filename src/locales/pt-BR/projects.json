@@ -1,0 +1,72 @@
+{
+  "pageTitle": "Projetos",
+  "pageSubtitle": "{userName}, aqui está a visão operacional de {orgName}: escopo, andamento, próximos marcos e links rápidos para execução sem sair do tenant ativo.",
+  "actions": {
+    "openServices": "Abrir serviços",
+    "viewClients": "Ver clientes",
+    "filter": "Filtrar",
+    "clear": "Limpar",
+    "open": "Abrir {label}",
+    "openFlow": "Abrir fluxo",
+    "manageInServices": "Gerenciar no módulo de serviços",
+    "viewClient": "Ver cliente"
+  },
+  "hero": {
+    "badge": "Fluxo ativo",
+    "title": "Um cockpit para transformar serviços em entregas acompanháveis",
+    "description": "A tela agora consolida pipeline, receita projetada, marcos e pontos de atenção. O dado continua vindo do servidor com base na organização ativa e sem depender de `orgId` enviado pelo client.",
+    "activeProjects": "Projetos ativos"
+  },
+  "kpis": {
+    "tenantProjects": "Projetos no tenant",
+    "inProgress": "Em andamento",
+    "completed": "Concluídos",
+    "upcomingVisits": "Próximas visitas",
+    "servedClients": "Clientes atendidos"
+  },
+  "pipeline": {
+    "title": "Pipeline do módulo",
+    "projectedRevenue": "Receita projetada atual: {value}",
+    "search": "Buscar",
+    "searchPlaceholder": "Projeto, cliente ou descrição",
+    "stage": "Etapa",
+    "all": "Todas",
+    "scoping": "Escopo",
+    "planned": "Planejamento",
+    "execution": "Execução",
+    "delivery": "Entrega",
+    "archived": "Arquivo"
+  },
+  "shortcuts": {
+    "title": "Atalhos úteis",
+    "clientsLabel": "Clientes",
+    "clientsDescription": "Use a base de clientes atual para definir responsáveis e contatos.",
+    "servicesLabel": "Serviços",
+    "servicesDescription": "Abra a operação detalhada para editar escopo, status e agendamentos.",
+    "dashboardLabel": "Dashboard",
+    "dashboardDescription": "Acompanhe indicadores gerais e capacidade do tenant ativo.",
+    "settingsLabel": "Configurações",
+    "settingsDescription": "Ajuste idioma e aparência do painel antes de alinhar o fluxo com o time."
+  },
+  "currentProjects": {
+    "title": "Projetos do momento",
+    "subtitle": "A lista abaixo respeita os filtros atuais da página.",
+    "empty": "Nenhum projeto encontrado com os filtros atuais.",
+    "noDescription": "Sem descrição registrada até aqui.",
+    "client": "Cliente",
+    "pendingClient": "Cliente pendente",
+    "plannedValue": "Valor previsto",
+    "nextMilestone": "Próximo marco",
+    "owner": "Responsável",
+    "estimatedProgress": "Progresso estimado",
+    "nextAction": "Próxima ação: {value}",
+    "updatedAt": "Atualizado em {value}"
+  },
+  "attention": {
+    "title": "Pontos de atenção",
+    "empty": "Nenhum item crítico no recorte atual."
+  },
+  "activity": {
+    "title": "Atividade recente"
+  }
+}
