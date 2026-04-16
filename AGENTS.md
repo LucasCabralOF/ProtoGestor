@@ -9,6 +9,14 @@ Ambiente local atual:
 - Prisma Studio: script usa porta `5556`
 - Workspace do DevContainer: `/home/app`
 
+## Direcao de Produto
+- O produto deve ser tratado como um SaaS de gestao operacional para pequenas empresas de servicos recorrentes e atendimento em campo.
+- O posicionamento principal e `clientes + agenda/recorrencia + ordens de servico + financeiro basico + relatorios`.
+- Nao tratar o produto como ERP generico.
+- Nao tratar o produto como SaaS de limpeza por padrao so porque a seed usa esse tipo de exemplo.
+- Ao escrever copy, documentacao, seeds, textos de UI e fluxos, preferir linguagem generica de operacao de servicos: `cliente`, `visita`, `tecnico`, `equipe`, `agenda`, `recorrencia`, `ordem de servico`, `cobranca`.
+- O one-pager de produto de referencia fica em [`docs/product-one-pager.md`](/home/app/docs/product-one-pager.md).
+
 ## Stack Atual
 - Next.js `16.1.6`
 - React `19.2.0`
@@ -41,16 +49,20 @@ Ambiente local atual:
 - Públicas:
   - `/login`
   - `/signup`
+  - `/onboarding`
   - `/api/auth/[...all]`
   - `/api/locale`
 - Privadas:
   - `/dashboard`
   - `/clients`
+  - `/services`
+  - `/reports`
   - `/projects`
   - `/settings`
-- Rotas HTTP ligadas a clientes:
+- Rotas HTTP:
   - `/clients/export`
   - `/clients/import`
+  - `/reports/export`
 
 ## Prisma e Domínio
 Schema distribuído entre:
@@ -87,10 +99,21 @@ Seed atual em [`src/prisma/seed.ts`](/home/app/src/prisma/seed.ts):
   - modal de criação/edição
   - ativação/inativação
   - import/export CSV
-- Projetos existe como módulo placeholder com navegação pronta
+- Services funcional com:
+  - busca por querystring
+  - filtros por status e cliente
+  - modal de criação/edição
+  - transição de status
+  - agendamento básico por atendimento
+- Reports funcional com:
+  - filtros por foco e período
+  - visão operacional e financeira agregada
+  - exportação
+- Projetos existe como módulo exploratório/placeholder e não deve ser tratado como core do produto neste momento
 - Settings já permite trocar tema e idioma e exibe contexto da conta/organização
-- Schema de agenda, serviços, financeiro e auditoria já existe, mas a UI ainda não foi construída
+- Schema de agenda, serviços, financeiro e auditoria já existe; parte da UI de serviços e relatórios já consome esse domínio, mas agenda e financeiro ainda não possuem módulos dedicados completos
 - Há testes unitários para utilitários de tenant e navegação
+- Há base E2E com Playwright cobrindo auth, dashboard e clientes
 
 ## Observações Importantes do Estado Atual
 - `next-intl` continua sem middleware e sem rota dinâmica `[locale]`; locale vem de cookie `NEXT_LOCALE`
@@ -102,6 +125,8 @@ Seed atual em [`src/prisma/seed.ts`](/home/app/src/prisma/seed.ts):
   não criar um terceiro padrão
 - O dashboard ainda formata moeda/data no client em alguns pontos
   trate isso como débito técnico, não como padrão a ser repetido
+- A seed atual usa exemplos de dados operacionais específicos apenas para demonstração
+  não inferir o nicho final do produto a partir desses dados
 
 ## Regras Obrigatórias
 1) AntD `6.3`
@@ -197,12 +222,14 @@ Seed atual em [`src/prisma/seed.ts`](/home/app/src/prisma/seed.ts):
 - Rodei `npm run test:unit` e `npm run test:e2e` quando houve impacto transversal? Sim.
 
 ## Roadmap Imediato
-- Clientes:
-  - evoluir tags, UX do menu de ações, validações e import/export
+- Core do produto:
+  - evoluir `clients + services + reports` para um fluxo comercialmente vendável de operação
+- Agenda e recorrência:
+  - construir UX dedicada para visitas, recorrências e acompanhamento de execução
+- Financeiro básico:
+  - construir UI para contas a receber, recebimentos e visão simples de caixa
 - Projetos:
-  - sair do placeholder e virar módulo real com escopo, etapas, responsáveis e progresso
-- Agenda/Serviços/Financeiro:
-  - construir UI em cima do schema já existente, mantendo as regras de tenant e server/client boundary
+  - reavaliar se o módulo continua no produto ou se vira apoio derivado de serviços
 - Dashboard:
   - mover formatação de datas/moeda para o server
 - I18n:

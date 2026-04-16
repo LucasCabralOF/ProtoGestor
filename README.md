@@ -1,6 +1,27 @@
 # Proto
 
-Aplicacao administrativa em `Next.js` com autenticacao, multi-tenant por organizacao e modulos iniciais de dashboard e clientes.
+Prototipo SaaS multi-tenant em `Next.js` para gestao operacional de empresas de servicos recorrentes e atendimento em campo.
+
+## Posicionamento do produto
+
+O projeto esta sendo direcionado para um SaaS vertical de operacao, com foco em:
+
+- clientes
+- agenda e recorrencia
+- ordens de servico
+- financeiro basico
+- relatorios operacionais
+
+O objetivo nao e construir um ERP generico nem prender o produto a um unico nicho por causa da seed.
+
+O one-pager do produto esta em [docs/product-one-pager.md](/home/app/docs/product-one-pager.md:1).
+
+Documentacao de produto:
+
+- [One-pager](/home/app/docs/product-one-pager.md:1)
+- [Copy de landing page](/home/app/docs/landing-page-copy.md:1)
+- [Backlog priorizado do MVP](/home/app/docs/mvp-backlog.md:1)
+- [Proposta inicial de planos e preco](/home/app/docs/pricing-strategy.md:1)
 
 ## Stack
 
@@ -81,7 +102,9 @@ Para recriar a base local e popular dados demo:
 npm run db:reset
 ```
 
-O seed cria um usuario demo e uma organizacao de exemplo para popular dashboard e clientes.
+O seed cria um usuario demo e uma organizacao de exemplo para popular o ambiente com dados operacionais.
+
+Os exemplos usados na seed sao ilustrativos e nao definem o nicho final do produto.
 
 ## Scripts uteis
 
@@ -143,6 +166,15 @@ Demo@1234
 - `src/prisma`: schema, migrations e seed
 - `src/ui`: componentes base e paginas
 - `src/locales`: traducao `pt-BR` e `en`
+
+## Escopo atual do app
+
+- `dashboard`: visao inicial da operacao
+- `clients`: cadastro, filtros, importacao e exportacao
+- `services`: base de ordens de servico e agendamento
+- `reports`: indicadores e exportacao de relatorios
+- `projects`: modulo exploratorio e ainda nao tratado como core do produto
+- `settings`: preferencias de conta, idioma e tema
 
 ## Observacoes
 
