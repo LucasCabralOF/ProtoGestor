@@ -4,6 +4,15 @@ enum AppointmentStatus {
   canceled
 }
 
+/// Frequência de recorrência de uma visita.
+/// `none` = visita avulsa; demais valores geram N cópias em série.
+enum RecurrenceRule {
+  none
+  weekly
+  biweekly
+  monthly
+}
+
 model Appointment {
   id     String            @id @default(cuid())
   orgId  String
@@ -15,6 +24,14 @@ model Appointment {
 
   employeeId   String? // Contact (funcionário)
   locationText String?
+  notes        String? // Observações operacionais da visita
+
+  /// Regra de recorrência desta visita.
+  recurrenceRule  RecurrenceRule @default(none)
+  /// Quantas ocorrências foram geradas a partir desta raiz (inclusive ela).
+  recurrenceCount Int            @default(1)
+  /// ID do Appointment raiz quando esta visita faz parte de uma série recorrente.
+  parentId        String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -25,6 +42,7 @@ model Appointment {
 
   @@index([orgId, startsAt])
   @@index([orgId, status])
+  @@index([orgId, parentId])
   @@map("appointment")
 }
 

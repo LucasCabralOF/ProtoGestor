@@ -4,7 +4,6 @@ import {
   FiBarChart2,
   FiCalendar,
   FiHome,
-  FiLayout,
   FiSettings,
   FiUsers,
 } from "react-icons/fi";
@@ -37,8 +36,8 @@ export function buildPrivateNav(t: (key: string) => string): NavGroup[] {
       label: t("groupOperations"),
       items: [
         { href: "/clients", label: t("itemClients"), icon: <FiUsers /> },
+        { href: "/schedule", label: t("itemSchedule"), icon: <FiCalendar /> },
         { href: "/services", label: t("itemServices"), icon: <FiCalendar /> },
-        { href: "/projects", label: t("itemProjects"), icon: <FiLayout /> },
         { href: "/reports", label: t("itemReports"), icon: <FiBarChart2 /> },
       ],
     },

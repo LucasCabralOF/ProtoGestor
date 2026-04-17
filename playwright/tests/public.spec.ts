@@ -11,7 +11,7 @@ test("shows the public landing page for unauthenticated visitors", async ({
   await expect(page.getByTestId("marketing-home")).toBeVisible();
   await expect(
     page.getByRole("heading", {
-      name: "Organize sua operacao de servicos em um so lugar",
+      name: "Saia do WhatsApp e organize seus serviços de verdade",
     }),
   ).toBeVisible();
   await expect(page.getByTestId("marketing-cta-primary")).toHaveAttribute(
@@ -28,7 +28,7 @@ test("renders the public pricing page with the featured operation plan", async (
   await expect(page.getByTestId("marketing-pricing")).toBeVisible();
   await expect(
     page.getByRole("heading", {
-      name: "Planos simples para quem quer sair do improviso",
+      name: "Escolha como você quer mudar sua rotina",
     }),
   ).toBeVisible();
   await expect(page.getByTestId("pricing-page-plan-operation")).toBeVisible();

@@ -156,7 +156,7 @@ export function DashboardPage({
         <Card className="border border-(--color-border)">
           <div className="flex items-center justify-between gap-3">
             <h2 className="text-xl font-bold">{t("upcomingServices")}</h2>
-            <Link href="/services">
+            <Link href="/schedule">
               <Button fit type="default">
                 {t("viewAll")}
               </Button>

@@ -16,7 +16,7 @@ test("loads the seeded dashboard for the authenticated demo user", async ({
     page.getByText("Novo cliente cadastrado: Maria Souza"),
   ).toBeVisible();
   await expect(
-    page.getByText("Limpeza Residencial", { exact: true }),
+    page.getByText("Manutenção Preventiva", { exact: true }),
   ).toBeVisible();
 });
 

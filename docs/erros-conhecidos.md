@@ -154,3 +154,10 @@ Além disso, o campo `segment` (select nativo dentro de `Form.Item` AntD) foi ex
 ---
 
 *Última atualização: 2026-04-17*
+
+### Erro: Teste E2E de Onboarding falhando por ID de Step Incompatível e Timeout
+- **Data**: 2026-04-17
+- **Arquivo**: `playwright/tests/onboarding.spec.ts`
+- **Descrição**: O script de E2E estava utilizando `onboarding-client-count-small`, mas o map interno em `OnboardingPage.tsx` renderizava os IDs extraídos de `ONBOARDING_CLIENT_COUNT_IDS` (`few`, `medium`, `many`). Isso fazia o Playwright não achar o elemento, falhando por timeout na linha em vez de clicar na opção existente.
+- **Causa Raiz**: O teste E2E havia sido escrito com expectativas de dados mockados dessincronizados do schema utilitário final `onboarding-utils.ts`.
+- **Técnica para Evitar Recorrência**: Sempre verificar as enums e lists de utilitários como base de renderização do `data-testid` iterativo em templates JSX (`t(step2.clientCounts.${id})`).

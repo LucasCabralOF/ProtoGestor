@@ -11,254 +11,30 @@ import {
 import { getTenantContext } from "@/lib/auth-tenant";
 import prisma from "@/lib/prisma";
 import type { AppLocale } from "@/utils/i18n";
+import {
+  BUSINESS_TIME_ZONE,
+  normalizeRange,
+  normalizeFocus,
+  rangeDays,
+  formatCurrency,
+  formatInteger,
+  formatPercent,
+  formatDateTime,
+  formatDate,
+  formatMonth,
+  buildTrend,
+  serviceStatusMeta,
+} from "./reports-utils";
+import type {
+  ReportsFilters,
+  ReportsData,
+  ReportsExportRow,
+  ReportsCategoryRow,
+  ReportsServiceStatusRow,
+  ReportsAttentionItem,
+} from "./reports-types";
 
-const BUSINESS_TIME_ZONE = "America/Sao_Paulo";
-
-export type ReportsRangePreset = "30d" | "90d" | "365d";
-export type ReportsFocus = "overview" | "finance" | "operations";
-
-export type ReportsFilters = {
-  focus?: ReportsFocus;
-  range?: ReportsRangePreset;
-};
-
-export type ReportsTrend = {
-  currentLabel: string;
-  deltaPct: number;
-  direction: "down" | "flat" | "up";
-  previousLabel: string;
-};
-
-export type ReportsMonthlyPoint = {
-  balanceCents: number;
-  balanceLabel: string;
-  expenseCents: number;
-  expenseLabel: string;
-  expenseWidthPct: number;
-  incomeCents: number;
-  incomeLabel: string;
-  incomeWidthPct: number;
-  label: string;
-};
-
-export type ReportsCategoryRow = {
-  amountCents: number;
-  amountLabel: string;
-  count: number;
-  name: string;
-  sharePct: number;
-  shareLabel: string;
-};
-
-export type ReportsCustomerRow = {
-  id: string;
-  lastServiceLabel: string;
-  name: string;
-  revenueCents: number;
-  revenueLabel: string;
-  servicesCount: number;
-};
-
-export type ReportsServiceStatusRow = {
-  count: number;
-  key: "canceled" | "completed" | "draft" | "in_progress" | "scheduled";
-  label: string;
-  tone: "accent" | "danger" | "neutral" | "success" | "warning";
-};
-
-export type ReportsAppointmentRow = {
-  customerName: string | null;
-  id: string;
-  locationText: string | null;
-  startsAtLabel: string;
-  title: string;
-};
-
-export type ReportsPendingTransactionRow = {
-  amountLabel: string;
-  contactName: string | null;
-  description: string;
-  dueAtLabel: string;
-  id: string;
-  typeLabel: string;
-};
-
-export type ReportsAttentionItem = {
-  description: string;
-  id: string;
-  title: string;
-  tone: "accent" | "danger" | "success" | "warning";
-};
-
-export type ReportsData = {
-  attentionItems: ReportsAttentionItem[];
-  categories: {
-    expense: ReportsCategoryRow[];
-    income: ReportsCategoryRow[];
-  };
-  filters: {
-    focus: ReportsFocus;
-    range: ReportsRangePreset;
-  };
-  generatedAtLabel: string;
-  kpis: {
-    activeCustomers: number;
-    avgTicketLabel: string;
-    completionRateLabel: string;
-    netResultLabel: string;
-    newCustomers: number;
-    paidExpensesLabel: string;
-    receivedRevenueLabel: string;
-    scheduledLoadLabel: string;
-  };
-  monthlySeries: ReportsMonthlyPoint[];
-  orgName: string;
-  overdueTransactions: ReportsPendingTransactionRow[];
-  periodLabel: string;
-  serviceStatus: ReportsServiceStatusRow[];
-  topCustomers: ReportsCustomerRow[];
-  trends: {
-    customers: ReportsTrend;
-    expenses: ReportsTrend;
-    net: ReportsTrend;
-    revenue: ReportsTrend;
-  };
-  upcomingAppointments: ReportsAppointmentRow[];
-};
-
-export type ReportsExportRow = {
-  metric: string;
-  section: string;
-  value: string;
-};
-
-function normalizeRange(
-  range: ReportsRangePreset | undefined,
-): ReportsRangePreset {
-  if (range === "90d" || range === "365d") return range;
-  return "30d";
-}
-
-function normalizeFocus(focus: ReportsFocus | undefined): ReportsFocus {
-  if (focus === "finance" || focus === "operations") return focus;
-  return "overview";
-}
-
-function rangeDays(range: ReportsRangePreset): number {
-  switch (range) {
-    case "90d":
-      return 90;
-    case "365d":
-      return 365;
-    case "30d":
-      return 30;
-  }
-}
-
-function formatCurrency(cents: number, locale: AppLocale): string {
-  return new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency: "BRL",
-  }).format(cents / 100);
-}
-
-function formatInteger(value: number, locale: AppLocale): string {
-  return new Intl.NumberFormat(locale).format(value);
-}
-
-function formatPercent(value: number, locale: AppLocale): string {
-  return new Intl.NumberFormat(locale, {
-    style: "percent",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value / 100);
-}
-
-function formatDateTime(value: Date, locale: AppLocale): string {
-  return new Intl.DateTimeFormat(locale, {
-    timeZone: BUSINESS_TIME_ZONE,
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(value);
-}
-
-function formatDate(value: Date, locale: AppLocale): string {
-  return new Intl.DateTimeFormat(locale, {
-    timeZone: BUSINESS_TIME_ZONE,
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(value);
-}
-
-function formatMonth(value: Date, locale: AppLocale): string {
-  return new Intl.DateTimeFormat(locale, {
-    timeZone: BUSINESS_TIME_ZONE,
-    month: "short",
-    year: "numeric",
-  }).format(value);
-}
-
-function buildTrend(
-  currentValue: number,
-  previousValue: number,
-  formatter: (value: number) => string,
-): ReportsTrend {
-  const deltaPct =
-    previousValue === 0
-      ? currentValue === 0
-        ? 0
-        : 100
-      : Math.round(((currentValue - previousValue) / previousValue) * 100);
-
-  return {
-    currentLabel: formatter(currentValue),
-    previousLabel: formatter(previousValue),
-    deltaPct,
-    direction:
-      currentValue > previousValue
-        ? "up"
-        : currentValue < previousValue
-          ? "down"
-          : "flat",
-  };
-}
-
-function serviceStatusMeta(
-  key: ReportsServiceStatusRow["key"],
-  locale: AppLocale,
-): Pick<ReportsServiceStatusRow, "label" | "tone"> {
-  switch (key) {
-    case "draft":
-      return {
-        label: locale === "en" ? "Draft" : "Rascunho",
-        tone: "neutral",
-      };
-    case "scheduled":
-      return {
-        label: locale === "en" ? "Scheduled" : "Agendado",
-        tone: "accent",
-      };
-    case "in_progress":
-      return {
-        label: locale === "en" ? "In progress" : "Em andamento",
-        tone: "warning",
-      };
-    case "completed":
-      return {
-        label: locale === "en" ? "Completed" : "Concluído",
-        tone: "success",
-      };
-    case "canceled":
-      return {
-        label: locale === "en" ? "Canceled" : "Cancelado",
-        tone: "danger",
-      };
-  }
-}
+export * from "./reports-types";
 
 export async function getReportsData(
   filters: ReportsFilters,

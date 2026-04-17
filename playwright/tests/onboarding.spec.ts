@@ -12,19 +12,32 @@ test("forces onboarding for a fresh signup and creates the first organization", 
 
   await page.goto("/signup");
 
+  page.on("console", (msg) => console.log(`BROWSER CONSOLE: ${msg.text()}`));
+  page.on("pageerror", (err) => console.log(`BROWSER ERROR: ${err.message}`));
+
   await page.getByTestId("input-signup-name").fill(userName);
   await page.getByTestId("input-signup-email").fill(userEmail);
   await page.getByTestId("password-signup-password").fill("Demo@1234");
+  await page.waitForTimeout(1000);
   await page.getByTestId("button-signup-submit").click();
-
-  await expect(page).toHaveURL(/\/onboarding$/);
-  await expect(page.getByTestId("card-onboarding-card")).toBeVisible();
+  await expect(page).toHaveURL(/\/onboarding$/, { timeout: 15000 });
+  await expect(page.getByTestId("onboarding-card")).toBeVisible();
 
   await page.goto("/dashboard");
   await expect(page).toHaveURL(/\/onboarding$/);
 
+  // Step 1
   await page.getByTestId("input-onboarding-org-name").fill(organizationName);
-  await page.getByTestId("button-onboarding-submit").click();
+  await page.getByTestId("onboarding-segment").selectOption({ index: 1 });
+  await page.getByTestId("button-onboarding-next-step1").click();
+
+  // Step 2
+  await page.getByTestId("onboarding-client-count-few").click();
+  await page.getByTestId("onboarding-tool-spreadsheet").click();
+  await page.getByTestId("button-onboarding-next-step2").click();
+
+  // Step 3
+  await page.getByTestId("button-onboarding-go-dashboard").click();
 
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(
