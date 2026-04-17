@@ -1,25 +1,85 @@
 {
   "badge": "Setup inicial",
-  "title": "Vamos criar sua organização, {userName}",
-  "subtitle": "Seu primeiro workspace ativa o tenant principal do painel e libera os módulos privados do produto.",
-  "benefits": {
-    "ownerTitle": "Você entra como owner",
-    "ownerDescription": "A primeira organização já nasce vinculada à sua conta com acesso completo para configurar o ambiente.",
-    "tenantTitle": "O tenant ativo fica pronto",
-    "tenantDescription": "Assim que a organização for criada, definimos o tenant ativo e você já segue para o dashboard."
+  "title": "Bem-vindo, {userName}",
+  "subtitle": "Vamos configurar seu espaço de trabalho em poucos passos.",
+  "steps": {
+    "indicator": "Passo {current} de {total}",
+    "next": "Próximo",
+    "back": "Voltar",
+    "step1": "Sua empresa",
+    "step2": "Contexto rápido",
+    "step3": "Pronto!"
   },
-  "form": {
-    "eyebrow": "Primeiro passo",
-    "title": "Crie a organização principal",
-    "subtitle": "Você poderá adicionar mais organizações e convidar outras pessoas nas próximas etapas do produto.",
+  "step1": {
+    "eyebrow": "Passo 1 de 3",
+    "title": "Como se chama sua empresa?",
+    "subtitle": "Você poderá alterar isso nas configurações a qualquer momento.",
     "signedAs": "Logado como {email}",
-    "nameLabel": "Nome da organização",
-    "namePlaceholder": "Ex: Brilho Clean",
-    "nameRequired": "Informe o nome da organização.",
+    "nameLabel": "Nome da empresa",
+    "namePlaceholder": "Ex: Manutenções Expert",
+    "nameRequired": "Informe o nome da empresa.",
     "nameMin": "Use pelo menos 2 caracteres.",
-    "slugPreviewLabel": "Slug inicial",
-    "slugPreviewEmpty": "Digite o nome para gerar o slug automaticamente.",
-    "submit": "Criar organização",
+    "segmentLabel": "Qual é o seu ramo de atuação?",
+    "segmentPlaceholder": "Selecione...",
+    "segments": {
+      "maintenance": "Manutenção preventiva",
+      "hvac": "Climatização e ar-condicionado",
+      "cleaning": "Limpeza e conservação",
+      "gardens": "Jardinagem e paisagismo",
+      "facilities": "Facilities e serviços prediais",
+      "tech": "Assistência técnica",
+      "other": "Outro"
+    },
+    "segmentRequired": "Selecione um segmento.",
+    "slugPreviewLabel": "Identificador interno (slug)",
+    "slugPreviewEmpty": "Gerado a partir do nome.",
+    "submit": "Criar minha empresa",
     "submitting": "Criando..."
+  },
+  "step2": {
+    "eyebrow": "Passo 2 de 3",
+    "title": "Nos conte um pouco mais",
+    "subtitle": "Essas informações nos ajudam a preparar o painel para a sua realidade.",
+    "clientCountLabel": "Quantos clientes ativos você tem hoje?",
+    "clientCounts": {
+      "few": "Menos de 30",
+      "medium": "Entre 30 e 100",
+      "many": "Mais de 100"
+    },
+    "clientCountRequired": "Selecione uma faixa.",
+    "toolLabel": "Como você organiza os atendimentos hoje?",
+    "tools": {
+      "whatsapp": "WhatsApp",
+      "spreadsheet": "Planilha",
+      "paper": "Papel e caderno",
+      "other": "Sistema ou outra ferramenta"
+    },
+    "toolRequired": "Selecione uma opção.",
+    "continue": "Continuar"
+  },
+  "step3": {
+    "eyebrow": "Tudo pronto!",
+    "title": "Sua empresa está criada.",
+    "subtitle": "Agora é hora de dar os primeiros passos dentro do seu painel.",
+    "orgCreated": "Empresa criada:",
+    "nextStepsTitle": "Comece por aqui:",
+    "nextSteps": {
+      "clients": "Cadastre seus primeiros clientes",
+      "services": "Crie uma ordem de serviço",
+      "settings": "Configure os dados da empresa"
+    },
+    "cta": "Ir para o painel"
+  },
+  "checklist": {
+    "title": "Primeiros passos",
+    "subtitle": "Complete essas etapas para aproveitar o produto desde o início.",
+    "dismiss": "Dispensar",
+    "tasks": {
+      "account": "Criar sua conta",
+      "client": "Cadastrar o primeiro cliente",
+      "service": "Criar a primeira ordem de serviço",
+      "settings": "Configurar os dados da empresa"
+    },
+    "completed": "{count} de {total} concluídos"
   }
 }

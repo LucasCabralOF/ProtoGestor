@@ -11,19 +11,27 @@ import {
 import type { DashboardData } from "@/lib/dashboard";
 import { Button } from "@/ui/base/Button";
 import { Card } from "@/ui/base/Card";
+import { OnboardingChecklist } from "./OnboardingChecklist";
 
 export function DashboardPage({
   userName,
   data,
+  hasClients,
+  hasServices,
 }: {
   userName: string;
   data: DashboardData;
+  /** Conta tem pelo menos 1 cliente ativo — usado para o checklist de ativação */
+  hasClients: boolean;
+  /** Conta tem pelo menos 1 ordem de serviço — usado para o checklist de ativação */
+  hasServices: boolean;
 }) {
   const t = useTranslations("dashboard");
   const { kpis } = data;
 
   return (
     <div className="flex flex-col gap-6">
+      <OnboardingChecklist hasClients={hasClients} hasServices={hasServices} />
       <header className="flex flex-col gap-2">
         <h1 className="text-3xl font-black tracking-tight">
           {t("title", { userName })}

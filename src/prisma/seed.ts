@@ -221,28 +221,14 @@ async function main() {
     },
   });
 
-  // Despesa (só pra ter no banco)
-  await prisma.transaction.create({
-    data: {
-      orgId: org.id,
-      type: "expense",
-      status: "paid",
-      amountCents: 120000,
-      paidAt: thisMonthPaid,
-      description: "Material de limpeza (demo)",
-      accountId: acc.id,
-      categoryId: catOps.id,
-      contactId: joao.id,
-    },
-  });
 
   // 7) Serviço + Agendamento
   const so = await prisma.serviceOrder.create({
     data: {
       orgId: org.id,
       status: "scheduled",
-      title: "Limpeza Residencial",
-      description: "Apartamento 2 quartos",
+      title: "Manutenção Preventiva",
+      description: "Verificação e ajuste de equipamentos",
       customerId: maria.id,
       valueCents: 25000,
     },
@@ -253,14 +239,14 @@ async function main() {
       {
         orgId: org.id,
         serviceOrderId: so.id,
-        title: "Limpeza Geral",
+        title: "Mão de obra",
         qty: 1,
         unitPriceCents: 20000,
       },
       {
         orgId: org.id,
         serviceOrderId: so.id,
-        title: "Vidros",
+        title: "Peças e materiais",
         qty: 1,
         unitPriceCents: 5000,
       },
@@ -297,6 +283,21 @@ async function main() {
     },
   });
 
+  // Despesa operacional genérica
+  await prisma.transaction.create({
+    data: {
+      orgId: org.id,
+      type: "expense",
+      status: "paid",
+      amountCents: 120000,
+      paidAt: thisMonthPaid,
+      description: "Material operacional (demo)",
+      accountId: acc.id,
+      categoryId: catOps.id,
+      contactId: joao.id,
+    },
+  });
+
   // 8) Atividade recente
   await prisma.activityLog.createMany({
     data: [
@@ -310,7 +311,7 @@ async function main() {
       {
         orgId: org.id,
         userId: demo.id,
-        message: "Serviço agendado: Limpeza Residencial (amanhã)",
+        message: "Visita agendada: Manutenção Preventiva (amanhã)",
         entityType: "service_order",
         entityId: so.id,
       },

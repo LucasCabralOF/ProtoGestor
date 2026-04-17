@@ -1,25 +1,85 @@
 {
   "badge": "Initial setup",
-  "title": "Let's create your organization, {userName}",
-  "subtitle": "Your first workspace activates the main tenant for the admin panel and unlocks the private product modules.",
-  "benefits": {
-    "ownerTitle": "You start as the owner",
-    "ownerDescription": "Your first organization is linked to your account with full access to configure the workspace.",
-    "tenantTitle": "The active tenant is ready",
-    "tenantDescription": "As soon as the organization is created, we set the active tenant and send you straight to the dashboard."
+  "title": "Welcome, {userName}",
+  "subtitle": "Let's set up your workspace in just a few steps.",
+  "steps": {
+    "indicator": "Step {current} of {total}",
+    "next": "Next",
+    "back": "Back",
+    "step1": "Your business",
+    "step2": "Quick context",
+    "step3": "All set!"
   },
-  "form": {
-    "eyebrow": "First step",
-    "title": "Create your main organization",
-    "subtitle": "You will be able to add more organizations and invite other people in the next product steps.",
+  "step1": {
+    "eyebrow": "Step 1 of 3",
+    "title": "What's your business name?",
+    "subtitle": "You can change this at any time in settings.",
     "signedAs": "Signed in as {email}",
-    "nameLabel": "Organization name",
-    "namePlaceholder": "Example: Bright Clean",
-    "nameRequired": "Enter the organization name.",
+    "nameLabel": "Business name",
+    "namePlaceholder": "e.g. Expert Maintenance",
+    "nameRequired": "Enter your business name.",
     "nameMin": "Use at least 2 characters.",
-    "slugPreviewLabel": "Initial slug",
-    "slugPreviewEmpty": "Type the name to generate the slug automatically.",
-    "submit": "Create organization",
+    "segmentLabel": "What is your area of service?",
+    "segmentPlaceholder": "Select...",
+    "segments": {
+      "maintenance": "Preventive maintenance",
+      "hvac": "HVAC and air conditioning",
+      "cleaning": "Cleaning and conservation",
+      "gardens": "Gardening and landscaping",
+      "facilities": "Facilities and property services",
+      "tech": "Technical support",
+      "other": "Other"
+    },
+    "segmentRequired": "Select a segment.",
+    "slugPreviewLabel": "Internal identifier (slug)",
+    "slugPreviewEmpty": "Generated from the name.",
+    "submit": "Create my business",
     "submitting": "Creating..."
+  },
+  "step2": {
+    "eyebrow": "Step 2 of 3",
+    "title": "Tell us a bit more",
+    "subtitle": "This helps us prepare the panel for your day-to-day.",
+    "clientCountLabel": "How many active clients do you have today?",
+    "clientCounts": {
+      "few": "Fewer than 30",
+      "medium": "Between 30 and 100",
+      "many": "More than 100"
+    },
+    "clientCountRequired": "Select a range.",
+    "toolLabel": "How do you manage your service appointments today?",
+    "tools": {
+      "whatsapp": "WhatsApp",
+      "spreadsheet": "Spreadsheet",
+      "paper": "Paper and notebook",
+      "other": "Software or other tool"
+    },
+    "toolRequired": "Select an option.",
+    "continue": "Continue"
+  },
+  "step3": {
+    "eyebrow": "All set!",
+    "title": "Your business has been created.",
+    "subtitle": "Now it's time to take your first steps inside your dashboard.",
+    "orgCreated": "Business created:",
+    "nextStepsTitle": "Start here:",
+    "nextSteps": {
+      "clients": "Register your first clients",
+      "services": "Create a service order",
+      "settings": "Set up business details"
+    },
+    "cta": "Go to dashboard"
+  },
+  "checklist": {
+    "title": "Getting started",
+    "subtitle": "Complete these steps to get up and running quickly.",
+    "dismiss": "Dismiss",
+    "tasks": {
+      "account": "Create your account",
+      "client": "Register your first client",
+      "service": "Create your first service order",
+      "settings": "Set up your business details"
+    },
+    "completed": "{count} of {total} completed"
   }
 }
