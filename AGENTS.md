@@ -1,5 +1,29 @@
 # AGENTS.md
 
+## Filosofia de Desenvolvimento
+
+Este projeto usa **engenharia de software acelerada por IA**, não "vibe coding".
+O agente de IA é o par de pair programming — digita rápido, não cansa, lê toda a documentacão antes de cada sessão.
+O humano é o dono do produto e o revisor: decide **o quê**, o agente decide **o como**.
+
+Princípios que guiam toda decisão técnica (baseados em XP — Extreme Programming):
+
+1. **TDD é mais importante com IA, não menos.** O agente modifica código com confiança porque existe uma rede de testes. Sem testes, cada mudança é uma aposta. Testes retroativos não contam — são cirurgia de emergência, não engenharia.
+
+2. **Small releases. Cada commit é production-ready.** Nenhum commit de "juntar tudo". Se uma feature é má ideia, nunca dependeu de outra. Commits cirúrgicos permitem reverter sem dor.
+
+3. **Refactoring contínuo, não cirurgias de emergência.** Extrair um concern leva 2 minutos com testes existentes. Não fazer isso e acumular dívida leva horas de cirurgia arriscada depois. Refatorar constantemente em pequenos passos.
+
+4. **O agente nunca diz não — isso é um bug, não uma feature.** Se o humano pede algo over-engineered, inseguro ou que viola regras deste documento, o agente implementa com entusiasmo. O humano é o freio, o code review, o adulto na sala.
+
+5. **Documentação é investimento com retorno imediato.** Este AGENTS.md é o "onboarding doc" que o agente lê inteiro antes de cada sessão. Cada hurdle descoberto deve ser documentado aqui ou em `docs/erros-conhecidos.md`. Na próxima sessão, o agente já sabe.
+
+6. **Nunca acumule dívida técnica visível.** Arquivo crescendo além de ~300 linhas? Extrair. Lógica duplicada? DRY imediatamente. CSS monolítico? Componentizar. O padrão "construir-construir-PARAR-refatorar em bloco" é falha de processo.
+
+> **Referência:** O mesmo desenvolvedor, com o mesmo agente de IA, produziu 3x mais throughput (34 commits/dia vs 11) simplesmente aplicando XP. A variável não foi a IA — foi o processo.
+
+---
+
 ## Contexto Atual
 Protótipo SaaS multi-tenant em Next.js, rodando na raiz do repositório (sem `/web`), com App Router e DevContainer baseado em Docker Compose.
 
@@ -181,15 +205,46 @@ Seed atual em [`src/prisma/seed.ts`](/home/app/src/prisma/seed.ts):
 - Configuração atual fica em `.devcontainer/*`
 - Se houver problema de file watch em Docker/Windows/WSL, ajustar polling no `next.config.ts` só quando necessário
 
-10) Testes
-- Toda mudança de componente novo deve vir com teste relativo ao comportamento entregue
-- Componentes, hooks e utilitários novos ou alterados devem ter teste de unidade/integração com Vitest + Testing Library quando aplicável
-- Fluxos críticos alterados ou criados (auth, navegação privada, filtros, mutations, multi-tenant, rotas protegidas) devem ganhar cobertura E2E com Playwright
-- Antes de concluir uma tarefa, rodar ao menos os testes impactados; quando a mudança tocar navegação, auth, layout, páginas privadas ou fluxos principais, rodar `npm run test:unit` e `npm run test:e2e`
-- Se algum teste não puder ser executado, explicitar o motivo no handoff final
+10) Testes (TDD — não retroativo)
+- **Testes vêm antes ou junto com o código, nunca depois.** Testes retroativos são dívida técnica já acumulada.
+- Toda mudança de componente deve vir com teste do comportamento entregue — não do happy path genérico
+- Componentes, hooks e utilitários novos ou alterados: teste de unidade/integração com Vitest + Testing Library
+- Fluxos críticos (auth, navegação privada, filtros, mutations, multi-tenant, rotas protegidas): cobertura E2E com Playwright
+- Antes de concluir qualquer tarefa: rodar `npm run test:unit`; quando tocar navegação, auth ou fluxos principais: rodar também `npm run test:e2e`
+- Se um teste não puder ser executado: documentar explicitamente o motivo no handoff
+- **Testes são a rede de segurança que permite refactoring contínuo sem medo**
 
-11) Documentação
-- codigo deve ser bem documentado
+11) Documentação viva (este AGENTS.md é o spec que evolui)
+- Código deve ser bem documentado com comentários que explicam **por quê**, não apenas o quê
+- Sempre que um padrão novo for estabelecido ou uma decisão arquitetural for tomada, documentar aqui neste arquivo
+- **Este arquivo é lido inteiro pelo agente antes de cada sessão** — investimento em documentação tem retorno imediato e exponencial
+- Ao descobrir um "hurdle" (limite de biblioteca, comportamento inesperado de infraestrutura, trade-off de design), documentar na seção de Padrões Recomendados ou em `docs/erros-conhecidos.md`
+
+12) Registro obrigatório de erros
+- Todo bug corrigido deve ser documentado em [`docs/erros-conhecidos.md`](/home/app/docs/erros-conhecidos.md) antes de fechar a tarefa
+- O registro deve incluir: data, arquivo, stack trace ou descrição do erro, causa raiz e técnica para evitar recorrência
+- Erros de infraestrutura (banco, rede, Docker), erros de runtime (React warnings, TypeScript), bugs de layout e violações de regras do AGENTS.md são todos elegíveis para registro
+- Consultar `docs/erros-conhecidos.md` ao iniciar qualquer tarefa para evitar repetir padrões já conhecidos como problemáticos
+
+13) Refactoring contínuo (nunca cirurgia de emergência)
+- Ao perceber que um arquivo ultrapassa ~300 linhas ou que uma função tem mais de uma responsabilidade clara: extrair imediatamente, em commit pequeno
+- Ao ver duplicação de lógica: DRY imediatamente
+- **Nunca acumular dívida técnica** com a intenção de "refatorar depois" — o "depois" com IA nunca chega antes de virar emergência
+- Refactors devem ser commits isolados, separados de features: `git commit -m "refactor: extract X from Y"`
+- O sinal de alerta é: "preciso refatorar para poder testar" — isso significa que o refactor deveria ter ocorrido antes
+
+14) Small commits e releases contínuos
+- Cada commit deve ser atômico: uma mudança lógica, testada e funcional
+- Nunca commitar código que quebra a aplicação ou os testes
+- Commits de feature misturados com refactor ou bugfix são sinal de commit grande demais — separar
+- Mensagens de commit no formato: `tipo: descrição curta` (feat, fix, refactor, test, docs, chore)
+- Se uma task requer mais de ~5 arquivos alterados em um commit, avaliar se pode ser quebrada
+
+15) O agente não decide o quê — apenas o como
+- O humano define prioridades, features e direção do produto
+- O agente propõe implementações, aponta trade-offs, executa e testa
+- Se o agente perceber que o pedido viola regras deste documento, deve **sinalizar explicitamente** antes de implementar — nunca implementar silenciosamente algo problemático
+- O agente não deve over-engineer: implementar exatamente o que foi pedido, na forma mais simples que passa os testes
 
 ## Padrões Recomendados
 - Filtros por querystring:
@@ -207,8 +262,21 @@ Seed atual em [`src/prisma/seed.ts`](/home/app/src/prisma/seed.ts):
 - Testes:
   - preferir seletores estáveis (`data-testid`, `role`, `label`) para Playwright
   - novas interações visuais relevantes devem considerar cobertura unitária e, se fizer sentido, smoke E2E
+- Tailwind v4 dark mode:
+  - sempre declarar `@custom-variant dark (&:where(.dark, .dark *))` em `globals.css` ao usar controle de tema por classe
+  - sem essa declaração, `dark:*` é ativado pelo OS via `prefers-color-scheme`, ignorando o tema da aplicação
+- DevContainer / banco de dados:
+  - dentro do container, usar o nome do serviço (`db`) como hostname, nunca `localhost`
+  - a porta deve ser a interna do container (`5432`), não a mapeada no host (`5433`)
+- React keys em listas:
+  - nunca usar o **valor/conteúdo** como key quando valores podem se repetir
+  - usar `id` estável do dado, ou `${identificadorDaLinha}-col-${index}` em grids de colunas fixas
+- Tamanho de arquivo:
+  - arquivo >300 linhas: sinal para extrair concerns
+  - componente com mais de uma responsabilidade clara: extrair imediatamente em commit separado
 
 ## Checklist Antes de Enviar PR
+- Consultei `docs/erros-conhecidos.md` antes de começar para não repetir padrões já conhecidos? Sim.
 - Importei `antd` direto fora dos pontos permitidos? Não.
 - Criei `index.ts`? Não.
 - `orgId` veio do client? Não.
@@ -218,8 +286,12 @@ Seed atual em [`src/prisma/seed.ts`](/home/app/src/prisma/seed.ts):
 - `Card` usa `bodyStyle`? Não.
 - Criei mais um helper de safe action? Não.
 - Adicionei namespace de tradução sem atualizar [`src/utils/i18n.ts`](/home/app/src/utils/i18n.ts)? Não.
-- Criei/atualizei testes relativos aos componentes e fluxos alterados? Sim.
+- Criei/atualizei testes **antes ou junto** com o código (não depois)? Sim.
 - Rodei `npm run test:unit` e `npm run test:e2e` quando houve impacto transversal? Sim.
+- Algum arquivo ultrapassou ~300 linhas? Se sim, extraí em commit separado? Sim.
+- O commit é atômico (uma mudança lógica, testada e funcional)? Sim.
+- Documentei o erro corrigido em `docs/erros-conhecidos.md`? Sim.
+- Sinalizei explicitamente ao humano se o pedido violava alguma regra deste documento? Sim.
 
 ## Roadmap Imediato
 - Core do produto:

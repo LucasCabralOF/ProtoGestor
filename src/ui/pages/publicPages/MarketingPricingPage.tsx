@@ -244,7 +244,7 @@ export async function MarketingPricingPage() {
                       {[row.founders, row.operation, row.team].map(
                         (value, index) => (
                           <div
-                            key={`${row.label}-${value}`}
+                            key={`${row.label}-col-${index}`}
                             className={
                               index === 1
                                 ? "rounded-[20px] border border-(--color-primary) bg-[rgba(22,119,255,0.08)] px-4 py-4 text-center text-sm font-semibold text-(--color-text-1)"
