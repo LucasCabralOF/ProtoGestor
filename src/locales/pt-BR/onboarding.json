@@ -2,6 +2,12 @@
   "badge": "Setup inicial",
   "title": "Bem-vindo, {userName}",
   "subtitle": "Vamos configurar seu espaço de trabalho em poucos passos.",
+  "benefits": {
+    "ownerTitle": "Você entra como responsável",
+    "ownerDescription": "Sua primeira organização já nasce vinculada à sua conta com acesso completo ao painel.",
+    "tenantTitle": "Pronto em menos de 2 minutos",
+    "tenantDescription": "Sem configurações complicadas. Responda as perguntas e comece a operar."
+  },
   "steps": {
     "indicator": "Passo {current} de {total}",
     "next": "Próximo",

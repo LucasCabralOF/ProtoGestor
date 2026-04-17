@@ -126,4 +126,31 @@ Omissão no processo de desenvolvimento: correções de layout e bug foram entre
 
 ---
 
+## ERR-006 — Redirect prematuro no onboarding após criação de org via Server Action
+
+**Data:** 2026-04-17  
+**Arquivo:** `src/ui/pages/onboarding/OnboardingPage.tsx` + `src/app/onboarding/page.tsx`  
+**Erro (comportamento):**  
+Usuário preenche Step 1 (nome da empresa), clica em "Próximo" e é redirecionado para `/dashboard` sem ver o Step 2.
+
+**Causa raiz:**  
+`createOrganizationAction` era chamada no Step 1. Como é uma Server Action, ao completar:
+1. Seta o cookie `ACTIVE_ORG_COOKIE`
+2. O Next.js App Router invalida o Router Cache para a rota `/onboarding`
+3. O servidor re-renderiza `OnboardingRoute`
+4. `getTenantContext()` agora encontra a org (cookie presente)
+5. `redirect("/dashboard")` é disparado antes do usuário ver Steps 2 e 3
+
+**Correção aplicada:**  
+Movida a chamada de `createOrganizationAction` para o **Step 3** (`Step3Confirm`), onde o usuário já completou todos os passos do wizard. Logo após a criação, chamamos `router.replace("/dashboard")` imediatamente — a navegação chega antes de qualquer re-render problemático.
+
+Além disso, o campo `segment` (select nativo dentro de `Form.Item` AntD) foi extraído para **estado local** (fora do Form), eliminando o warning `defaultValue will not work on controlled Field`.
+
+**Regra para evitar recorrência:**  
+- **Nunca chamar Server Actions que escrevem cookies** no meio de um wizard multi-steps client-side — o Router Cache será invalidado e o servidor pode redirecionar o usuário de forma inesperada.
+- A criação de recursos que afetam o estado de autenticação/tenant deve acontecer no **último passo intencional** do wizard.
+- Campos nativos (`<select>`, `<input type="radio">`) dentro de `Form.Item` AntD devem ser controlados via estado local + `form.setFieldValue`, ou gerenciados completamente fora do Form para evitar conflito de `defaultValue`.
+
+---
+
 *Última atualização: 2026-04-17*

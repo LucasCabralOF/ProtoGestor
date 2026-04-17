@@ -2,6 +2,12 @@
   "badge": "Initial setup",
   "title": "Welcome, {userName}",
   "subtitle": "Let's set up your workspace in just a few steps.",
+  "benefits": {
+    "ownerTitle": "You start as the owner",
+    "ownerDescription": "Your first organization is linked to your account with full access to the dashboard.",
+    "tenantTitle": "Ready in under 2 minutes",
+    "tenantDescription": "No complicated setup. Answer the questions and start operating."
+  },
   "steps": {
     "indicator": "Step {current} of {total}",
     "next": "Next",

@@ -30,7 +30,7 @@ import {
 } from "./onboarding-utils";
 
 // ---------------------------------------------------------------------------
-// Tipos e constantes
+// Tipos do wizard
 // ---------------------------------------------------------------------------
 
 const TOTAL_STEPS = 3;
@@ -39,11 +39,10 @@ type WizardState = {
   step: 1 | 2 | 3;
   step1: Partial<OnboardingStep1Data>;
   step2: Partial<OnboardingStep2Data>;
-  createdOrgName: string;
 };
 
 // ---------------------------------------------------------------------------
-// Sub-componentes de step
+// Step Indicator
 // ---------------------------------------------------------------------------
 
 function StepIndicator({
@@ -84,71 +83,60 @@ function StepIndicator({
 }
 
 // ---------------------------------------------------------------------------
-// Step 1 — Nome e segmento (persiste no servidor)
+// Step 1 — Nome e segmento (client-only; org ainda não é criada aqui)
+//
+// A criação da org foi movida para o Step 3 para evitar que o cookie
+// ACTIVE_ORG_COOKIE seja setado prematuramente. Se settarmos o cookie aqui,
+// o Next.js invalida o Router Cache e o servidor re-renderiza /onboarding,
+// que detecta a org e redireciona para /dashboard antes do Step 2 ser exibido.
+// (ver docs/erros-conhecidos.md ERR-006)
 // ---------------------------------------------------------------------------
 
 function Step1Form({
   initial,
   userEmail,
-  onSuccess,
+  onNext,
 }: {
   initial: Partial<OnboardingStep1Data>;
   userEmail: string | null;
-  onSuccess: (name: string, segment: string, orgName: string) => void;
+  onNext: (name: string, segment: string) => void;
 }) {
   const t = useTranslations("onboarding");
-  const [form] = Form.useForm<OnboardingStep1Data>();
-  const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
 
+  // `name` é gerenciado pelo Form do AntD para validação nativa
+  const [form] = Form.useForm<{ name: string }>();
   const nameValue = Form.useWatch("name", form) ?? initial.name ?? "";
+
+  // `segment` é estado local para evitar conflito de `defaultValue` em
+  // campo nativo `<select>` dentro de Form.Item controlado pelo AntD
+  const [segment, setSegment] = useState(initial.segment ?? "");
+  const [segmentTouched, setSegmentTouched] = useState(false);
+  const segmentError = segmentTouched && !segment;
+
   const slugPreview =
     nameValue.trim().length >= 2
       ? slugifyOrganizationName(nameValue)
       : null;
 
-  async function handleSubmit(values: OnboardingStep1Data) {
-    const errors = validateStep1(values);
+  async function handleSubmit(values: { name: string }) {
+    setSegmentTouched(true);
+    const errors = validateStep1({ name: values.name, segment });
     if (errors.length > 0) return;
-
-    setServerError(null);
-    setLoading(true);
-    try {
-      const result = await createOrganizationAction({ name: values.name });
-
-      // Detectar server error da action
-      const r = result as Record<string, unknown> | null | undefined;
-      const serverErr =
-        typeof r?.serverError === "string" ? r.serverError : null;
-      if (serverErr) {
-        setServerError(serverErr);
-        return;
-      }
-
-      onSuccess(values.name, values.segment, values.name);
-    } finally {
-      setLoading(false);
-    }
+    onNext(values.name.trim(), segment);
   }
 
   return (
-    <Form<OnboardingStep1Data>
+    <Form<{ name: string }>
       form={form}
       layout="vertical"
       requiredMark={false}
-      initialValues={initial}
+      initialValues={{ name: initial.name ?? "" }}
       onFinish={handleSubmit}
     >
       {userEmail ? (
         <p className="mb-5 text-sm text-(--color-text-2)">
           {t("step1.signedAs", { email: userEmail })}
         </p>
-      ) : null}
-
-      {serverError ? (
-        <div className="mb-4">
-          <Alert type="error" title={serverError} testid="onboarding-server-error" />
-        </div>
       ) : null}
 
       <Form.Item
@@ -174,17 +162,23 @@ function Step1Form({
         </p>
       </div>
 
-      <Form.Item
-        name="segment"
-        label={t("step1.segmentLabel")}
-        rules={[{ required: true, message: t("step1.segmentRequired") }]}
-      >
-        {/* Wrapper select nativo — AntD Select está restrito a src/ui/base/ */}
+      {/* Segmento fora do Form.Item — gerenciado por estado local */}
+      <div className="mb-5">
+        <label
+          htmlFor="onboarding-segment"
+          className="mb-1.5 block text-sm font-medium text-(--color-text-1)"
+        >
+          {t("step1.segmentLabel")}
+        </label>
         <select
+          id="onboarding-segment"
           data-testid="onboarding-segment"
+          value={segment}
+          onChange={(e) => {
+            setSegment(e.target.value);
+            setSegmentTouched(true);
+          }}
           className="w-full rounded-lg border border-(--color-border) bg-(--color-base-1) px-3 py-2 text-sm text-(--color-text-1) focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
-          defaultValue={initial.segment ?? ""}
-          onChange={(e) => form.setFieldValue("segment", e.target.value)}
         >
           <option value="" disabled>
             {t("step1.segmentPlaceholder")}
@@ -195,17 +189,21 @@ function Step1Form({
             </option>
           ))}
         </select>
-      </Form.Item>
+        {segmentError ? (
+          <p className="mt-1 text-xs text-red-500">
+            {t("step1.segmentRequired")}
+          </p>
+        ) : null}
+      </div>
 
       <Button
-        testid="onboarding-submit"
+        testid="onboarding-next-step1"
         type="primary"
-        loading={loading}
         htmlType="submit"
       >
         <span className="inline-flex items-center gap-2">
-          {loading ? t("step1.submitting") : t("step1.submit")}
-          <FiArrowRight />
+          {t("steps.next")}
+          <FiArrowRight size={14} />
         </span>
       </Button>
     </Form>
@@ -230,9 +228,7 @@ function Step2Form({
   const [tool, setTool] = useState(initial.tool ?? "");
   const [touched, setTouched] = useState(false);
 
-  const errors = touched
-    ? validateStep2({ clientCount, tool })
-    : [];
+  const errors = touched ? validateStep2({ clientCount, tool }) : [];
 
   function handleNext() {
     setTouched(true);
@@ -305,7 +301,9 @@ function Step2Form({
           ))}
         </div>
         {errors.includes("tool") ? (
-          <p className="mt-1 text-xs text-red-500">{t("step2.toolRequired")}</p>
+          <p className="mt-1 text-xs text-red-500">
+            {t("step2.toolRequired")}
+          </p>
         ) : null}
       </div>
 
@@ -319,14 +317,10 @@ function Step2Form({
           <FiArrowLeft size={14} />
           {t("steps.back")}
         </button>
-        <Button
-          testid="onboarding-next"
-          type="primary"
-          onClick={handleNext}
-        >
+        <Button testid="onboarding-next-step2" type="primary" onClick={handleNext}>
           <span className="inline-flex items-center gap-2">
             {t("step2.continue")}
-            <FiArrowRight />
+            <FiArrowRight size={14} />
           </span>
         </Button>
       </div>
@@ -335,30 +329,52 @@ function Step2Form({
 }
 
 // ---------------------------------------------------------------------------
-// Step 3 — Confirmação e próximos passos
+// Step 3 — Confirmação + criação real da org
+//
+// A org é criada AQUI, não no Step 1, para evitar que o cookie
+// ACTIVE_ORG_COOKIE seja setado antes do usuário completar o wizard.
+// Logo após a criação, navegamos para /dashboard — o redirect do servidor
+// (caso o Next.js re-renderize /onboarding) não chega a ser perceptível.
 // ---------------------------------------------------------------------------
 
-function Step3Done({
+function Step3Confirm({
   orgName,
-  onFinish,
+  onBack,
+  onCreated,
 }: {
   orgName: string;
-  onFinish: () => void;
+  onBack: () => void;
+  onCreated: (createdName: string) => void;
 }) {
   const t = useTranslations("onboarding");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleCreate() {
+    setError(null);
+    setLoading(true);
+    try {
+      const result = await createOrganizationAction({ name: orgName });
+      const r = result as Record<string, unknown> | null | undefined;
+      const serverErr =
+        typeof r?.serverError === "string" ? r.serverError : null;
+      if (serverErr) {
+        setError(serverErr);
+        return;
+      }
+      onCreated(orgName);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-50 p-4 dark:bg-emerald-950/20">
-        <FiCheckCircle size={20} className="shrink-0 text-emerald-600 dark:text-emerald-400" />
-        <div>
-          <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
-            {t("step3.orgCreated")}
-          </p>
-          <p className="text-base font-bold text-emerald-800 dark:text-emerald-200">
-            {orgName}
-          </p>
-        </div>
+      <div className="rounded-2xl border border-(--color-border) bg-(--color-base-2) p-4 text-sm">
+        <p className="font-medium text-(--color-text-2)">
+          {t("step3.orgCreated")}
+        </p>
+        <p className="mt-1 text-base font-bold">{orgName}</p>
       </div>
 
       <div>
@@ -380,22 +396,54 @@ function Step3Done({
         </div>
       </div>
 
-      <Button
-        testid="onboarding-go-dashboard"
-        type="primary"
-        onClick={onFinish}
-      >
-        <span className="inline-flex items-center gap-2">
-          {t("step3.cta")}
-          <FiArrowRight />
-        </span>
-      </Button>
+      {error ? (
+        <Alert type="error" title={error} testid="onboarding-create-error" />
+      ) : null}
+
+      <div className="flex gap-3">
+        <button
+          type="button"
+          onClick={onBack}
+          disabled={loading}
+          className="inline-flex items-center gap-2 rounded-full border border-(--color-border) bg-(--color-base-1) px-5 py-2.5 text-sm font-medium text-(--color-text-1) transition hover:bg-(--color-base-2) disabled:opacity-50"
+          data-testid="onboarding-back-step3"
+        >
+          <FiArrowLeft size={14} />
+          {t("steps.back")}
+        </button>
+        <Button
+          testid="onboarding-go-dashboard"
+          type="primary"
+          loading={loading}
+          onClick={handleCreate}
+        >
+          <span className="inline-flex items-center gap-2">
+            {loading ? t("step1.submitting") : t("step3.cta")}
+            <FiArrowRight size={14} />
+          </span>
+        </Button>
+      </div>
     </div>
   );
 }
 
 // ---------------------------------------------------------------------------
-// Componente principal — OrboardingPage
+// Step 3 Done — exibido brevemente após a criação enquanto navegamos
+// ---------------------------------------------------------------------------
+
+function Step3Done({ orgName }: { orgName: string }) {
+  const t = useTranslations("onboarding");
+  return (
+    <div className="flex flex-col items-center gap-4 py-4 text-center">
+      <FiCheckCircle size={40} className="text-emerald-500" />
+      <p className="text-xl font-black">{t("step3.title")}</p>
+      <p className="text-sm text-(--color-text-2)">{orgName}</p>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Componente principal — OnboardingPage
 // ---------------------------------------------------------------------------
 
 export function OnboardingPage({
@@ -412,28 +460,19 @@ export function OnboardingPage({
     step: 1,
     step1: {},
     step2: {},
-    createdOrgName: "",
   });
+  const [createdOrgName, setCreatedOrgName] = useState("");
 
-  function handleStep1Success(
-    name: string,
-    segment: string,
-    orgName: string,
-  ) {
+  function handleStep1Next(name: string, segment: string) {
     setWizard((prev) => ({
       ...prev,
       step: 2,
       step1: { name, segment },
-      createdOrgName: orgName,
     }));
   }
 
   function handleStep2Next(data: OnboardingStep2Data) {
-    setWizard((prev) => ({
-      ...prev,
-      step: 3,
-      step2: data,
-    }));
+    setWizard((prev) => ({ ...prev, step: 3, step2: data }));
   }
 
   function handleBack() {
@@ -443,10 +482,32 @@ export function OnboardingPage({
     }));
   }
 
-  function handleFinish() {
+  function handleCreated(orgName: string) {
+    setCreatedOrgName(orgName);
+    // Navega imediatamente — o servidor re-renderizará /onboarding com a
+    // org já existente e redirecionaria para /dashboard, mas estamos chegando
+    // lá primeiro via router.replace
     router.replace("/dashboard");
     router.refresh();
   }
+
+  const stepTitles = {
+    1: t("step1.title"),
+    2: t("step2.title"),
+    3: t("step3.title"),
+  } as const;
+
+  const stepSubtitles = {
+    1: t("step1.subtitle"),
+    2: t("step2.subtitle"),
+    3: t("step3.subtitle"),
+  } as const;
+
+  const stepEyebrows = {
+    1: t("step1.eyebrow"),
+    2: t("step2.eyebrow"),
+    3: t("step3.eyebrow"),
+  } as const;
 
   return (
     <div className="min-h-screen w-full bg-(--color-base-3) text-(--color-text-1)">
@@ -469,7 +530,6 @@ export function OnboardingPage({
               </p>
             </div>
 
-            {/* Bullets de valor */}
             <div className="grid gap-3">
               <div className="rounded-3xl border border-(--color-border) bg-(--color-base-1) p-5">
                 <div className="flex items-start gap-4">
@@ -477,9 +537,7 @@ export function OnboardingPage({
                     <FiUsers size={16} />
                   </div>
                   <div>
-                    <p className="font-semibold">
-                      {t("benefits.ownerTitle")}
-                    </p>
+                    <p className="font-semibold">{t("benefits.ownerTitle")}</p>
                     <p className="mt-1 text-sm text-(--color-text-2)">
                       {t("benefits.ownerDescription")}
                     </p>
@@ -493,11 +551,9 @@ export function OnboardingPage({
                     <FiZap size={16} />
                   </div>
                   <div>
-                    <p className="font-semibold">
-                      Pronto em menos de 2 minutos
-                    </p>
+                    <p className="font-semibold">{t("benefits.tenantTitle")}</p>
                     <p className="mt-1 text-sm text-(--color-text-2)">
-                      Sem configurações complicadas. Responda 3 perguntas e comece a operar.
+                      {t("benefits.tenantDescription")}
                     </p>
                   </div>
                 </div>
@@ -521,47 +577,42 @@ export function OnboardingPage({
                 </span>
               </div>
 
-              <div className="mb-5">
-                <p className="text-xs font-semibold uppercase tracking-widest text-(--color-text-2)">
-                  {wizard.step === 1
-                    ? t("step1.eyebrow")
-                    : wizard.step === 2
-                      ? t("step2.eyebrow")
-                      : t("step3.eyebrow")}
-                </p>
-                <h2 className="mt-2 text-2xl font-black tracking-tight">
-                  {wizard.step === 1
-                    ? t("step1.title")
-                    : wizard.step === 2
-                      ? t("step2.title")
-                      : t("step3.title")}
-                </h2>
-                <p className="mt-1 text-sm text-(--color-text-2)">
-                  {wizard.step === 1
-                    ? t("step1.subtitle")
-                    : wizard.step === 2
-                      ? t("step2.subtitle")
-                      : t("step3.subtitle")}
-                </p>
-              </div>
-
-              {wizard.step === 1 ? (
-                <Step1Form
-                  initial={wizard.step1}
-                  userEmail={userEmail}
-                  onSuccess={handleStep1Success}
-                />
-              ) : wizard.step === 2 ? (
-                <Step2Form
-                  initial={wizard.step2}
-                  onNext={handleStep2Next}
-                  onBack={handleBack}
-                />
+              {createdOrgName ? (
+                <Step3Done orgName={createdOrgName} />
               ) : (
-                <Step3Done
-                  orgName={wizard.createdOrgName}
-                  onFinish={handleFinish}
-                />
+                <>
+                  <div className="mb-5">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-(--color-text-2)">
+                      {stepEyebrows[wizard.step]}
+                    </p>
+                    <h2 className="mt-2 text-2xl font-black tracking-tight">
+                      {stepTitles[wizard.step]}
+                    </h2>
+                    <p className="mt-1 text-sm text-(--color-text-2)">
+                      {stepSubtitles[wizard.step]}
+                    </p>
+                  </div>
+
+                  {wizard.step === 1 ? (
+                    <Step1Form
+                      initial={wizard.step1}
+                      userEmail={userEmail}
+                      onNext={handleStep1Next}
+                    />
+                  ) : wizard.step === 2 ? (
+                    <Step2Form
+                      initial={wizard.step2}
+                      onNext={handleStep2Next}
+                      onBack={handleBack}
+                    />
+                  ) : (
+                    <Step3Confirm
+                      orgName={wizard.step1.name ?? ""}
+                      onBack={handleBack}
+                      onCreated={handleCreated}
+                    />
+                  )}
+                </>
               )}
             </div>
 
