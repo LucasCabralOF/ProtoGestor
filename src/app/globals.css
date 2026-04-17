@@ -2,6 +2,7 @@
 @import "antd/dist/reset.css";
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
 /* =========================================================
    TOKENS
 ========================================================= */
@@ -88,6 +89,81 @@ a {
 }
 a:hover {
   text-decoration: underline;
+}
+
+/* =========================================================
+   MARKETING
+========================================================= */
+@keyframes marketingFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes marketingPulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.05);
+  }
+}
+
+.marketing-grid-pattern {
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+    radial-gradient(
+      circle at top left,
+      rgba(22, 119, 255, 0.16),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(15, 23, 42, 0.08),
+      transparent 28%
+    );
+  background-position: center;
+  background-size:
+    32px 32px,
+    32px 32px,
+    auto,
+    auto;
+}
+
+.dark .marketing-grid-pattern {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    radial-gradient(
+      circle at top left,
+      rgba(22, 119, 255, 0.18),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(255, 255, 255, 0.06),
+      transparent 28%
+    );
+}
+
+.marketing-float-slow {
+  animation: marketingFloat 10s ease-in-out infinite;
+}
+
+.marketing-float-fast {
+  animation: marketingFloat 7s ease-in-out infinite reverse;
+}
+
+.marketing-pulse {
+  animation: marketingPulse 6s ease-in-out infinite;
 }
 
 /* =========================================================

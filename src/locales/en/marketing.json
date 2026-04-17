@@ -1,0 +1,338 @@
+{
+  "nav": {
+    "home": "Product",
+    "pricing": "Pricing",
+    "login": "Sign in",
+    "signup": "Create account"
+  },
+  "hero": {
+    "eyebrow": "Operations without the headache",
+    "title": "Ditch the spreadsheets and actually control your services",
+    "subtitle": "I know how much it hurts to drop the ball on a scheduled visit. Proto groups your clients, scheduling, work orders, and collections in one clean flow.",
+    "primaryCta": "Start free trial",
+    "secondaryCta": "See how much it costs",
+    "badges": [
+      "Ready in minutes",
+      "No more lost spreadsheets",
+      "Perfect for field teams",
+      "Built for simplicity"
+    ],
+    "panelEyebrow": "You in the driver's seat",
+    "panelTitle": "Track everything coming in, going out, and needing attention",
+    "panelSubtitle": "Take one glance and know instantly: what's scheduled today, who's out on the field, and who still owes you money.",
+    "mockLive": "Live tracking",
+    "mockPipelineTitle": "Today's rhythm",
+    "mockPipelineSubtitle": "From scheduled visits to completed jobs",
+    "mockVisitsTitle": "Next stops",
+    "mockQueueTitle": "Money on the table",
+    "mockFocusLabel": "The weekly goal",
+    "mockFocusItems": {
+      "clients": "Get the full client history instantly",
+      "schedule": "See schedule, visits, and work orders working together",
+      "collections": "No more parallel spreadsheets just to bill someone"
+    },
+    "mockPipeline": [
+      {
+        "label": "Booked",
+        "count": "12"
+      },
+      {
+        "label": "In the field",
+        "count": "4"
+      },
+      {
+        "label": "Finished",
+        "count": "9"
+      }
+    ],
+    "mockVisits": [
+      {
+        "time": "08:00",
+        "client": "Horizon Condo",
+        "service": "Monthly review",
+        "status": "Confirmed"
+      },
+      {
+        "time": "10:30",
+        "client": "Central Clinic",
+        "service": "Technical visit",
+        "status": "On the way"
+      },
+      {
+        "time": "14:00",
+        "client": "Solaris Tower",
+        "service": "Follow-up",
+        "status": "Waiting"
+      }
+    ],
+    "mockQueue": [
+      {
+        "label": "To collect today",
+        "value": "$980"
+      },
+      {
+        "label": "Overdue payments",
+        "value": "$420"
+      }
+    ],
+    "panelStats": [
+      {
+        "label": "Visits this week",
+        "value": "18"
+      },
+      {
+        "label": "Open work orders",
+        "value": "7"
+      },
+      {
+        "label": "Pending collections",
+        "value": "$3,240"
+      }
+    ]
+  },
+  "problem": {
+    "eyebrow": "Where the grind hurts",
+    "title": "Keeping the whole operation in your head gets expensive (and stressful)",
+    "subtitle": "You're already working hard. The real problem is having your schedule right here, your billing over there, and a client completely lost in the middle.",
+    "cards": {
+      "recurring": {
+        "title": "You're missing recurring revenue",
+        "body": "Ever forgot to check back on a monthly client? When there's no clear calendar, maintenance visits slip away, and revenue goes down the drain."
+      },
+      "orders": {
+        "title": "Work orders don't talk to each other",
+        "body": "The team does the work, but where is the record? When the important stuff isn't written down, it becomes a guessing game between you and the client."
+      },
+      "collections": {
+        "title": "Collections become an afterthought",
+        "body": "If you have to open another app or spreadsheet just to see who paid, cash flow slows down. It gets impossible to measure."
+      }
+    }
+  },
+  "features": {
+    "eyebrow": "Straight to the point",
+    "title": "The basics done right, with zero useless complexity",
+    "subtitle": "I built Proto thinking of the small business owner. No bureaucratic, slow enterprise software over here.",
+    "items": {
+      "clients": {
+        "title": "Clients that matter",
+        "body": "Keep the people who pay the bills together. Phones, addresses, and a full track record of what you've done for them."
+      },
+      "schedule": {
+        "title": "Smart scheduling",
+        "body": "Book field visits without double-booking. Focus on recurring appointments and let the system warn you about deadlines."
+      },
+      "orders": {
+        "title": "Effortless Work Orders",
+        "body": "Note what happened during the visit. Stop asking in the company chat what part was replaced last time."
+      },
+      "finance": {
+        "title": "Finance without the panic",
+        "body": "Look at it and understand it. Know your active invoices, what you should have collected by now, and the cash in your pocket."
+      },
+      "reports": {
+        "title": "The pulse of your business",
+        "body": "A quick summary of how much you're doing out there, and how much of it is actually turning into profit."
+      }
+    }
+  },
+  "segments": {
+    "eyebrow": "Who is Proto for?",
+    "title": "Small teams living out in the field",
+    "subtitle": "Designed for 1 to 10 people operating through visits, providing on-demand services, or dealing with monthly contracts.",
+    "items": {
+      "maintenance": "General Maintenance",
+      "hvac": "HVAC & Air Conditioning",
+      "pestControl": "Pest Control",
+      "facilities": "Facilities Management",
+      "propertyServices": "Property Repairs",
+      "gardens": "Gardening & Landscaping",
+      "fieldSupport": "Tech & IT Support"
+    }
+  },
+  "steps": {
+    "eyebrow": "No 200-page manual",
+    "title": "Three steps and you'll see the value",
+    "stepLabel": "Step {value}",
+    "items": {
+      "clients": {
+        "title": "Drop your clients in",
+        "body": "Forget the phone's address book. Set up your client base once and never struggle to find their info again."
+      },
+      "visits": {
+        "title": "Put the visits on the board",
+        "body": "Just plug your folks on the map. Track the execution and turn everything into dead-simple Work Orders."
+      },
+      "collections": {
+        "title": "Close the deal quickly",
+        "body": "Job done? Great. The Work Order itself turns into an invoice to collect. End-to-end control, no tears involved."
+      }
+    }
+  },
+  "valueBand": {
+    "eyebrow": "What's in it for you",
+    "title": "Don't reinvent the wheel. Just let it spin smoother.",
+    "items": [
+      {
+        "value": "Zero drops in the field",
+        "label": "All the info ties together on one screen"
+      },
+      {
+        "value": "End of improvisation",
+        "label": "The team knows exactly what to do when they arrive"
+      },
+      {
+        "value": "More peace of mind",
+        "label": "You just monitor the whole thing from above"
+      }
+    ]
+  },
+  "pricingPreview": {
+    "eyebrow": "Clear Pricing",
+    "title": "No annoying surprises at the end of the month",
+    "subtitle": "I want you to try it, feel the relief in your operations, and only pay if you genuinely believe it's worth it.",
+    "viewPlans": "Check all our pricing tiers"
+  },
+  "plans": {
+    "period": "per month",
+    "popularBadge": "Makes the most sense",
+    "founders": {
+      "name": "Founding Member",
+      "description": "If you jump in early, you get special pricing and help me shape what comes next.",
+      "highlights": [
+        "1 organization",
+        "Up to 2 team members",
+        "Clients, Schedule & Work Orders",
+        "Daily indicators",
+        "Direct support from me"
+      ],
+      "cta": "Become a Founder"
+    },
+    "operation": {
+      "name": "Fluid Operation",
+      "description": "For those who know they need to get their house in order. Full operating cycle and finance already plugged in.",
+      "highlights": [
+        "1 organization",
+        "Up to 3 team members",
+        "Recurrence Module",
+        "Crystal clear financials",
+        "Everything in the base reports"
+      ],
+      "cta": "Level up today"
+    },
+    "team": {
+      "name": "Full Team",
+      "description": "Perfect if you've outgrown the early limits and need to put more techs in the field pulling their weight.",
+      "highlights": [
+        "The whole Operation bundle",
+        "Stretch up to 10 field techs",
+        "Audit logs on who did what",
+        "Premium support for your business"
+      ],
+      "cta": "I want to scale"
+    }
+  },
+  "pricingPage": {
+    "eyebrow": "Your move",
+    "title": "Pick how you want to change your routine",
+    "subtitle": "Let's not make pricing a headache. Step in slowly, watch your client flow improve, and upgrade only when you feel like it.",
+    "ribbon": {
+      "trial": "Try it for 14 days",
+      "manual": "No upfront credit card",
+      "value": "Buy some peace of mind"
+    },
+    "decisionCards": [
+      {
+        "title": "Simplify immediately",
+        "body": "We jump straight from pain points to quick fixes. I'd rather give you airtight Work Orders tomorrow than upsell you magic features a year from now."
+      },
+      {
+        "title": "It's all about value",
+        "body": "If you normally jot your schedule down on paper, and now see your whole day smoothly routed, it pays for itself. Plain and simple."
+      },
+      {
+        "title": "Shift gears later",
+        "body": "As you notice fewer forgotten follow-ups, the need for the Full Team plan will naturally pop up when the time is right."
+      }
+    ],
+    "notesEyebrow": "Our Agreement",
+    "notesTitle": "Why Proto plays it straight with you",
+    "notes": [
+      "No traps. The goal here is to fix your daily mess, not to force you into buying modules you'll never touch.",
+      "I don't want your credit card held hostage. Start free. Once your operations can't live without it, we go official.",
+      "If you hit any snags during your first week, talk to me. I'll personally help you out on WhatsApp to get your business soaring."
+    ],
+    "comparison": {
+      "eyebrow": "The breakdown",
+      "title": "What you get at every step",
+      "subtitle": "I won't complicate this. Check the exact differences right here without squinting.",
+      "header": {
+        "feature": "Your Toolkit"
+      },
+      "rows": [
+        {
+          "label": "Number of allowed team members",
+          "founders": "2 folks",
+          "operation": "3 folks",
+          "team": "Up to 10 warriors"
+        },
+        {
+          "label": "Smart scheduling engine",
+          "founders": "Yep, the basics",
+          "operation": "Fully unlocked",
+          "team": "Fully unlocked"
+        },
+        {
+          "label": "Easy income & expenses",
+          "founders": "Basic dashboard",
+          "operation": "Open and due invoices",
+          "team": "Absolute tracking"
+        },
+        {
+          "label": "The cash pulse (Reports)",
+          "founders": "Just what matters",
+          "operation": "The whole month",
+          "team": "Complete breakdowns"
+        },
+        {
+          "label": "Someone to hold your hand",
+          "founders": "Direct help from me",
+          "operation": "Fast dashboard support",
+          "team": "You skip the line on any ticket"
+        }
+      ]
+    },
+    "faqEyebrow": "Natural Doubts",
+    "faqTitle": "What folks usually ask me before signing up"
+  },
+  "faq": {
+    "items": {
+      "who": {
+        "question": "Does Proto actually work for my kind of business?",
+        "answer": "It's built for almost any small company where people have to head out to do the service (maintenance, installations) or handle recurring client visits."
+      },
+      "erp": {
+        "question": "Is this going to turn into a giant system for taxes, heavy inventory, and complex accounting?",
+        "answer": "Nope. My motto is to focus purely on the battlefield: a happy Client, a finished Visit, a closed Work Order, and the Cash in the bank. I leave the bureaucracy to other tools."
+      },
+      "install": {
+        "question": "Do I need to install this on everybody's computer?",
+        "answer": "Not at all, it runs straight from your browser. You can access it on your phone while driving to the client, or on your office computer, nice and chill."
+      },
+      "team": {
+        "question": "It's just me and one person in finance. Is it worth it?",
+        "answer": "It's designed exactly for that! Small teams are the ones who try to keep everything in their heads and end up hurting. Starting with a clean slate is so much better."
+      }
+    }
+  },
+  "finalCta": {
+    "eyebrow": "It's about time, huh?",
+    "title": "Grab the reins of your business right now",
+    "body": "Take that feeling of leaving everything neatly tied up for tomorrow and use Proto to actually put it into practice without suffering.",
+    "primaryCta": "I'm creating my account",
+    "secondaryCta": "I just want to sign in"
+  },
+  "footer": {
+    "copy": "Proto. Running real services, for people who like to see it happen."
+  }
+}

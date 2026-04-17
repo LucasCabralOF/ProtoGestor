@@ -9,6 +9,7 @@ export const namespaces = [
   "common",
   "dashboard",
   "errors",
+  "marketing",
   "navigation",
   "onboarding",
   "projects",

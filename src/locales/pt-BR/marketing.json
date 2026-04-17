@@ -1,0 +1,338 @@
+{
+  "nav": {
+    "home": "Produto",
+    "pricing": "Planos",
+    "login": "Entrar",
+    "signup": "Criar conta"
+  },
+  "hero": {
+    "eyebrow": "Operações na palma da mão",
+    "title": "Saia do WhatsApp e organize seus serviços de verdade",
+    "subtitle": "Eu sei o quanto custa perder aquele agendamento esquecido numa conversa. O Proto põe clientes, agenda, OS e cobrança no mesmo fluxo, de um jeito fácil para o seu time todo.",
+    "primaryCta": "Começar teste gratuito",
+    "secondaryCta": "Ver como funciona o preço",
+    "badges": [
+      "No ar em minutos",
+      "Livre de planilhas",
+      "Perfeito para times de campo",
+      "Feito para simplificar"
+    ],
+    "panelEyebrow": "Você no controle",
+    "panelTitle": "Acompanhe tudo que entra, sai e precisa de atenção",
+    "panelSubtitle": "Bata o olho e já entenda: o que foi agendado pra hoje, quem está em campo e quem falta pagar as contas.",
+    "mockLive": "Visão ao vivo",
+    "mockPipelineTitle": "Ritmo de hoje",
+    "mockPipelineSubtitle": "Das visitas agendadas até o que já terminou",
+    "mockVisitsTitle": "Próximas paradas",
+    "mockQueueTitle": "Grana pendente",
+    "mockFocusLabel": "A meta da semana",
+    "mockFocusItems": {
+      "clients": "Ter o histórico completo do cliente na hora",
+      "schedule": "Ver agenda, visitas e OS trabalhando juntas",
+      "collections": "Nada de planilha separada só pra cobrar"
+    },
+    "mockPipeline": [
+      {
+        "label": "Na agenda",
+        "count": "12"
+      },
+      {
+        "label": "Em campo",
+        "count": "4"
+      },
+      {
+        "label": "Pronto",
+        "count": "9"
+      }
+    ],
+    "mockVisits": [
+      {
+        "time": "08:00",
+        "client": "Condomínio Horizonte",
+        "service": "Revisão mensal",
+        "status": "Confirmado"
+      },
+      {
+        "time": "10:30",
+        "client": "Clínica Central",
+        "service": "Visita técnica",
+        "status": "A caminho"
+      },
+      {
+        "time": "14:00",
+        "client": "Edifício Solaris",
+        "service": "Retorno agendado",
+        "status": "Aguardando"
+      }
+    ],
+    "mockQueue": [
+      {
+        "label": "Para receber hoje",
+        "value": "R$ 980"
+      },
+      {
+        "label": "Em atraso",
+        "value": "R$ 420"
+      }
+    ],
+    "panelStats": [
+      {
+        "label": "Visitas da semana",
+        "value": "18"
+      },
+      {
+        "label": "OS em andamento",
+        "value": "7"
+      },
+      {
+        "label": "Contas para receber",
+        "value": "R$ 3.240"
+      }
+    ]
+  },
+  "problem": {
+    "eyebrow": "A rotina machuca",
+    "title": "Tentar guardar a operação na cabeça sai caro (e estressa)",
+    "subtitle": "Não é falta de trabalhar muito. O problema é ter a agenda de um lado, o valor do serviço em outro e o cliente perdido pelo meio.",
+    "cards": {
+      "recurring": {
+        "title": "Você perde vendas recorrentes",
+        "body": "Já esqueceu de retornar naquele cliente mensal? Quando não há agenda clara, serviços de manutenção escapam e o faturamento desce."
+      },
+      "orders": {
+        "title": "As OS(s) não conversam",
+        "body": "O time faz o serviço, mas cadê o histórico? Quando o que importa não está anotado, vira telefone sem fio entre você e o cliente."
+      },
+      "collections": {
+        "title": "A cobrança fica de lado",
+        "body": "Se você tem que abrir outro app ou planilha só para verificar quem pagou, o dinheiro atrasa. Fica impossível medir o fluxo."
+      }
+    }
+  },
+  "features": {
+    "eyebrow": "Direto ao ponto",
+    "title": "O básico bem feito, sem parecer um avião pra pilotar",
+    "subtitle": "Eu construí o Proto pensando na pequena empresa. Não tentei criar um ERP burocrático e travado.",
+    "items": {
+      "clients": {
+        "title": "Clientes que importam",
+        "body": "Reúna as pessoas que pagam a conta. Telefones, endereços e o histórico completo do que foi feito com eles."
+      },
+      "schedule": {
+        "title": "Agenda inteligente",
+        "body": "Marque as visitas de campo sem cruzar horários. Foque nas recorrências e deixe o sistema avisar os prazos."
+      },
+      "orders": {
+        "title": "Ordens de Serviço fáceis",
+        "body": "Anota o que foi feito na visita. Chega de perguntar no grupo interno qual foi a peça trocada na última vez."
+      },
+      "finance": {
+        "title": "Financeiro sem susto",
+        "body": "Olhou, entendeu. Saiba rapidamente as faturas ativas, o que você já deveria ter recebido e o dinheiro no bolso."
+      },
+      "reports": {
+        "title": "O pulso do seu negócio",
+        "body": "Resumo rápido de quanto você tem feito na rua, e do quanto isso está virando lucro de verdade."
+      }
+    }
+  },
+  "segments": {
+    "eyebrow": "Pra quem é o Proto?",
+    "title": "Times pequenos que vivem na rua",
+    "subtitle": "Desenhado pra quem tem de 1 a 10 pessoas operando em visitas, prestando serviços sob demanda ou com contratos mensais.",
+    "items": {
+      "maintenance": "Manutenção em geral",
+      "hvac": "Climatização e Ar",
+      "pestControl": "Controle de pragas",
+      "facilities": "Prestação de serviços limpos",
+      "propertyServices": "Reformas e pequenos consertos",
+      "gardens": "Jardinagem e Paisagismo",
+      "fieldSupport": "Tecnologia e Redes"
+    }
+  },
+  "steps": {
+    "eyebrow": "Sem manual de 200 páginas",
+    "title": "Três passos e você já vê o valor",
+    "stepLabel": "Passo {value}",
+    "items": {
+      "clients": {
+        "title": "Jogue seus clientes para cá",
+        "body": "Esqueça a agenda do celular. Crie sua base de clientes uma vez e não sofra nunca mais para achá-los."
+      },
+      "visits": {
+        "title": "Ponha as visitas na tela",
+        "body": "Basta plugar o pessoal no mapa. Acompanhe a execução e transforme tudo em Ordens de Serviço fáceis."
+      },
+      "collections": {
+        "title": "Feche a conta rapidinho",
+        "body": "Serviço feito? Ótimo. A própria OS já vira conta a receber. Controle de ponta a ponta sem choro."
+      }
+    }
+  },
+  "valueBand": {
+    "eyebrow": "O que você ganha",
+    "title": "Não reinvente a roda. Deixe ela girar melhor.",
+    "items": [
+      {
+        "value": "Zero perdas em campo",
+        "label": "Toda informação amarra na mesma tela"
+      },
+      {
+        "value": "Fim do improviso",
+        "label": "A equipe sabe o que fazer na hora que chega"
+      },
+      {
+        "value": "Mais paz de espírito",
+        "label": "Você só acompanha de cima"
+      }
+    ]
+  },
+  "pricingPreview": {
+    "eyebrow": "Preços abertos",
+    "title": "Nada daquelas surpresinhas chatas no fim",
+    "subtitle": "Quero que você teste, sinta o alívio na operação e pague só se realmente entender que vale a pena.",
+    "viewPlans": "Ver as tabelas completas"
+  },
+  "plans": {
+    "period": "ao mês",
+    "popularBadge": "O que mais faz sentido",
+    "founders": {
+      "name": "Sócio Fundador",
+      "description": "Se você usar agora, lá no início, você leva um preço especial e me ajuda a moldar o que vem a seguir.",
+      "highlights": [
+        "1 organização",
+        "Até 2 usuários do time",
+        "Clientes, Agenda e OS",
+        "Indicadores diários",
+        "Eu atendo você direto"
+      ],
+      "cta": "Virar um Sócio Fundador"
+    },
+    "operation": {
+      "name": "Operação Fluida",
+      "description": "Pra você que já validou que quer se arrumar. Todo o ciclo operando e financeiro já plugado.",
+      "highlights": [
+        "1 organização",
+        "Até 3 parceiros de equipe",
+        "Módulo de Recorrência",
+        "Financeiro super claro",
+        "Tudo dos relatórios base"
+      ],
+      "cta": "Subir de nível hoje"
+    },
+    "team": {
+      "name": "Equipe Completa",
+      "description": "Ideal se você já estourou os limites primários e precisa pendurar mais técnicos em campo puxando ficha e atendendo OS.",
+      "highlights": [
+        "O pacote inteiro de Operação",
+        "Estica para 10 pessoas na rua",
+        "Auditoria de quem fez o que",
+        "Suporte premium pro seu negócio"
+      ],
+      "cta": "Eu quero crescer mais"
+    }
+  },
+  "pricingPage": {
+    "eyebrow": "Sua aposta",
+    "title": "Escolha como você quer mudar sua rotina",
+    "subtitle": "Não vamos complicar o preço. Entre devagar, sinta o fluxo de clientes melhorar e amplie só quando estiver confortável.",
+    "ribbon": {
+      "trial": "Experimente por 14 dias",
+      "manual": "Não cobro o cartão agora",
+      "value": "Paz na organização"
+    },
+    "decisionCards": [
+      {
+        "title": "Simplificar de cara",
+        "body": "Nós vamos dores a soluções rápidas. Prefiro te dar as OS redondas amanhã, do que te vender recursos mágicos lá pra frente."
+      },
+      {
+        "title": "É só sobre valor",
+        "body": "Se você usa a agenda na mão, e agora vê todo seu percurso desenhado pro dia, o valor se paga. Sem enrolação."
+      },
+      {
+        "title": "Passe pra próxima marcha depois",
+        "body": "Conforme você percebe que está esquecendo menos retorno aos clientes, a necessidade da versão Equipe surge por si só."
+      }
+    ],
+    "notesEyebrow": "Nosso Combinado",
+    "notesTitle": "Por que o Proto joga limpo com você",
+    "notes": [
+      "Sem armadilhas. O foco aqui é resolver a sua bagunça diária, e não te forçar a comprar um módulo que você nunca vai usar.",
+      "Eu não quero o seu cartão de crédito preso. Comece livre. Quando sua operação não viver mais sem isso, nós abrimos contrato.",
+      "Se tiver qualquer barreira na sua primeira semana, fala comigo. Eu garanto ajudar pelo Whatsapp para o seu negócio decolar."
+    ],
+    "comparison": {
+      "eyebrow": "O tira-teima",
+      "title": "O que você leva em cada degrau",
+      "subtitle": "Não quero dificultar. Olha exatamente as diferenças sem ficar dando zoom.",
+      "header": {
+        "feature": "Sua Ferramenta"
+      },
+      "rows": [
+        {
+          "label": "Tamanho da sua equipe liberada",
+          "founders": "2 pessoas",
+          "operation": "3 pessoas",
+          "team": "Até 10 guerreiros"
+        },
+        {
+          "label": "Motor inteligente de Agenda",
+          "founders": "Sim, a base",
+          "operation": "Tudo liberado",
+          "team": "Tudo liberado"
+        },
+        {
+          "label": "Receitas e Despesas fáceis",
+          "founders": "Painel de controle básico",
+          "operation": "Cobranças abertas e a vencer",
+          "team": "Monitoramento absoluto"
+        },
+        {
+          "label": "O pulso do caixa (Relatórios)",
+          "founders": "O que importa ali no meio",
+          "operation": "O todo do mês",
+          "team": "Segmentação inteira"
+        },
+        {
+          "label": "Alguém pra segurar a mão",
+          "founders": "Ajuda comigo, quase família",
+          "operation": "Suporte rápido no painel",
+          "team": "Você fura fila de qualquer ticket"
+        }
+      ]
+    },
+    "faqEyebrow": "Dúvidas Naturais",
+    "faqTitle": "O que a galera sempre me pergunta antes de assinar"
+  },
+  "faq": {
+    "items": {
+      "who": {
+        "question": "O Proto serve pra qual tipo de negócio na prática?",
+        "answer": "Pra quase qualquer pequena empresa onde o pessoal precisa sair para executar o serviço (manutenções, instalação) ou tem que gerir visitas recorrentes para clientes."
+      },
+      "erp": {
+        "question": "Isso aí vai virar um sistema gigante de Nota Fiscal, estoque bruto e contabilidade pesada?",
+        "answer": "Não. Meu lema é focar só no chão de fábrica: Cliente satisfeito, Visita feita, OS anotada e a Cobrança no bolso. Burocracia eu deixo pra outras ferramentas."
+      },
+      "install": {
+        "question": "Tenho que instalar isso no computador de todo mundo da empresa?",
+        "answer": "Que nada, rola direto no navegador pelo link. Dá pra acessar do telefone a caminho do cliente, ou no computador do escritório, com a tranquilidade que merece."
+      },
+      "team": {
+        "question": "Vou usar só eu e mais uma pessoa do financeiro. Vale a pena?",
+        "answer": "É desenhado pra isso! Quem é pequeno é quem mais tenta carregar tudo na cabeça e sai ferido. Começar limpo é melhor."
+      }
+    }
+  },
+  "finalCta": {
+    "eyebrow": "Tá na hora, né?",
+    "title": "Abraça as rédeas do seu trabalho agora mesmo",
+    "body": "Pegue aquela sensação de deixar tudo amarradinho pro dia de amanhã e use o Proto para colocar isso na prática sem sofrer.",
+    "primaryCta": "Vou criar a minha conta",
+    "secondaryCta": "Só quero logar"
+  },
+  "footer": {
+    "copy": "Proto. Operando serviços reais, pra quem gosta de ver o negócio acontecer."
+  }
+}
