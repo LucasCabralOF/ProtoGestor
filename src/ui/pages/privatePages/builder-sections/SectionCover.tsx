@@ -1,6 +1,6 @@
+import type { useTranslations } from "next-intl";
 import { FiFileText } from "react-icons/fi";
 import type { ReportsData } from "@/lib/reports";
-import type { useTranslations } from "next-intl";
 
 export function SectionCover({
   data,

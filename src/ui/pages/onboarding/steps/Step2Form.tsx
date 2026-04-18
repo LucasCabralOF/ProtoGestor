@@ -98,9 +98,7 @@ export function Step2Form({
           ))}
         </div>
         {errors.includes("tool") ? (
-          <p className="mt-1 text-xs text-red-500">
-            {t("step2.toolRequired")}
-          </p>
+          <p className="mt-1 text-xs text-red-500">{t("step2.toolRequired")}</p>
         ) : null}
       </div>
 
@@ -114,7 +112,11 @@ export function Step2Form({
           <FiArrowLeft size={14} />
           {t("steps.back")}
         </button>
-        <Button testid="onboarding-next-step2" type="primary" onClick={handleNext}>
+        <Button
+          testid="onboarding-next-step2"
+          type="primary"
+          onClick={handleNext}
+        >
           <span className="inline-flex items-center gap-2">
             {t("step2.continue")}
             <FiArrowRight size={14} />

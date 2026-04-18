@@ -1,5 +1,9 @@
 import type { ReportsData, ReportsTrend } from "@/lib/reports";
-import type { PrintablePreset, PrintableSectionId, PrintableSectionConfig } from "./types";
+import type {
+  PrintablePreset,
+  PrintableSectionConfig,
+  PrintableSectionId,
+} from "./types";
 
 export const PRINT_PAGE_CAPACITY = 10;
 

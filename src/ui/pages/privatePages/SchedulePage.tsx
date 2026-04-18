@@ -1,105 +1,48 @@
 "use client";
 
-import Link from "next/link";
+import { format, getDay, parse, startOfWeek } from "date-fns";
+import { enUS as enUSLocale, ptBR as ptBRLocale } from "date-fns/locale";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-import {
-  FiCheck,
-  FiEdit2,
-  FiPlus,
-  FiRepeat,
-  FiSearch,
-  FiSlash,
-} from "react-icons/fi";
+import { Calendar, dateFnsLocalizer, type Event } from "react-big-calendar";
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+import { FiPlus, FiSearch } from "react-icons/fi";
 import {
   createAppointmentAction,
-  setAppointmentStatusAction,
   updateAppointmentAction,
 } from "@/actions/(private)/schedule";
 import type { AppointmentRow, SchedulePageData } from "@/lib/schedule";
 import { Button } from "@/ui/base/Button";
 import { Card } from "@/ui/base/Card";
 import { Input } from "@/ui/base/Input";
-import { RowActionMenu } from "@/ui/base/RowActionMenu";
 import { useAppFeedback } from "@/ui/base/useAppFeedback";
 import {
   AppointmentFormModal,
-  emptyAppointmentForm,
   type AppointmentFormState,
+  emptyAppointmentForm,
   type ScheduleModalMode,
   type ServiceOrderOption,
 } from "@/ui/pages/privatePages/AppointmentFormModal";
 
-// ---------------------------------------------------------------------------
-// Status pill
-// ---------------------------------------------------------------------------
+// Configuração do calendário
+const locales = {
+  "pt-BR": ptBRLocale,
+  en: enUSLocale,
+};
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
 
-type StatusTone = AppointmentRow["statusTone"];
+type AppointmentEvent = Event & {
+  resource: AppointmentRow;
+};
 
-function Pill({
-  children,
-  tone,
-}: {
-  children: React.ReactNode;
-  tone: StatusTone;
-}) {
-  const base =
-    "inline-flex items-center rounded-full border px-2 py-1 text-xs font-semibold";
-  const className =
-    tone === "success"
-      ? `${base} border-emerald-500/20 bg-emerald-500/10 text-emerald-400`
-      : tone === "danger"
-        ? `${base} border-rose-500/20 bg-rose-500/10 text-rose-400`
-        : tone === "warning"
-          ? `${base} border-amber-500/20 bg-amber-500/10 text-amber-400`
-          : `${base} border-(--color-border) bg-(--color-base-2) text-(--color-text-2)`;
-  return <span className={className}>{children}</span>;
-}
-
-// ---------------------------------------------------------------------------
-// RowActions
-// ---------------------------------------------------------------------------
-
-function RowActions({
-  row,
-  onEdit,
-  onChangeStatus,
-}: {
-  row: AppointmentRow;
-  onEdit: () => void;
-  onChangeStatus: (status: "scheduled" | "done" | "canceled") => void;
-}) {
-  const t = useTranslations("schedule");
-  return (
-    <RowActionMenu
-      minWidthClassName="min-w-52"
-      items={[
-        {
-          key: "edit",
-          icon: <FiEdit2 />,
-          label: t("actions.edit"),
-          onSelect: onEdit,
-        },
-        {
-          key: "done",
-          icon: <FiCheck />,
-          label: t("actions.markDone"),
-          disabled: row.status === "done",
-          onSelect: () => onChangeStatus("done"),
-        },
-        {
-          key: "cancel",
-          icon: <FiSlash />,
-          label: t("actions.cancel"),
-          disabled: row.status === "canceled",
-          danger: true,
-          onSelect: () => onChangeStatus("canceled"),
-        },
-      ]}
-    />
-  );
-}
+const DnDCalendar = withDragAndDrop<AppointmentEvent, object>(Calendar);
 
 // ---------------------------------------------------------------------------
 // Main component
@@ -113,13 +56,13 @@ export function SchedulePage({
   serviceOrderOptions: ServiceOrderOption[];
 }) {
   const t = useTranslations("schedule");
+  const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const feedback = useAppFeedback();
 
   const q = searchParams.get("q") ?? "";
-  const period = searchParams.get("period") ?? "all";
   const status = searchParams.get("status") ?? "all";
   const customerId = searchParams.get("customerId") ?? "";
 
@@ -208,35 +151,56 @@ export function SchedulePage({
     }
   }
 
-  async function changeStatus(
-    row: AppointmentRow,
-    nextStatus: "scheduled" | "done" | "canceled",
-  ) {
-    const confirmed = await feedback.confirm({
-      title: t("confirm.title"),
-      content:
-        nextStatus === "done"
-          ? t("confirm.contentDone")
-          : t("confirm.contentCancel"),
-      okText: t("confirm.ok"),
-      cancelText: t("confirm.cancel"),
-      danger: nextStatus === "canceled",
-    });
-    if (!confirmed) return;
-
+  const handleEventDrop = async ({
+    event,
+    start,
+    end,
+  }: {
+    event: AppointmentEvent;
+    start: string | Date;
+    end: string | Date;
+  }) => {
     try {
-      const result = await setAppointmentStatusAction({
-        id: row.id,
-        status: nextStatus,
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+
+      const result = await updateAppointmentAction({
+        id: event.resource.id,
+        date: startDate.toISOString().slice(0, 10),
+        startTime: startDate.toLocaleTimeString("pt-BR", {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        endTime: endDate.toLocaleTimeString("pt-BR", {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        locationText: event.resource.locationText ?? "",
+        notes: event.resource.notes ?? "",
+        serviceOrderId: event.resource.serviceOrderId ?? "",
+        recurrenceRule: "none",
+        recurrenceCount: 1,
       });
-      if (!result?.data?.ok)
-        throw new Error(result?.serverError ?? t("feedback.statusError"));
-      feedback.notifySuccess(t("feedback.statusUpdated"));
+
+      if (!result?.data?.ok) {
+        throw new Error(result?.serverError ?? t("feedback.updateError"));
+      }
+
+      feedback.notifySuccess(t("feedback.updated"));
       router.refresh();
     } catch (error) {
-      feedback.notifyError(error, { fallback: t("feedback.statusFallback") });
+      feedback.notifyError(error, { fallback: "Erro ao reagendar visita." });
     }
-  }
+  };
+
+  const events: AppointmentEvent[] = data.rows.map((r) => ({
+    title:
+      r.customerLabel +
+      (r.serviceOrderTitle ? ` - ${r.serviceOrderTitle}` : ""),
+    start: new Date(r.startsAt),
+    end: new Date(r.endsAt),
+    resource: r,
+  }));
 
   const selectClass =
     "h-10 rounded-xl border border-(--color-border) bg-(--color-base-1) px-3 text-sm";
@@ -269,12 +233,8 @@ export function SchedulePage({
           </p>
         </Card>
         <Card className="border border-(--color-border)">
-          <p className="text-sm text-(--color-text-2)">
-            {t("kpis.scheduled")}
-          </p>
-          <p className="mt-2 text-3xl font-extrabold">
-            {data.kpis.scheduled}
-          </p>
+          <p className="text-sm text-(--color-text-2)">{t("kpis.scheduled")}</p>
+          <p className="mt-2 text-3xl font-extrabold">{data.kpis.scheduled}</p>
           <p className="mt-1 text-xs text-(--color-text-2)">
             {t("kpis.scheduledHint")}
           </p>
@@ -287,9 +247,7 @@ export function SchedulePage({
           </p>
         </Card>
         <Card className="border border-(--color-border)">
-          <p className="text-sm text-(--color-text-2)">
-            {t("kpis.canceled")}
-          </p>
+          <p className="text-sm text-(--color-text-2)">{t("kpis.canceled")}</p>
           <p className="mt-2 text-3xl font-extrabold">{data.kpis.canceled}</p>
           <p className="mt-1 text-xs text-(--color-text-2)">
             {t("kpis.canceledHint")}
@@ -313,18 +271,6 @@ export function SchedulePage({
         </div>
 
         <div className="flex flex-col gap-3 md:flex-row">
-          {/* Período */}
-          <select
-            value={period}
-            onChange={(e) => setParam("period", e.target.value)}
-            className={selectClass}
-          >
-            <option value="all">{t("filters.allPeriods")}</option>
-            <option value="today">{t("filters.today")}</option>
-            <option value="week">{t("filters.week")}</option>
-            <option value="month">{t("filters.month")}</option>
-          </select>
-
           {/* Status */}
           <select
             value={status}
@@ -353,126 +299,67 @@ export function SchedulePage({
         </div>
       </section>
 
-      {/* Tabela */}
-      <Card className="border border-(--color-border)">
-        <h2 className="text-2xl font-bold">{t("table.title")}</h2>
-
-        <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[800px] border-separate border-spacing-0">
-            <thead>
-              <tr className="text-left text-sm text-(--color-text-2)">
-                <th className="border-b border-(--color-border) px-4 py-3">
-                  {t("table.date")}
-                </th>
-                <th className="border-b border-(--color-border) px-4 py-3">
-                  {t("table.customer")}
-                </th>
-                <th className="border-b border-(--color-border) px-4 py-3">
-                  {t("table.location")}
-                </th>
-                <th className="border-b border-(--color-border) px-4 py-3">
-                  {t("table.serviceOrder")}
-                </th>
-                <th className="border-b border-(--color-border) px-4 py-3">
-                  {t("table.status")}
-                </th>
-                <th className="w-16 border-b border-(--color-border) px-4 py-3">
-                  {t("table.actions")}
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {data.rows.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={6}
-                    className="px-4 py-10 text-center text-(--color-text-2)"
-                  >
-                    {t("table.empty")}
-                  </td>
-                </tr>
-              ) : (
-                data.rows.map((row) => (
-                  <tr key={row.id} className="hover:bg-(--color-base-2)">
-                    {/* Data/Hora */}
-                    <td className="border-b border-(--color-border) px-4 py-3">
-                      <div className="flex flex-col text-sm">
-                        <span className="font-semibold">{row.dateLabel}</span>
-                        <span className="text-xs text-(--color-text-2)">
-                          {row.timeLabel}
-                        </span>
-                      </div>
-                    </td>
-
-                    {/* Cliente */}
-                    <td className="border-b border-(--color-border) px-4 py-3 text-sm">
-                      {row.customerLabel}
-                    </td>
-
-                    {/* Local */}
-                    <td className="border-b border-(--color-border) px-4 py-3 text-sm">
-                      <div className="flex flex-col">
-                        <span>
-                          {row.locationText ?? (
-                            <span className="text-(--color-text-2)">
-                              {t("table.noLocation")}
-                            </span>
-                          )}
-                        </span>
-                        {row.notes && (
-                          <span className="text-xs text-(--color-text-2)">
-                            {row.notes}
-                          </span>
-                        )}
-                      </div>
-                    </td>
-
-                    {/* OS */}
-                    <td className="border-b border-(--color-border) px-4 py-3 text-sm">
-                      {row.serviceOrderTitle ? (
-                        <Link
-                          href="/services"
-                          className="text-(--color-accent-1) hover:underline"
-                        >
-                          {row.serviceOrderTitle}
-                        </Link>
-                      ) : (
-                        <span className="text-(--color-text-2)">
-                          {t("table.noServiceOrder")}
-                        </span>
-                      )}
-                    </td>
-
-                    {/* Status */}
-                    <td className="border-b border-(--color-border) px-4 py-3">
-                      <div className="flex items-center gap-1">
-                        <Pill tone={row.statusTone}>{row.statusLabel}</Pill>
-                        {/* Ícone de recorrência se a visita é raiz de uma série */}
-                        {row.isRecurrenceRoot && (
-                          <FiRepeat
-                            className="text-xs text-(--color-text-2)"
-                            title={`${row.recurrenceRule} ×${row.recurrenceCount}`}
-                          />
-                        )}
-                      </div>
-                    </td>
-
-                    {/* Ações */}
-                    <td className="border-b border-(--color-border) px-4 py-3">
-                      <RowActions
-                        row={row}
-                        onEdit={() => openEdit(row)}
-                        onChangeStatus={(s) =>
-                          void changeStatus(row, s)
-                        }
-                      />
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+      <Card className="border border-(--color-border) p-4 md:p-6 shadow-[0_20px_70px_rgba(15,23,42,0.06)] dark:bg-(--color-base-1)">
+        <div className="h-[75vh] min-h-[600px] w-full">
+          <DnDCalendar
+            localizer={localizer}
+            culture={locale === "pt-BR" ? "pt-BR" : "en"}
+            events={events}
+            defaultView="week"
+            views={["month", "week", "day", "agenda"]}
+            selectable
+            onSelectEvent={(event) => openEdit(event.resource)}
+            onSelectSlot={(slotInfo) => {
+              setModalMode("create");
+              setForm({
+                ...emptyAppointmentForm(),
+                date: slotInfo.start.toISOString().slice(0, 10),
+                startTime: slotInfo.start.toLocaleTimeString("pt-BR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }),
+                endTime: slotInfo.end.toLocaleTimeString("pt-BR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }),
+              });
+              setModalOpen(true);
+            }}
+            onEventDrop={handleEventDrop}
+            onEventResize={handleEventDrop}
+            resizable
+            messages={{
+              next: t("calendar.next"),
+              previous: t("calendar.previous"),
+              today: t("calendar.today"),
+              month: t("calendar.month"),
+              week: t("calendar.week"),
+              day: t("calendar.day"),
+              agenda: t("calendar.agenda"),
+              date: t("table.date"),
+              time: t("table.time", { defaultMessage: "Hora" }),
+              event: t("table.event", { defaultMessage: "Visita" }),
+              noEventsInRange: t("table.empty"),
+              showMore: (total) => `+${total} mais`,
+            }}
+            eventPropGetter={(event) => {
+              let className = "bg-(--color-primary) border-(--color-primary)";
+              switch (event.resource.statusTone) {
+                case "success":
+                  className = "bg-emerald-500 border-emerald-600";
+                  break;
+                case "danger":
+                  className = "bg-rose-500 border-rose-600";
+                  break;
+                case "warning":
+                  className = "bg-amber-500 border-amber-600";
+                  break;
+                default:
+                  break;
+              }
+              return { className };
+            }}
+          />
         </div>
       </Card>
 

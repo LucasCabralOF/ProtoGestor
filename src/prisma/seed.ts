@@ -221,7 +221,6 @@ async function main() {
     },
   });
 
-
   // 7) Serviço + Agendamento
   const so = await prisma.serviceOrder.create({
     data: {

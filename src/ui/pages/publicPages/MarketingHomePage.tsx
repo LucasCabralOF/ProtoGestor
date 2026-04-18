@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { FiArrowRight } from "react-icons/fi";
-import { PublicSiteShell } from "./PublicSiteShell";
-import { MarketingHeroSection } from "./marketing-sections/MarketingHeroSection";
-import { MarketingProblemSection } from "./marketing-sections/MarketingProblemSection";
 import { MarketingFeaturesSection } from "./marketing-sections/MarketingFeaturesSection";
-import { MarketingSegmentsSection } from "./marketing-sections/MarketingSegmentsSection";
+import { MarketingHeroSection } from "./marketing-sections/MarketingHeroSection";
 import { MarketingPricingSection } from "./marketing-sections/MarketingPricingSection";
+import { MarketingProblemSection } from "./marketing-sections/MarketingProblemSection";
+import { MarketingSegmentsSection } from "./marketing-sections/MarketingSegmentsSection";
+import { PublicSiteShell } from "./PublicSiteShell";
 
 export async function MarketingHomePage() {
   const t = await getTranslations("marketing");

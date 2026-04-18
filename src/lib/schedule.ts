@@ -1,11 +1,8 @@
 import "server-only";
 
 import prisma from "@/lib/prisma";
+import { formatDateLabel, formatTimeLabel } from "@/lib/schedule-utils";
 import type { AppLocale } from "@/utils/i18n";
-import {
-  formatDateLabel,
-  formatTimeLabel,
-} from "@/lib/schedule-utils";
 
 // Re-export puras para que qualquer consumer server-side possa importar de um só lugar
 export {
@@ -100,9 +97,9 @@ function statusTone(
 // Filtros de período
 // ---------------------------------------------------------------------------
 
-function buildPeriodFilter(
-  period: AppointmentPeriod,
-): { startsAt?: { gte: Date; lte?: Date } } {
+function buildPeriodFilter(period: AppointmentPeriod): {
+  startsAt?: { gte: Date; lte?: Date };
+} {
   const now = new Date();
 
   if (period === "today") {
@@ -150,66 +147,69 @@ export async function getSchedulePageData(
   const todayEnd = new Date();
   todayEnd.setHours(23, 59, 59, 999);
 
-  const [appointments, kpiRows, customerOptions, todayCount] = await Promise.all([
-    prisma.appointment.findMany({
-      where: {
-        orgId,
-        ...(filters.status !== "all" ? { status: filters.status } : {}),
-        ...periodFilter,
-        ...(filters.customerId
-          ? { serviceOrder: { customerId: filters.customerId } }
-          : {}),
-        ...(qTrimmed
-          ? {
-              OR: [
-                { locationText: { contains: qTrimmed, mode: "insensitive" } },
-                { notes: { contains: qTrimmed, mode: "insensitive" } },
-                {
-                  serviceOrder: {
-                    customer: { name: { contains: qTrimmed, mode: "insensitive" } },
+  const [appointments, kpiRows, customerOptions, todayCount] =
+    await Promise.all([
+      prisma.appointment.findMany({
+        where: {
+          orgId,
+          ...(filters.status !== "all" ? { status: filters.status } : {}),
+          ...periodFilter,
+          ...(filters.customerId
+            ? { serviceOrder: { customerId: filters.customerId } }
+            : {}),
+          ...(qTrimmed
+            ? {
+                OR: [
+                  { locationText: { contains: qTrimmed, mode: "insensitive" } },
+                  { notes: { contains: qTrimmed, mode: "insensitive" } },
+                  {
+                    serviceOrder: {
+                      customer: {
+                        name: { contains: qTrimmed, mode: "insensitive" },
+                      },
+                    },
                   },
-                },
-              ],
-            }
-          : {}),
-      },
-      orderBy: [{ startsAt: "asc" }],
-      include: {
-        serviceOrder: {
-          select: {
-            id: true,
-            title: true,
-            customerId: true,
-            customer: { select: { id: true, name: true } },
+                ],
+              }
+            : {}),
+        },
+        orderBy: [{ startsAt: "asc" }],
+        include: {
+          serviceOrder: {
+            select: {
+              id: true,
+              title: true,
+              customerId: true,
+              customer: { select: { id: true, name: true } },
+            },
           },
         },
-      },
-    }),
+      }),
 
-    // KPIs globais da org (sem filtros de período/status para os contadores totais)
-    prisma.appointment.groupBy({
-      by: ["status"],
-      where: { orgId },
-      _count: { id: true },
-    }),
+      // KPIs globais da org (sem filtros de período/status para os contadores totais)
+      prisma.appointment.groupBy({
+        by: ["status"],
+        where: { orgId },
+        _count: { id: true },
+      }),
 
-    // Lista de clientes com pelo menos uma visita — para o select de filtro
-    prisma.contact.findMany({
-      where: {
-        orgId,
-        isActive: true,
-        roles: { some: { role: "customer" } },
-        serviceOrders: { some: { appointments: { some: {} } } },
-      },
-      select: { id: true, name: true },
-      orderBy: { name: "asc" },
-    }),
+      // Lista de clientes com pelo menos uma visita — para o select de filtro
+      prisma.contact.findMany({
+        where: {
+          orgId,
+          isActive: true,
+          roles: { some: { role: "customer" } },
+          serviceOrders: { some: { appointments: { some: {} } } },
+        },
+        select: { id: true, name: true },
+        orderBy: { name: "asc" },
+      }),
 
-    // Count de hoje da org
-    prisma.appointment.count({
-      where: { orgId, startsAt: { gte: todayStart, lte: todayEnd } },
-    }),
-  ]);
+      // Count de hoje da org
+      prisma.appointment.count({
+        where: { orgId, startsAt: { gte: todayStart, lte: todayEnd } },
+      }),
+    ]);
 
   // KPIs
   const countByStatus: Record<string, number> = {};
@@ -217,9 +217,9 @@ export async function getSchedulePageData(
     countByStatus[g.status] = g._count.id;
   }
 
-  const scheduled = countByStatus["scheduled"] ?? 0;
-  const done = countByStatus["done"] ?? 0;
-  const canceled = countByStatus["canceled"] ?? 0;
+  const scheduled = countByStatus.scheduled ?? 0;
+  const done = countByStatus.done ?? 0;
+  const canceled = countByStatus.canceled ?? 0;
 
   const kpis: ScheduleKpis = {
     total: scheduled + done + canceled,

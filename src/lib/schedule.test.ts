@@ -31,7 +31,9 @@ describe("buildRecurrenceDates", () => {
     const dates = buildRecurrenceDates(base, end, "weekly", 4);
     expect(dates).toHaveLength(4);
     for (let i = 0; i < 4; i++) {
-      const expectedStart = new Date(base.getTime() + i * 7 * 24 * 60 * 60 * 1000);
+      const expectedStart = new Date(
+        base.getTime() + i * 7 * 24 * 60 * 60 * 1000,
+      );
       const expectedEnd = new Date(expectedStart.getTime() + durationMs);
       expect(dates[i].startsAt.getTime()).toBe(expectedStart.getTime());
       expect(dates[i].endsAt.getTime()).toBe(expectedEnd.getTime());
@@ -42,7 +44,9 @@ describe("buildRecurrenceDates", () => {
     const dates = buildRecurrenceDates(base, end, "biweekly", 3);
     expect(dates).toHaveLength(3);
     for (let i = 0; i < 3; i++) {
-      const expectedStart = new Date(base.getTime() + i * 14 * 24 * 60 * 60 * 1000);
+      const expectedStart = new Date(
+        base.getTime() + i * 14 * 24 * 60 * 60 * 1000,
+      );
       expect(dates[i].startsAt.getTime()).toBe(expectedStart.getTime());
     }
   });

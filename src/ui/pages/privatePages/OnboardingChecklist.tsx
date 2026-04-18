@@ -3,13 +3,7 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import {
-  FiCheck,
-  FiSettings,
-  FiUsers,
-  FiX,
-  FiZap,
-} from "react-icons/fi";
+import { FiCheck, FiSettings, FiUsers, FiX, FiZap } from "react-icons/fi";
 
 /**
  * Checklist de ativação exibido no dashboard para contas novas.
@@ -43,9 +37,24 @@ export function OnboardingChecklist({
 
   const tasks: ChecklistTask[] = [
     { id: "account", done: true, icon: <FiCheck size={14} /> },
-    { id: "client", href: "/clients", done: hasClients, icon: <FiUsers size={14} /> },
-    { id: "service", href: "/services", done: hasServices, icon: <FiZap size={14} /> },
-    { id: "settings", href: "/settings", done: false, icon: <FiSettings size={14} /> },
+    {
+      id: "client",
+      href: "/clients",
+      done: hasClients,
+      icon: <FiUsers size={14} />,
+    },
+    {
+      id: "service",
+      href: "/services",
+      done: hasServices,
+      icon: <FiZap size={14} />,
+    },
+    {
+      id: "settings",
+      href: "/settings",
+      done: false,
+      icon: <FiSettings size={14} />,
+    },
   ];
 
   const completedCount = tasks.filter((t) => t.done).length;
@@ -130,7 +139,9 @@ export function OnboardingChecklist({
               >
                 <span
                   className={
-                    task.done ? "text-emerald-600 dark:text-emerald-400" : "text-(--color-text-2)"
+                    task.done
+                      ? "text-emerald-600 dark:text-emerald-400"
+                      : "text-(--color-text-2)"
                   }
                 >
                   {task.done ? <FiCheck size={14} /> : task.icon}

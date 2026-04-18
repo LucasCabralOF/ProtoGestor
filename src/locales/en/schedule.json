@@ -62,6 +62,8 @@
     "location": "Location",
     "serviceOrder": "Linked SO",
     "status": "Status",
+    "event": "Visit",
+    "time": "Time",
     "actions": "Actions",
     "empty": "No visits found",
     "noCustomer": "No customer",
@@ -94,5 +96,14 @@
     "recurrencePreview": "{count} visits will be created",
     "recurrencePreviewSingle": "1 visit will be created",
     "editRecurrenceNote": "To edit other visits in this series, open each one individually."
+  },
+  "calendar": {
+    "next": "Next",
+    "previous": "Back",
+    "today": "Today",
+    "month": "Month",
+    "week": "Week",
+    "day": "Day",
+    "agenda": "Agenda"
   }
 }

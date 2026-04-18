@@ -45,9 +45,7 @@ export const ONBOARDING_TOOL_IDS = [
  * Valida os campos do step 1 (nome da empresa e segmento).
  * Retorna lista de field names com erro — vazia significa válido.
  */
-export function validateStep1(
-  data: Partial<OnboardingStep1Data>,
-): string[] {
+export function validateStep1(data: Partial<OnboardingStep1Data>): string[] {
   const errors: string[] = [];
   if (!data.name || data.name.trim().length < 2) errors.push("name");
   if (!data.segment) errors.push("segment");
@@ -58,9 +56,7 @@ export function validateStep1(
  * Valida os campos do step 2 (faixa de clientes e ferramenta atual).
  * Step 2 é client-only — nenhum dado é enviado ao servidor.
  */
-export function validateStep2(
-  data: Partial<OnboardingStep2Data>,
-): string[] {
+export function validateStep2(data: Partial<OnboardingStep2Data>): string[] {
   const errors: string[] = [];
   if (!data.clientCount) errors.push("clientCount");
   if (!data.tool) errors.push("tool");

@@ -1,43 +1,23 @@
-enum ContactType {
-  person
-  company
-}
-
-enum ContactRoleKey {
-  customer
-  vendor
-  employee
-}
-
 model Contact {
-  id    String      @id @default(cuid())
-  orgId String
-  type  ContactType @default(person)
-
-  // Exibição
-  name      String
-  legalName String?
-  document  String? // CPF/CNPJ ou documento externo
-
-  // Comunicação
-  email    String?
-  phone    String?
-  whatsapp String?
-
-  // Notas / status
-  notes    String?
-  isActive Boolean @default(true)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  org Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
-
+  id            String           @id @default(cuid())
+  orgId         String
+  type          ContactType      @default(person)
+  name          String
+  legalName     String?
+  document      String?
+  email         String?
+  phone         String?
+  whatsapp      String?
+  notes         String?
+  isActive      Boolean          @default(true)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
   addresses     Address[]
+  appointments  Appointment[]
+  org           Organization     @relation(fields: [orgId], references: [id], onDelete: Cascade)
   roles         ContactRole[]
   tagLinks      ContactTagLink[]
   transactions  Transaction[]
-  appointments  Appointment[]
   serviceOrders ServiceOrder[]
 
   @@unique([orgId, document])
@@ -48,24 +28,21 @@ model Contact {
 }
 
 model Address {
-  id        String @id @default(cuid())
-  orgId     String
-  contactId String
-
-  label      String? // ex: "Casa", "Empresa"
+  id         String       @id @default(cuid())
+  orgId      String
+  contactId  String
+  label      String?
   line1      String
   line2      String?
   city       String?
   state      String?
   postalCode String?
-  country    String? @default("BR")
-  isPrimary  Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  org     Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  contact Contact      @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  country    String?      @default("BR")
+  isPrimary  Boolean      @default(false)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  contact    Contact      @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  org        Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
   @@index([orgId, contactId])
   @@map("address")
@@ -76,11 +53,9 @@ model ContactRole {
   orgId     String
   contactId String
   role      ContactRoleKey
-
-  createdAt DateTime @default(now())
-
-  org     Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  contact Contact      @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  createdAt DateTime       @default(now())
+  contact   Contact        @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  org       Organization   @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
   @@unique([orgId, contactId, role])
   @@index([orgId, role])
@@ -88,33 +63,40 @@ model ContactRole {
 }
 
 model Tag {
-  id       String  @id @default(cuid())
-  orgId    String
-  name     String
-  colorHex String?
-
-  createdAt DateTime @default(now())
-
-  org   Organization     @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  links ContactTagLink[]
+  id        String           @id @default(cuid())
+  orgId     String
+  name      String
+  colorHex  String?
+  createdAt DateTime         @default(now())
+  links     ContactTagLink[]
+  org       Organization     @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
   @@unique([orgId, name])
   @@map("tag")
 }
 
 model ContactTagLink {
-  id        String @id @default(cuid())
+  id        String       @id @default(cuid())
   orgId     String
   contactId String
   tagId     String
-
-  createdAt DateTime @default(now())
-
-  org     Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  contact Contact      @relation(fields: [contactId], references: [id], onDelete: Cascade)
-  tag     Tag          @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  createdAt DateTime     @default(now())
+  contact   Contact      @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  tag       Tag          @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   @@unique([orgId, contactId, tagId])
   @@index([orgId, tagId])
   @@map("contact_tag_link")
+}
+
+enum ContactType {
+  person
+  company
+}
+
+enum ContactRoleKey {
+  customer
+  vendor
+  employee
 }

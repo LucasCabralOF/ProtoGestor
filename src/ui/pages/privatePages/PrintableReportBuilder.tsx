@@ -1,29 +1,30 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import type { ReactNode, ChangeEvent } from "react";
+import type { ChangeEvent } from "react";
 import { useState } from "react";
 import {
   FiCheckSquare,
-  FiFileText,
   FiLayers,
   FiPrinter,
   FiRotateCcw,
   FiSliders,
 } from "react-icons/fi";
-import type { ReportsData, ReportsTrend } from "@/lib/reports";
+import type { ReportsData } from "@/lib/reports";
 import { Button } from "@/ui/base/Button";
 import { Card } from "@/ui/base/Card";
 import { Input } from "@/ui/base/Input";
-import type { PrintableSectionId, PrintablePreset } from "./builder-sections/types";
+import { getSectionConfigs } from "./builder-sections/ReportSectionConfigs";
+import type {
+  PrintablePreset,
+  PrintableSectionId,
+} from "./builder-sections/types";
 import {
+  buildPrintablePages,
   defaultPrintableSections,
   presetSections,
-  buildPrintablePages,
-  PRINT_PAGE_CAPACITY,
   sectionBadgeClass,
 } from "./builder-sections/utils";
-import { getSectionConfigs } from "./builder-sections/ReportSectionConfigs";
 
 export function PrintableReportBuilder({ data }: { data: ReportsData }) {
   const t = useTranslations("reports");

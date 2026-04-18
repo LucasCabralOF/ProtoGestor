@@ -62,6 +62,8 @@
     "location": "Local",
     "serviceOrder": "OS Vinculada",
     "status": "Status",
+    "event": "Visita",
+    "time": "Hora",
     "actions": "Ações",
     "empty": "Nenhuma visita encontrada",
     "noCustomer": "Sem cliente",
@@ -94,5 +96,14 @@
     "recurrencePreview": "{count} visitas serão criadas",
     "recurrencePreviewSingle": "1 visita será criada",
     "editRecurrenceNote": "Para editar outras visitas da série, acesse cada uma individualmente."
+  },
+  "calendar": {
+    "next": "Próximo",
+    "previous": "Anterior",
+    "today": "Hoje",
+    "month": "Mês",
+    "week": "Semana",
+    "day": "Dia",
+    "agenda": "Agenda"
   }
 }

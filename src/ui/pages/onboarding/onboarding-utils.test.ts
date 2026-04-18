@@ -1,9 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  isNewAccount,
-  validateStep1,
-  validateStep2,
-} from "./onboarding-utils";
+import { isNewAccount, validateStep1, validateStep2 } from "./onboarding-utils";
 
 /**
  * Testes para a lógica pura do onboarding wizard.
@@ -20,7 +16,9 @@ import {
 
 describe("onboarding wizard — validateStep1", () => {
   it("aceita dados válidos sem erros", () => {
-    expect(validateStep1({ name: "Minha Empresa", segment: "maintenance" })).toHaveLength(0);
+    expect(
+      validateStep1({ name: "Minha Empresa", segment: "maintenance" }),
+    ).toHaveLength(0);
   });
 
   it("rejeita nome ausente", () => {
@@ -52,7 +50,9 @@ describe("onboarding wizard — validateStep1", () => {
 
 describe("onboarding wizard — validateStep2", () => {
   it("aceita dados válidos sem erros", () => {
-    expect(validateStep2({ clientCount: "few", tool: "whatsapp" })).toHaveLength(0);
+    expect(
+      validateStep2({ clientCount: "few", tool: "whatsapp" }),
+    ).toHaveLength(0);
   });
 
   it("rejeita clientCount ausente", () => {

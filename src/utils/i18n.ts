@@ -43,8 +43,13 @@ export async function getMessagesForLocale(
 ) {
   const entries = await Promise.all(
     targetNamespaces.map(async (namespace) => {
-      const module = await import(`../locales/${locale}/${namespace}.json`);
-      return [namespace, module.default] as const;
+      try {
+        const module = await import(`../locales/${locale}/${namespace}.json`);
+        return [namespace, module.default] as const;
+      } catch (_err) {
+        // Fallback to empty object to prevent crashing
+        return [namespace, {}] as const;
+      }
     }),
   );
 
@@ -54,8 +59,11 @@ export async function getMessagesForLocale(
 export default getRequestConfig(async () => {
   const locale = await resolveLocale();
 
-  return {
-    locale,
-    messages: await getMessagesForLocale(locale),
-  };
+  try {
+    const messages = await getMessagesForLocale(locale);
+    return { locale, messages };
+  } catch (err) {
+    console.error("[getRequestConfig] Error loading messages:", err);
+    return { locale, messages: {} };
+  }
 });

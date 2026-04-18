@@ -1,6 +1,8 @@
 /** biome-ignore-all lint/complexity/noImportantStyles: ok */
 @import "antd/dist/reset.css";
 @import "tailwindcss";
+@import "react-big-calendar/lib/css/react-big-calendar.css";
+@import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 /* =========================================================
@@ -264,4 +266,66 @@ a:hover {
   .report-print-page-footer {
     position: static;
   }
+}
+
+/* =========================================================
+   React Big Calendar Overrides
+========================================================= */
+
+.rbc-calendar {
+  @apply font-sans text-sm;
+}
+
+.rbc-toolbar-label {
+  @apply font-semibold;
+  color: var(--color-text-1);
+}
+
+.rbc-btn-group button {
+  @apply rounded-md border border-(--color-border) bg-(--color-base-1) text-(--color-text-2) shadow-sm hover:bg-(--color-base-2) hover:text-(--color-text-1) font-medium transition-colors;
+}
+
+.rbc-btn-group button.rbc-active {
+  @apply bg-(--color-base-2) text-(--color-text-1) shadow-inner;
+}
+
+.rbc-header {
+  @apply border-b border-(--color-border) py-2 font-semibold text-(--color-text-2) bg-(--color-base-2);
+}
+
+.rbc-month-view,
+.rbc-time-view,
+.rbc-agenda-view,
+.rbc-month-row,
+.rbc-day-bg,
+.rbc-time-header,
+.rbc-time-content,
+.rbc-time-header-content,
+.rbc-timeslot-group,
+.rbc-day-slot .rbc-time-slot {
+  border-color: var(--color-border) !important;
+}
+
+.rbc-off-range-bg {
+  @apply bg-(--color-base-3);
+}
+
+.rbc-today {
+  @apply bg-(--color-primary)/5;
+}
+
+.rbc-event {
+  @apply rounded-md text-xs font-semibold shadow-sm p-1 transition-transform border border-transparent;
+}
+
+/* Hover and Drag effects */
+.rbc-event:hover {
+  @apply brightness-110 z-20 shadow-md;
+}
+.rbc-addons-dnd-dragged-event {
+  @apply opacity-70 scale-105;
+}
+
+.rbc-day-slot .rbc-event-label {
+  @apply hidden; /* Hide internal times inside blocks for cleaner look */
 }

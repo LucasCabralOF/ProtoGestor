@@ -1,5 +1,10 @@
 import type { AppLocale } from "@/utils/i18n";
-import type { ReportsRangePreset, ReportsFocus, ReportsTrend, ReportsServiceStatusRow } from "./reports-types";
+import type {
+  ReportsFocus,
+  ReportsRangePreset,
+  ReportsServiceStatusRow,
+  ReportsTrend,
+} from "./reports-types";
 
 export const BUSINESS_TIME_ZONE = "America/Sao_Paulo";
 
@@ -21,7 +26,6 @@ export function rangeDays(range: ReportsRangePreset): number {
       return 90;
     case "365d":
       return 365;
-    case "30d":
     default:
       return 30;
   }

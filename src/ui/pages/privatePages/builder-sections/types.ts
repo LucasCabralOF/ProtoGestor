@@ -12,7 +12,11 @@ export type PrintableSectionId =
   | "trends"
   | "upcomingAppointments";
 
-export type PrintablePreset = "complete" | "executive" | "finance" | "operations";
+export type PrintablePreset =
+  | "complete"
+  | "executive"
+  | "finance"
+  | "operations";
 
 export type PrintableSectionConfig = {
   description: string;

@@ -1,21 +1,20 @@
-import type { ReactNode } from "react";
 import type { useTranslations } from "next-intl";
 import type { ReportsData } from "@/lib/reports";
-import type { PrintableSectionConfig, PrintableSectionId } from "./types";
 import { SectionCover } from "./SectionCover";
 import {
+  SectionCategories,
+  SectionMonthlySeries,
+  SectionOverdue,
   SectionSummary,
   SectionTrends,
-  SectionMonthlySeries,
-  SectionCategories,
-  SectionOverdue,
 } from "./SectionFinance";
 import {
   SectionAttention,
   SectionServiceStatus,
-  SectionUpcoming,
   SectionTopCustomers,
+  SectionUpcoming,
 } from "./SectionOperations";
+import type { PrintableSectionConfig, PrintableSectionId } from "./types";
 
 export function getSectionConfigs({
   data,

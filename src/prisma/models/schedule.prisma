@@ -1,3 +1,44 @@
+model Appointment {
+  id              String            @id @default(cuid())
+  orgId           String
+  status          AppointmentStatus @default(scheduled)
+  serviceOrderId  String?
+  startsAt        DateTime
+  endsAt          DateTime
+  employeeId      String?
+  locationText    String?
+  notes           String?
+  /// Regra de recorrência desta visita.
+  recurrenceRule  RecurrenceRule    @default(none)
+  /// Quantas ocorrências foram geradas a partir desta raiz (inclusive ela).
+  recurrenceCount Int               @default(1)
+  /// ID do Appointment raiz quando esta visita faz parte de uma série recorrente.
+  parentId        String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  employee        Contact?          @relation(fields: [employeeId], references: [id])
+  org             Organization      @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  serviceOrder    ServiceOrder?     @relation(fields: [serviceOrderId], references: [id])
+
+  @@index([orgId, startsAt])
+  @@index([orgId, status])
+  @@index([orgId, parentId])
+  @@map("appointment")
+}
+
+model CalendarBlock {
+  id        String       @id @default(cuid())
+  orgId     String
+  startsAt  DateTime
+  endsAt    DateTime
+  reason    String?
+  createdAt DateTime     @default(now())
+  org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId, startsAt])
+  @@map("calendar_block")
+}
+
 enum AppointmentStatus {
   scheduled
   done
@@ -11,52 +52,4 @@ enum RecurrenceRule {
   weekly
   biweekly
   monthly
-}
-
-model Appointment {
-  id     String            @id @default(cuid())
-  orgId  String
-  status AppointmentStatus @default(scheduled)
-
-  serviceOrderId String?
-  startsAt       DateTime
-  endsAt         DateTime
-
-  employeeId   String? // Contact (funcionário)
-  locationText String?
-  notes        String? // Observações operacionais da visita
-
-  /// Regra de recorrência desta visita.
-  recurrenceRule  RecurrenceRule @default(none)
-  /// Quantas ocorrências foram geradas a partir desta raiz (inclusive ela).
-  recurrenceCount Int            @default(1)
-  /// ID do Appointment raiz quando esta visita faz parte de uma série recorrente.
-  parentId        String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  org          Organization  @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  serviceOrder ServiceOrder? @relation(fields: [serviceOrderId], references: [id], onDelete: SetNull)
-  employee     Contact?      @relation(fields: [employeeId], references: [id], onDelete: SetNull)
-
-  @@index([orgId, startsAt])
-  @@index([orgId, status])
-  @@index([orgId, parentId])
-  @@map("appointment")
-}
-
-model CalendarBlock {
-  id       String   @id @default(cuid())
-  orgId    String
-  startsAt DateTime
-  endsAt   DateTime
-  reason   String?
-
-  createdAt DateTime @default(now())
-
-  org Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
-
-  @@index([orgId, startsAt])
-  @@map("calendar_block")
 }

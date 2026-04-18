@@ -1,22 +1,21 @@
-enum OrgRole {
-  owner
-  admin
-  member
-}
-
 model Membership {
-  id        String   @id @default(cuid())
+  id        String       @id @default(cuid())
   orgId     String
   userId    String
-  role      OrgRole  @default(member)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  org  Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  user User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      OrgRole      @default(member)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([orgId, userId])
   @@index([userId])
   @@index([orgId, role])
   @@map("membership")
+}
+
+enum OrgRole {
+  owner
+  admin
+  member
 }

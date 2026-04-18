@@ -5,7 +5,12 @@ import { getTenantContext, isNoOrgError } from "@/lib/auth-tenant";
 import { LoginForm } from "@/ui/pages/auth/LoginForm";
 
 export default async function LoginPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  let session = null;
+  try {
+    session = await auth.api.getSession({ headers: await headers() });
+  } catch (_error) {
+    // Treat as no session to allow log in
+  }
 
   if (!session) {
     return <LoginForm />;

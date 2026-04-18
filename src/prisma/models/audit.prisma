@@ -1,16 +1,13 @@
 model ActivityLog {
-  id     String  @id @default(cuid())
-  orgId  String
-  userId String? // User (ator)
-
+  id         String       @id @default(cuid())
+  orgId      String
+  userId     String?
   message    String
   entityType String?
   entityId   String?
-
-  createdAt DateTime @default(now())
-
-  org  Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  user User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt  DateTime     @default(now())
+  org        Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  user       User?        @relation(fields: [userId], references: [id])
 
   @@index([orgId, createdAt])
   @@index([orgId, entityType])

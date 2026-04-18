@@ -213,9 +213,7 @@ export async function MarketingHeroSection() {
                         </div>
 
                         <div className="text-right">
-                          <p className="text-sm font-bold">
-                            {visit.time}
-                          </p>
+                          <p className="text-sm font-bold">{visit.time}</p>
                           <p className="mt-1 text-xs text-sky-300">
                             {visit.status}
                           </p>
@@ -241,9 +239,7 @@ export async function MarketingHeroSection() {
                         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-(--color-text-2)">
                           {item.label}
                         </p>
-                        <p className="mt-2 text-2xl font-black">
-                          {item.value}
-                        </p>
+                        <p className="mt-2 text-2xl font-black">{item.value}</p>
                       </div>
                     ))}
                   </div>

@@ -1,12 +1,12 @@
 import { getTenantContext } from "@/lib/auth-tenant";
-import { getSchedulePageData } from "@/lib/schedule";
+import prisma from "@/lib/prisma";
 import type {
   AppointmentPeriod,
   AppointmentStatusFilter,
 } from "@/lib/schedule";
-import prisma from "@/lib/prisma";
-import { SchedulePage } from "@/ui/pages/privatePages/SchedulePage";
+import { getSchedulePageData } from "@/lib/schedule";
 import type { ServiceOrderOption } from "@/ui/pages/privatePages/AppointmentFormModal";
+import { SchedulePage } from "@/ui/pages/privatePages/SchedulePage";
 import { resolveLocale } from "@/utils/i18n";
 
 export default async function ScheduleRoute({
@@ -20,8 +20,7 @@ export default async function ScheduleRoute({
   const customerId =
     typeof params?.customerId === "string" ? params.customerId : "";
 
-  const periodRaw =
-    typeof params?.period === "string" ? params.period : "all";
+  const periodRaw = typeof params?.period === "string" ? params.period : "all";
   const period: AppointmentPeriod =
     periodRaw === "today" ||
     periodRaw === "week" ||
@@ -30,8 +29,7 @@ export default async function ScheduleRoute({
       ? periodRaw
       : "all";
 
-  const statusRaw =
-    typeof params?.status === "string" ? params.status : "all";
+  const statusRaw = typeof params?.status === "string" ? params.status : "all";
   const status: AppointmentStatusFilter =
     statusRaw === "scheduled" ||
     statusRaw === "done" ||

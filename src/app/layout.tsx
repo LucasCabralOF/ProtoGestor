@@ -25,8 +25,15 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  const localeRaw = await getLocale();
-  const messages = await getMessages();
+  let localeRaw = DEFAULT_LOCALE;
+  let messages = {};
+
+  try {
+    localeRaw = await getLocale() as LocaleKey;
+    messages = await getMessages();
+  } catch (_err) {
+    // Ignore error to prevent crashing, fallback to defaults
+  }
 
   const cookieStore = await cookies();
 

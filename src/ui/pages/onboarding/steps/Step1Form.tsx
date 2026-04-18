@@ -32,9 +32,7 @@ export function Step1Form({
   const segmentError = segmentTouched && !segment;
 
   const slugPreview =
-    nameValue.trim().length >= 2
-      ? slugifyOrganizationName(nameValue)
-      : null;
+    nameValue.trim().length >= 2 ? slugifyOrganizationName(nameValue) : null;
 
   async function handleSubmit(values: { name: string }) {
     setSegmentTouched(true);
@@ -113,11 +111,7 @@ export function Step1Form({
         ) : null}
       </div>
 
-      <Button
-        testid="onboarding-next-step1"
-        type="primary"
-        htmlType="submit"
-      >
+      <Button testid="onboarding-next-step1" type="primary" htmlType="submit">
         <span className="inline-flex items-center gap-2">
           {t("steps.next")}
           <FiArrowRight size={14} />

@@ -4,12 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import {
-  FiBriefcase,
-  FiUsers,
-  FiZap,
-} from "react-icons/fi";
-import { type OnboardingStep1Data, type OnboardingStep2Data } from "./onboarding-utils";
+import { FiBriefcase, FiUsers, FiZap } from "react-icons/fi";
+import type {
+  OnboardingStep1Data,
+  OnboardingStep2Data,
+} from "./onboarding-utils";
 import { Step1Form } from "./steps/Step1Form";
 import { Step2Form } from "./steps/Step2Form";
 import { Step3Confirm, Step3Done } from "./steps/Step3Confirm";
@@ -26,8 +25,6 @@ type WizardState = {
   step1: Partial<OnboardingStep1Data>;
   step2: Partial<OnboardingStep2Data>;
 };
-
-
 
 // ---------------------------------------------------------------------------
 // Componente principal — OnboardingPage
@@ -65,7 +62,7 @@ export function OnboardingPage({
   function handleBack() {
     setWizard((prev) => ({
       ...prev,
-      step: (Math.max(1, prev.step - 1) as 1 | 2 | 3),
+      step: Math.max(1, prev.step - 1) as 1 | 2 | 3,
     }));
   }
 
@@ -100,7 +97,6 @@ export function OnboardingPage({
     <div className="min-h-screen w-full bg-(--color-base-3) text-(--color-text-1)">
       <div className="mx-auto flex min-h-screen w-full max-w-6xl items-center px-6 py-10">
         <div className="grid w-full gap-8 xl:grid-cols-[1.1fr_0.9fr]">
-
           {/* Coluna esquerda — contexto */}
           <section className="flex flex-col justify-center gap-6">
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-(--color-border) bg-(--color-base-1) px-4 py-2 text-sm text-(--color-text-2)">

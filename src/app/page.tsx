@@ -6,7 +6,12 @@ import { MarketingHomePage } from "@/ui/pages/publicPages/MarketingHomePage";
 
 export default async function Home() {
   const h = await headers();
-  const session = await auth.api.getSession({ headers: h });
+  let session = null;
+  try {
+    session = await auth.api.getSession({ headers: h });
+  } catch (_error) {
+    // Ignore error
+  }
 
   if (!session) {
     return <MarketingHomePage />;
