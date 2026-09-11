@@ -1,0 +1,105 @@
+{
+  "badge": "Setup inicial",
+  "title": "Bem-vindo, {userName}",
+  "subtitle": "Vamos configurar seu espaço de trabalho em poucos passos.",
+  "benefits": {
+    "ownerTitle": "Você entra como responsável",
+    "ownerDescription": "Sua primeira organização já nasce vinculada à sua conta com acesso completo ao painel.",
+    "tenantTitle": "Pronto em menos de 2 minutos",
+    "tenantDescription": "Sem configurações complicadas. Responda as perguntas e comece a operar."
+  },
+  "collaborator": {
+    "title": "Entrar em uma Empresa",
+    "subtitle": "Informe o código ou identificador (slug) da empresa para começar a operar.",
+    "codeLabel": "Código ou Slug da empresa",
+    "codePlaceholder": "Ex: empresa-teste",
+    "codeRequired": "Informe o código ou slug da empresa.",
+    "submit": "Ingressar na empresa",
+    "submitting": "Ingressando...",
+    "errorNotFound": "Empresa não encontrada. Verifique o código com seu gestor.",
+    "switchToOwner": "Quer criar sua própria empresa? Clique aqui"
+  },
+  "owner": {
+    "switchToCollaborator": "É um colaborador entrando em uma equipe? Clique aqui"
+  },
+  "steps": {
+    "indicator": "Passo {current} de {total}",
+    "next": "Próximo",
+    "back": "Voltar",
+    "step1": "Sua empresa",
+    "step2": "Contexto rápido",
+    "step3": "Pronto!"
+  },
+  "step1": {
+    "eyebrow": "Passo 1 de 3",
+    "title": "Como se chama sua empresa?",
+    "subtitle": "Você poderá alterar isso nas configurações a qualquer momento.",
+    "signedAs": "Logado como {email}",
+    "nameLabel": "Nome da empresa",
+    "namePlaceholder": "Ex: Manutenções Expert",
+    "nameRequired": "Informe o nome da empresa.",
+    "nameMin": "Use pelo menos 2 caracteres.",
+    "segmentLabel": "Qual é o seu ramo de atuação?",
+    "segmentPlaceholder": "Selecione...",
+    "segments": {
+      "maintenance": "Manutenção preventiva",
+      "hvac": "Climatização e ar-condicionado",
+      "cleaning": "Limpeza e conservação",
+      "gardens": "Jardinagem e paisagismo",
+      "facilities": "Facilities e serviços prediais",
+      "tech": "Assistência técnica",
+      "other": "Outro"
+    },
+    "segmentRequired": "Selecione um segmento.",
+    "slugPreviewLabel": "Identificador interno (slug)",
+    "slugPreviewEmpty": "Gerado a partir do nome.",
+    "submit": "Criar minha empresa",
+    "submitting": "Criando..."
+  },
+  "step2": {
+    "eyebrow": "Passo 2 de 3",
+    "title": "Nos conte um pouco mais",
+    "subtitle": "Essas informações nos ajudam a preparar o painel para a sua realidade.",
+    "clientCountLabel": "Quantos clientes ativos você tem hoje?",
+    "clientCounts": {
+      "few": "Menos de 30",
+      "medium": "Entre 30 e 100",
+      "many": "Mais de 100"
+    },
+    "clientCountRequired": "Selecione uma faixa.",
+    "toolLabel": "Como você organiza os atendimentos hoje?",
+    "tools": {
+      "whatsapp": "WhatsApp",
+      "spreadsheet": "Planilha",
+      "paper": "Papel e caderno",
+      "other": "Sistema ou outra ferramenta"
+    },
+    "toolRequired": "Selecione uma opção.",
+    "continue": "Continuar"
+  },
+  "step3": {
+    "eyebrow": "Tudo pronto!",
+    "title": "Sua empresa está criada.",
+    "subtitle": "Agora é hora de dar os primeiros passos dentro do seu painel.",
+    "orgCreated": "Empresa criada:",
+    "nextStepsTitle": "Comece por aqui:",
+    "nextSteps": {
+      "clients": "Cadastre seus primeiros clientes",
+      "services": "Crie uma ordem de serviço",
+      "settings": "Configure os dados da empresa"
+    },
+    "cta": "Ir para o painel"
+  },
+  "checklist": {
+    "title": "Primeiros passos",
+    "subtitle": "Complete essas etapas para aproveitar o produto desde o início.",
+    "dismiss": "Dispensar",
+    "tasks": {
+      "account": "Criar sua conta",
+      "client": "Cadastrar o primeiro cliente",
+      "service": "Criar a primeira ordem de serviço",
+      "settings": "Configurar os dados da empresa"
+    },
+    "completed": "{count} de {total} concluídos"
+  }
+}

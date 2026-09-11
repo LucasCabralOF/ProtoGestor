@@ -153,11 +153,151 @@ Além disso, o campo `segment` (select nativo dentro de `Form.Item` AntD) foi ex
 
 ---
 
-*Última atualização: 2026-04-17*
+## ERR-007 — Deslocamento de horário de agendamentos por uso de UTC (.toISOString()) no client
 
-### Erro: Teste E2E de Onboarding falhando por ID de Step Incompatível e Timeout
-- **Data**: 2026-04-17
-- **Arquivo**: `playwright/tests/onboarding.spec.ts`
-- **Descrição**: O script de E2E estava utilizando `onboarding-client-count-small`, mas o map interno em `OnboardingPage.tsx` renderizava os IDs extraídos de `ONBOARDING_CLIENT_COUNT_IDS` (`few`, `medium`, `many`). Isso fazia o Playwright não achar o elemento, falhando por timeout na linha em vez de clicar na opção existente.
-- **Causa Raiz**: O teste E2E havia sido escrito com expectativas de dados mockados dessincronizados do schema utilitário final `onboarding-utils.ts`.
-- **Técnica para Evitar Recorrência**: Sempre verificar as enums e lists de utilitários como base de renderização do `data-testid` iterativo em templates JSX (`t(step2.clientCounts.${id})`).
+**Data:** 2026-09-06  
+**Arquivo:** `src/ui/pages/privatePages/SchedulePage.tsx`  
+**Erro (comportamento):**  
+Ao abrir o modal de edição de uma visita agendada para 09:00 (fuso de Brasília, UTC-3), o formulário carregava o horário como 12:00. Ao salvar sem alterar o horário, a action aplicava o offset `-03:00` novamente, deslocando o compromisso para 15:00 UTC (+3h a cada salvamento). Além disso, `toISOString().slice(0, 10)` podia retornar o dia seguinte para visitas tarde da noite.
+
+**Causa raiz:**  
+O método `Date.prototype.toISOString()` sempre retorna a data e hora em tempo universal (UTC/Z), ignorando o fuso horário local ou comercial da aplicação (`America/Sao_Paulo`).
+
+**Correção aplicada:**
+1. Criadas as funções `formatDateInput(date)` e `formatTimeInput(date)` no servidor (`schedule-utils.ts`), usando `Intl.DateTimeFormat` com `timeZone: "America/Sao_Paulo"`.
+2. Adicionados os campos pré-formatados `dateInput`, `startTimeInput` e `endTimeInput` em `AppointmentRow`.
+3. Em `SchedulePage.tsx`, `openEdit` consome diretamente esses campos do server, e interações de drag-and-drop / seleção usam `format` da biblioteca `date-fns`.
+
+**Regra para evitar recorrência:**
+- **Nunca utilizar `.toISOString()`** para extrair partes de data ou hora para exibição ou inputs em formulários voltados ao usuário.
+- Formatações de data e hora do banco devem ser realizadas no servidor com o timezone explícito da organização (`America/Sao_Paulo`).
+
+---
+
+## ERR-008 — Falhas generalizadas de formatação no Biome causadas por EOL CRLF no host Windows
+
+**Data:** 2026-09-06  
+**Arquivo:** `.gitattributes`, `biome.json`  
+**Erro:**  
+O comando `npm run check` falhava com centenas de erros de formatação (`biome check`), acusando a presença de caracteres de retorno de carro `\r` (`␍`) em todos os arquivos do repositório.
+
+**Causa raiz:**  
+No Windows, o Git por padrão opera com `core.autocrlf = true`, convertendo quebras de linha LF para CRLF (`\r\n`) no checkout do disco. O Biome adota LF (`\n`) como padrão estrito de formatação, marcando qualquer arquivo CRLF como fora de conformidade.
+
+**Correção aplicada:**
+1. Adicionado arquivo `.gitattributes` na raiz com `* text=auto eol=lf`, forçando o Git a manter `LF` em todos os sistemas operacionais.
+2. Adicionada a pasta `scratch` na lista de exclusão do `biome.json` (`"!scratch"`).
+
+**Regra para evitar recorrência:**
+- Repositórios com Biome ou Prettier rodando no Windows devem conter um arquivo `.gitattributes` definindo explicitamente `* text=auto eol=lf`.
+
+---
+
+## ERR-009 — Conflito de resolução do pacote 'server-only' em testes unitários Vitest
+
+**Data:** 2026-09-06  
+**Arquivo:** `src/lib/members.ts`, `src/actions/safeActions.ts`, testes Vitest  
+**Erro:**  
+```
+Cannot find package 'server-only' imported from 'src/lib/members.ts'
+Failed to resolve import "server-only" from "src/actions/safeActions.ts"
+```
+
+**Causa raiz:**  
+O pacote `server-only` do React Server Components é resolvido exclusivamente pelo bundler do Next.js no ambiente de compilação do servidor. Quando arquivos contendo `import "server-only"` são importados direta ou indiretamente em testes unitários sob o Vitest (especialmente no ambiente jsdom), o resolver falha.
+
+**Correção aplicada:**
+1. Funções puras de formatação e tipagem foram isoladas em arquivos utilitários sem `server-only` (ex: `src/lib/members-utils.ts` e `src/lib/schedule-utils.ts`).
+2. Testes de componentes de UI que renderizam botões disparando server actions devem mockar as actions via `vi.mock("@/actions/...")`, impedindo que o runtime de teste tente importar `safeActions.ts` e suas dependências de servidor.
+
+**Regra para evitar recorrência:**
+- Separar utilitários puros de lógica de banco de dados (`*-utils.ts` vs `*.ts`).
+- Sempre mockar Server Actions (`vi.mock`) em testes unitários de componentes React client-side.
+
+---
+
+## ERR-010 — Incompatibilidade da API do hook useAppFeedback (propriedade 'message' inexistente)
+
+**Data:** 2026-09-06  
+**Arquivo:** `src/ui/base/useAppFeedback.ts`, componentes client  
+**Erro:**  
+```
+Property 'message' does not exist on type '{ confirm: ...; notifyError: ...; notifySuccess: ...; }'
+```
+
+**Causa raiz:**  
+O hook customizado `useAppFeedback` encapsula as notificações do AntD através dos métodos nomeados `notifySuccess`, `notifyError` e `confirm`, e não expõe a instância crua `message` do AntD.
+
+**Correção aplicada:**  
+Substituir chamadas a `message.success(...)` e `message.error(...)` pelos helpers tipados `notifySuccess(...)` e `notifyError(...)`.
+
+**Regra para evitar recorrência:**  
+- Ao usar `useAppFeedback()`, sempre desestruturar `{ notifySuccess, notifyError, confirm }`.
+
+---
+
+## ERR-011 — Poluição residual do DOM entre testes sequenciais de componentes sob Vitest
+
+**Data:** 2026-09-06  
+**Arquivo:** Arquivos `*.test.tsx` com `@testing-library/react`  
+**Erro:**  
+```
+AssertionError: expected <button ...> to be null
+- Expected: null
++ Received: <button ...>
+```
+
+**Causa raiz:**  
+Quando o Vitest roda sem a flag `globals: true` ou sem um arquivo de setup global configurando o ciclo de vida do Testing Library, as renderizações feitas por `render(<Component />)` dentro de blocos `it(...)` sucessivos permanecem anexadas ao `document.body`, causando falsos positivos em asserções do tipo `queryBy...().toBeNull()`.
+
+**Correção aplicada:**  
+Importar `cleanup` de `@testing-library/react` e registrar a limpeza explícita após cada teste:
+```tsx
+afterEach(() => {
+  cleanup();
+});
+```
+
+**Regra para evitar recorrência:**  
+- Em todo arquivo de teste unitário React (`*.test.tsx`) que realize múltiplos `render(...)`, registrar explicitamente `afterEach(() => cleanup())`.
+
+---
+
+## ERR-012 — Padrões de ignore do Biome em estruturas Monorepo com workspaces
+
+**Data:** 2026-09-08  
+**Arquivo:** `biome.json`  
+**Erro:**  
+```
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Found 51708 errors (.next\dev\server\...)
+```
+
+**Causa raiz:**  
+Ao migrar para estrutura de monorepo (`apps/web`, `apps/mobile`), o arquivo `biome.json` na raiz usava padrões simples como `!.next` e `!node_modules`. Esses padrões não ignoram subdiretórios em pacotes aninhados (como `apps/web/.next` ou `apps/mobile/.expo`), fazendo com que o Biome analisasse arquivos compilados e gerados internamente.
+
+**Correção aplicada:**  
+Utilizar padrões glob universais com `**/` para ignorar os diretórios em qualquer nível da árvore:
+```json
+"includes": [
+  "**",
+  "!**/node_modules/**",
+  "!**/.next/**",
+  "!**/.expo/**",
+  "!**/.turbo/**",
+  "!**/dist/**",
+  "!**/build/**",
+  "!**/scratch/**"
+]
+```
+
+**Regra para evitar recorrência:**  
+- Em projetos monorepo com Biome na raiz, sempre declarar diretórios de build e cache com a sintaxe `!**/<nome-da-pasta>/**`.
+
+---
+
+*Última atualização: 2026-09-08*
+
+
+
+

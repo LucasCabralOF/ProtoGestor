@@ -13,7 +13,16 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
+    "includes": [
+      "**",
+      "!**/node_modules",
+      "!**/.next",
+      "!**/.expo",
+      "!**/.turbo",
+      "!**/dist",
+      "!**/build",
+      "!**/scratch"
+    ]
   },
   "formatter": {
     "enabled": true,

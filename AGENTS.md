@@ -25,10 +25,14 @@ Princípios que guiam toda decisão técnica (baseados em XP — Extreme Program
 ---
 
 ## Contexto Atual
-Protótipo SaaS multi-tenant em Next.js, rodando na raiz do repositório (sem `/web`), com App Router e DevContainer baseado em Docker Compose.
+Monorepo orquestrado com **Turborepo** e npm workspaces:
+- `apps/web`: Protótipo SaaS multi-tenant em Next.js `16.1.6`, com App Router e APIs Route Handlers (`/api/v1/...`)
+- `apps/mobile`: Aplicativo móvel para equipes de campo desenvolvido em **Expo** (React Native / Expo Router)
+- `packages/shared`: Pacote compartilhado `@protogestor/shared` contendo tipos de domínio, schemas Zod e utilitários (WhatsApp, mapas)
 
 Ambiente local atual:
-- App: porta `3001`
+- App Web: porta `3001` (`npm run dev:web` ou `npm run dev`)
+- App Mobile: Expo bundler porta `8081` (`npm run dev:mobile`)
 - Postgres 16: container local, exposto em `5433`
 - Prisma Studio: script usa porta `5556`
 - Workspace do DevContainer: `/home/app`

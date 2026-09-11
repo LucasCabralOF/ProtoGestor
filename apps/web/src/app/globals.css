@@ -1,0 +1,279 @@
+/** biome-ignore-all lint/complexity/noImportantStyles: ok */
+@import "antd/dist/reset.css";
+@import "tailwindcss";
+@import "react-big-calendar/lib/css/react-big-calendar.css";
+@import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+/* =========================================================
+   TOKENS
+========================================================= */
+@layer base {
+  :root {
+    --color-primary: #1677ff;
+    --color-secondary: #1677ff;
+
+    /* LIGHT */
+    --color-base-1: #ffffff; /* surface */
+    --color-base-2: #f8fafc; /* subtle */
+    --color-base-3: #f1f5f9; /* app bg */
+    --color-base-4: #ffffff; /* page bg */
+
+    --color-border: #e5e7eb;
+
+    --color-text-1: #0f172a;
+    --color-text-2: #475569;
+
+    --color-success: #22c55e;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+
+    --font-sans:
+      ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+      "Apple Color Emoji", "Segoe UI Emoji";
+    --font-mono:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+
+    --radius: 6px;
+  }
+
+  .dark {
+    --color-primary: #1677ff;
+    --color-secondary: #1677ff;
+
+    /* DARK */
+    --color-base-1: #141414; /* surface */
+    --color-base-2: #101010; /* subtle */
+    --color-base-3: #0b0b0b; /* app bg */
+    --color-base-4: #0a0a0a; /* page bg */
+
+    --color-border: #1f1f1f;
+
+    --color-text-1: #fafafa;
+    --color-text-2: #a1a1aa;
+  }
+
+  * {
+    box-sizing: border-box;
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: light;
+    scrollbar-gutter: stable both-edges;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+}
+
+/* =========================================================
+   BASE
+========================================================= */
+html,
+body {
+  @apply h-full w-full antialiased;
+  font-family: var(--font-sans);
+
+  color: var(--color-text-1);
+  background: var(--color-base-3);
+
+  scrollbar-color: var(--color-base-2) transparent;
+}
+
+/* =========================================================
+   LINKS
+========================================================= */
+a {
+  color: var(--color-primary);
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   MARKETING
+   Removido gradientes e flutuações para um visual mais sólido
+========================================================= */
+
+/* =========================================================
+   AntD - pequenos ajustes (mínimo necessário)
+   Deixe o ThemeConfig mandar no resto.
+========================================================= */
+
+/* Cards com radius alinhado ao design system */
+:where(.ant-card) {
+  border-radius: var(--radius);
+}
+
+/* Se você quer conteúdo do Popover sem padding (seu wrapper já controla o layout) */
+:where(.ant-popover .ant-popover-inner-content) {
+  padding: 0;
+}
+
+/* (Opcional) se você usa a classe ui-popover no wrapper e quer garantir padding 0 só nele */
+.ui-popover :where(.ant-popover-inner-content) {
+  padding: 0;
+}
+
+/* =========================================================
+   PRINT / A4 REPORTS
+========================================================= */
+.report-print-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 14mm 12mm 16mm;
+  border-radius: 24px;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.12);
+}
+
+.report-print-section {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 10mm;
+}
+
+@media print {
+  html,
+  body {
+    height: auto !important;
+    background: #fff !important;
+  }
+
+  .app-shell {
+    height: auto !important;
+    width: auto !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  .app-shell-layout,
+  .app-shell-body {
+    display: block !important;
+    height: auto !important;
+    width: auto !important;
+  }
+
+  .app-shell-sidebar,
+  .app-shell-navbar,
+  .report-screen-only {
+    display: none !important;
+  }
+
+  .app-shell-main {
+    min-height: auto !important;
+    overflow: visible !important;
+  }
+
+  .app-shell-page {
+    padding: 0 !important;
+  }
+
+  .report-print-page {
+    width: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0 !important;
+    border-radius: 0;
+    box-shadow: none;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .report-print-page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .report-print-page-footer {
+    position: static;
+  }
+}
+
+/* =========================================================
+   React Big Calendar Overrides
+========================================================= */
+
+.rbc-calendar {
+  @apply font-sans text-sm;
+}
+
+.rbc-toolbar {
+  @apply mb-4 flex flex-wrap items-center justify-between gap-3;
+}
+
+.rbc-toolbar-label {
+  @apply text-base font-extrabold tracking-tight;
+  color: var(--color-text-1);
+}
+
+.rbc-btn-group {
+  @apply inline-flex items-center rounded-xl border border-(--color-border) bg-(--color-base-1) p-0.5 shadow-xs;
+}
+
+.rbc-btn-group button {
+  @apply rounded-lg border-0 px-3 py-1.5 text-xs font-semibold transition-all;
+  color: var(--color-text-2);
+}
+
+.rbc-btn-group button:hover {
+  @apply text-(--color-text-1) bg-(--color-base-2);
+}
+
+.rbc-btn-group button.rbc-active {
+  @apply bg-(--color-primary) text-white shadow-xs;
+}
+
+.rbc-header {
+  @apply border-b border-(--color-border) py-2.5 text-xs font-bold uppercase tracking-wider text-(--color-text-2) bg-(--color-base-2);
+}
+
+.rbc-month-view,
+.rbc-time-view,
+.rbc-agenda-view,
+.rbc-month-row,
+.rbc-day-bg,
+.rbc-time-header,
+.rbc-time-content,
+.rbc-time-header-content,
+.rbc-timeslot-group,
+.rbc-day-slot .rbc-time-slot {
+  border-color: var(--color-border) !important;
+}
+
+.rbc-off-range-bg {
+  @apply bg-(--color-base-3);
+}
+
+.rbc-today {
+  @apply bg-(--color-primary)/8;
+}
+
+.rbc-event {
+  @apply rounded-lg px-2 py-1 text-xs font-semibold shadow-xs transition-all border border-transparent;
+}
+
+/* Hover and Drag effects */
+.rbc-event:hover {
+  @apply brightness-110 -translate-y-0.5 z-20 shadow-md;
+}
+
+.rbc-addons-dnd-dragged-event {
+  @apply opacity-70 scale-105 shadow-lg;
+}
+
+.rbc-day-slot .rbc-event-label {
+  @apply hidden; /* Hide internal times inside blocks for cleaner look */
+}
+
+.rbc-time-gutter .rbc-timeslot-group {
+  @apply text-xs font-medium text-(--color-text-2);
+}
