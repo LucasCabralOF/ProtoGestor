@@ -7,13 +7,13 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#38bdf8",
+        tabBarActiveTintColor: "#22c55e",
         tabBarStyle: {
-          backgroundColor: "#0f172a",
-          borderTopColor: "#334155",
+          backgroundColor: "#07100b",
+          borderTopColor: "#1a3325",
         },
         headerStyle: {
-          backgroundColor: "#0f172a",
+          backgroundColor: "#07100b",
         },
         headerTintColor: "#ffffff",
         headerShown: useClientOnlyValue(false, true),
@@ -41,7 +41,7 @@ export default function TabLayout() {
                   <SymbolView
                     name={{ ios: "info.circle", android: "info", web: "info" }}
                     size={22}
-                    tintColor="#94a3b8"
+                    tintColor="#86a894"
                     style={{ opacity: pressed ? 0.5 : 1 }}
                   />
                 )}

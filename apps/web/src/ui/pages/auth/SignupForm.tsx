@@ -127,16 +127,16 @@ export function SignupForm() {
               onClick={() => setRole("owner")}
               className={`flex flex-col text-left p-3.5 rounded-xl border transition-all ${
                 role === "owner"
-                  ? "border-blue-500 bg-blue-500/10 ring-1 ring-blue-500/30"
+                  ? "border-(--color-primary) bg-emerald-500/10 ring-1 ring-emerald-500/30"
                   : "border-(--color-border) bg-(--color-base-2) hover:border-(--color-border-hover)"
               }`}
             >
               <div className="flex items-center justify-between">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-500/20 text-blue-500">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
                   <FiBriefcase className="h-4 w-4" />
                 </div>
                 {role === "owner" && (
-                  <span className="flex h-4 w-4 items-center justify-center rounded-full bg-blue-500 text-white text-[10px]">
+                  <span className="flex h-4 w-4 items-center justify-center rounded-full bg-(--color-primary) text-white text-[10px]">
                     <FiCheck />
                   </span>
                 )}

@@ -40,7 +40,7 @@ export async function MarketingDifferentialsBar() {
               key={id}
               className="flex flex-col justify-between rounded-lg border border-(--color-border) bg-(--color-base-2) p-4 sm:p-5 transition hover:border-(--color-primary)/40 hover:shadow-sm"
             >
-              <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-md bg-blue-500/10 text-(--color-primary)">
+              <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-md bg-emerald-500/10 text-(--color-primary)">
                 <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
               <div className="mt-3 sm:mt-4">

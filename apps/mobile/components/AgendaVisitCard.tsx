@@ -110,16 +110,16 @@ export function AgendaVisitCard({ visit }: AgendaVisitCardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#1e293b",
+    backgroundColor: "#112219",
     borderRadius: 12,
     padding: 16,
     borderWidth: 1,
-    borderColor: "#334155",
+    borderColor: "#1a3325",
     marginBottom: 14,
   },
   cardDone: {
     opacity: 0.6,
-    borderColor: "#1e293b",
+    borderColor: "#1a3325",
   },
   cardHeader: {
     flexDirection: "row",
@@ -129,17 +129,17 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   timeBadge: {
-    backgroundColor: "#0f172a",
+    backgroundColor: "#07100b",
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: "#334155",
+    borderColor: "#1a3325",
   },
   timeText: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#38bdf8",
+    color: "#22c55e",
   },
   statusBadge: {
     paddingHorizontal: 8,
@@ -147,20 +147,20 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   statusPending: {
-    backgroundColor: "#0369a1",
+    backgroundColor: "#166534",
   },
   statusDone: {
-    backgroundColor: "#065f46",
+    backgroundColor: "#052e16",
   },
   statusText: {
     fontSize: 11,
     fontWeight: "bold",
   },
   statusPendingText: {
-    color: "#e0f2fe",
+    color: "#dcfce7",
   },
   statusDoneText: {
-    color: "#d1fae5",
+    color: "#86efac",
   },
   clientName: {
     fontSize: 16,
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   serviceTitle: {
     fontSize: 14,
-    color: "#94a3b8",
+    color: "#86a894",
     marginBottom: 8,
   },
   addressText: {
@@ -191,13 +191,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   btnMaps: {
-    backgroundColor: "#3b82f6",
+    backgroundColor: "#15803d",
   },
   btnWaze: {
-    backgroundColor: "#0ea5e9",
+    backgroundColor: "#16a34a",
   },
   btnWhatsApp: {
-    backgroundColor: "#10b981",
+    backgroundColor: "#22c55e",
   },
   btnText: {
     color: "#ffffff",

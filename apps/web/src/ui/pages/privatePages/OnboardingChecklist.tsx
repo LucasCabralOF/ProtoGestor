@@ -66,7 +66,7 @@ export function OnboardingChecklist({
 
   return (
     <section
-      className="rounded-[28px] border border-(--color-primary)/30 bg-blue-50/60 p-5 dark:bg-blue-950/20"
+      className="rounded-[28px] border border-(--color-primary)/30 bg-emerald-50/60 p-5 dark:bg-emerald-950/20"
       data-testid="onboarding-checklist"
       aria-labelledby="checklist-title"
     >

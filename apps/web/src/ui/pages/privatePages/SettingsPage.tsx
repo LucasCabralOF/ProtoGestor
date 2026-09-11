@@ -105,7 +105,7 @@ export function SettingsPage({
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-1">
-        <div className="mb-1 inline-flex w-fit items-center gap-1.5 rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-500 border border-blue-500/20">
+        <div className="mb-1 inline-flex w-fit items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
           <FiSliders className="h-3.5 w-3.5" />
           <span>Configurações da Plataforma</span>
         </div>
@@ -237,7 +237,7 @@ export function SettingsPage({
 
               <div className="rounded-2xl border border-(--color-border) bg-(--color-base-2) p-4">
                 <p className="text-(--color-text-2)">Papel na Empresa Ativa</p>
-                <p className="mt-1 font-semibold text-blue-500 capitalize">
+                <p className="mt-1 font-semibold text-emerald-600 dark:text-emerald-400 capitalize">
                   {currentRole === "owner"
                     ? "Proprietário (Dono)"
                     : currentRole === "admin"

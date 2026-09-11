@@ -1,14 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { Platform, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { ApiServerConfigCard } from "@/components/ApiServerConfigCard";
+import { MobileLoginFormCard } from "@/components/MobileLoginFormCard";
 import { Text, View } from "@/components/Themed";
 import { useMobileAuth } from "@/src/lib/auth-context";
 
@@ -24,37 +17,6 @@ export default function ModalProfileScreen() {
     selectOrg,
     changeApiBaseUrl,
   } = useMobileAuth();
-
-  const [email, setEmail] = useState("demo@local.dev");
-  const [password, setPassword] = useState("Demo@1234");
-  const [urlInput, setUrlInput] = useState(apiBaseUrl);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert("Atenção", "Informe email e senha.");
-      return;
-    }
-    setIsSubmitting(true);
-    try {
-      await login(email, password);
-      Alert.alert("Sucesso", "Login realizado com sucesso!");
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "Falha na autenticação.";
-      Alert.alert("Erro de Login", msg);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleSaveUrl = async () => {
-    try {
-      await changeApiBaseUrl(urlInput);
-      Alert.alert("Sucesso", "URL da API atualizada.");
-    } catch {
-      Alert.alert("Erro", "Não foi possível atualizar a URL.");
-    }
-  };
 
   return (
     <ScrollView
@@ -114,82 +76,13 @@ export default function ModalProfileScreen() {
           </TouchableOpacity>
         </View>
       ) : (
-        <View style={styles.sectionCard}>
-          <Text style={styles.sectionTitle}>Conectar com a Conta</Text>
-          <Text style={styles.formHint}>
-            Acesse com seu usuário cadastrado no painel web.
-          </Text>
-
-          <Text style={styles.inputLabel}>E-mail:</Text>
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            placeholder="seu.email@empresa.com"
-            placeholderTextColor="#64748b"
-          />
-
-          <Text style={styles.inputLabel}>Senha:</Text>
-          <TextInput
-            style={styles.input}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            placeholder="Sua senha"
-            placeholderTextColor="#64748b"
-          />
-
-          <TouchableOpacity
-            disabled={isSubmitting}
-            style={[styles.loginBtn, isSubmitting && styles.btnDisabled]}
-            onPress={handleLogin}
-          >
-            {isSubmitting ? (
-              <ActivityIndicator color="#ffffff" />
-            ) : (
-              <Text style={styles.loginBtnText}>Entrar no App</Text>
-            )}
-          </TouchableOpacity>
-        </View>
+        <MobileLoginFormCard onLogin={login} />
       )}
 
-      <View style={styles.sectionCard}>
-        <Text style={styles.sectionTitle}>Servidor da API</Text>
-        <Text style={styles.formHint}>
-          Altere a URL caso esteja usando emulador ou dispositivo físico.
-        </Text>
-
-        <TextInput
-          style={styles.input}
-          value={urlInput}
-          onChangeText={setUrlInput}
-          autoCapitalize="none"
-          placeholder="http://localhost:3001"
-          placeholderTextColor="#64748b"
-        />
-
-        <View style={styles.quickUrlsRow}>
-          <TouchableOpacity
-            style={styles.quickUrlBtn}
-            onPress={() => setUrlInput("http://localhost:3001")}
-          >
-            <Text style={styles.quickUrlText}>Localhost:3001</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.quickUrlBtn}
-            onPress={() => setUrlInput("http://10.0.2.2:3001")}
-          >
-            <Text style={styles.quickUrlText}>Android 10.0.2.2</Text>
-          </TouchableOpacity>
-        </View>
-
-        <TouchableOpacity style={styles.saveUrlBtn} onPress={handleSaveUrl}>
-          <Text style={styles.saveUrlBtnText}>Salvar Endereço da API</Text>
-        </TouchableOpacity>
-      </View>
+      <ApiServerConfigCard
+        initialUrl={apiBaseUrl}
+        onSaveUrl={changeApiBaseUrl}
+      />
 
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </ScrollView>
@@ -199,7 +92,7 @@ export default function ModalProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f172a",
+    backgroundColor: "#07100b",
   },
   contentContainer: {
     padding: 20,
@@ -216,15 +109,15 @@ const styles = StyleSheet.create({
   },
   headerSubtitle: {
     fontSize: 13,
-    color: "#94a3b8",
+    color: "#86a894",
     marginTop: 4,
   },
   sectionCard: {
-    backgroundColor: "#1e293b",
+    backgroundColor: "#112219",
     borderRadius: 12,
     padding: 16,
     borderWidth: 1,
-    borderColor: "#334155",
+    borderColor: "#1a3325",
     marginBottom: 20,
   },
   sectionTitle: {
@@ -233,16 +126,13 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     marginBottom: 6,
   },
-  formHint: {
-    fontSize: 12,
-    color: "#94a3b8",
-    marginBottom: 14,
-  },
   userBox: {
-    backgroundColor: "#0f172a",
+    backgroundColor: "#07100b",
     padding: 12,
     borderRadius: 8,
     marginBottom: 12,
+    borderWidth: 1,
+    borderColor: "#1a3325",
   },
   userName: {
     fontSize: 16,
@@ -251,23 +141,25 @@ const styles = StyleSheet.create({
   },
   userEmail: {
     fontSize: 13,
-    color: "#94a3b8",
+    color: "#86a894",
   },
   orgBox: {
-    backgroundColor: "#0f172a",
+    backgroundColor: "#07100b",
     padding: 12,
     borderRadius: 8,
     marginBottom: 14,
+    borderWidth: 1,
+    borderColor: "#1a3325",
   },
   orgLabel: {
     fontSize: 11,
-    color: "#94a3b8",
+    color: "#86a894",
     marginBottom: 2,
   },
   orgName: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "#38bdf8",
+    color: "#22c55e",
   },
   orgRole: {
     fontSize: 12,
@@ -280,31 +172,31 @@ const styles = StyleSheet.create({
   },
   multiOrgTitle: {
     fontSize: 12,
-    color: "#94a3b8",
+    color: "#86a894",
     marginBottom: 8,
   },
   orgSelectBtn: {
     padding: 10,
     borderRadius: 6,
-    backgroundColor: "#0f172a",
+    backgroundColor: "#07100b",
     marginBottom: 6,
     borderWidth: 1,
-    borderColor: "#334155",
+    borderColor: "#1a3325",
   },
   orgSelectBtnActive: {
-    borderColor: "#38bdf8",
-    backgroundColor: "rgba(56, 189, 248, 0.1)",
+    borderColor: "#22c55e",
+    backgroundColor: "rgba(34, 197, 94, 0.1)",
   },
   orgSelectText: {
-    color: "#cbd5e1",
+    color: "#86a894",
     fontSize: 13,
   },
   orgSelectTextActive: {
-    color: "#38bdf8",
+    color: "#22c55e",
     fontWeight: "bold",
   },
   logoutBtn: {
-    backgroundColor: "#ef4444",
+    backgroundColor: "#dc2626",
     paddingVertical: 10,
     borderRadius: 8,
     alignItems: "center",
@@ -312,67 +204,6 @@ const styles = StyleSheet.create({
   logoutBtnText: {
     color: "#ffffff",
     fontWeight: "bold",
-    fontSize: 13,
-  },
-  inputLabel: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: "#cbd5e1",
-    marginBottom: 6,
-  },
-  input: {
-    backgroundColor: "#0f172a",
-    borderRadius: 8,
-    padding: 12,
-    color: "#ffffff",
-    fontSize: 14,
-    borderWidth: 1,
-    borderColor: "#334155",
-    marginBottom: 14,
-  },
-  loginBtn: {
-    backgroundColor: "#0284c7",
-    paddingVertical: 12,
-    borderRadius: 8,
-    alignItems: "center",
-    marginTop: 6,
-  },
-  btnDisabled: {
-    opacity: 0.6,
-  },
-  loginBtnText: {
-    color: "#ffffff",
-    fontWeight: "bold",
-    fontSize: 14,
-  },
-  quickUrlsRow: {
-    flexDirection: "row",
-    gap: 8,
-    marginBottom: 12,
-    backgroundColor: "transparent",
-  },
-  quickUrlBtn: {
-    flex: 1,
-    backgroundColor: "#0f172a",
-    paddingVertical: 8,
-    borderRadius: 6,
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#334155",
-  },
-  quickUrlText: {
-    color: "#94a3b8",
-    fontSize: 11,
-  },
-  saveUrlBtn: {
-    backgroundColor: "#334155",
-    paddingVertical: 10,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  saveUrlBtnText: {
-    color: "#ffffff",
-    fontWeight: "600",
     fontSize: 13,
   },
 });

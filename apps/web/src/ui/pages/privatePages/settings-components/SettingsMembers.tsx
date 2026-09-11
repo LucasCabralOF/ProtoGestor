@@ -81,7 +81,7 @@ export function SettingsMembers({
             <h2 className="text-xl font-bold tracking-tight">
               Equipe & Colaboradores
             </h2>
-            <span className="rounded-full bg-blue-500/10 px-2 py-0.5 text-xs font-bold text-blue-500 border border-blue-500/20">
+            <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
               {members.length} {members.length === 1 ? "membro" : "membros"}
             </span>
           </div>
@@ -117,15 +117,17 @@ export function SettingsMembers({
       </div>
 
       {orgSlug && (
-        <div className="mt-3 rounded-xl border border-blue-500/20 bg-blue-500/5 p-3 text-xs text-(--color-text-2) flex items-center justify-between">
+        <div className="mt-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3 text-xs text-(--color-text-2) flex items-center justify-between">
           <span>
             Código da sua empresa para novos colaboradores:{" "}
-            <strong className="font-mono text-blue-500">{orgSlug}</strong>
+            <strong className="font-mono text-emerald-600 dark:text-emerald-400">
+              {orgSlug}
+            </strong>
           </span>
           <button
             type="button"
             onClick={handleCopyInviteCode}
-            className="text-xs font-semibold text-blue-500 hover:underline inline-flex items-center gap-1"
+            className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline inline-flex items-center gap-1"
           >
             <FiCopy />
             Copiar

@@ -35,7 +35,7 @@ export function DashboardReturnAlerts({
     <Card className="border border-(--color-border) bg-(--color-base-1)">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/20">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
             <FiRepeat className="h-4 w-4" />
           </div>
           <div>
@@ -48,7 +48,7 @@ export function DashboardReturnAlerts({
                   className={`rounded-full px-2 py-0.5 text-xs font-bold border ${
                     overdueCount > 0
                       ? "bg-rose-500/10 text-rose-500 border-rose-500/20"
-                      : "bg-blue-500/10 text-blue-500 border-blue-500/20"
+                      : "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20"
                   }`}
                   data-testid="badge-return-alerts-count"
                 >
@@ -111,7 +111,7 @@ export function DashboardReturnAlerts({
                       className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border ${
                         alert.isOverdue
                           ? "bg-rose-500/10 text-rose-500 border-rose-500/20"
-                          : "bg-blue-500/10 text-blue-500 border-blue-500/20"
+                          : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
                       }`}
                     >
                       {alert.isOverdue ? (
@@ -125,12 +125,12 @@ export function DashboardReturnAlerts({
                       <div className="flex flex-wrap items-center gap-2">
                         <Link
                           href={`/clients/${alert.customerId}`}
-                          className="font-semibold text-sm text-(--color-text) hover:text-blue-500 hover:underline"
+                          className="font-semibold text-sm text-(--color-text) hover:text-(--color-primary) hover:underline"
                         >
                           {alert.customerName}
                         </Link>
 
-                        <span className="rounded-md bg-blue-500/10 px-2 py-0.5 text-[11px] font-semibold text-blue-600 border border-blue-500/20">
+                        <span className="rounded-md bg-emerald-500/10 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
                           {alert.recurrenceRuleLabel}
                         </span>
 
@@ -173,7 +173,7 @@ export function DashboardReturnAlerts({
                       <button
                         type="button"
                         onClick={() => onScheduleReturn(alert)}
-                        className="inline-flex items-center gap-1 rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-xs transition-all hover:bg-blue-500 hover:shadow-sm"
+                        className="inline-flex items-center gap-1 rounded-lg bg-(--color-primary) px-3 py-1.5 text-xs font-semibold text-white shadow-xs transition-all hover:brightness-110 hover:shadow-sm"
                         data-testid={`schedule-alert-${alert.customerId}`}
                       >
                         <FiPlus className="h-3.5 w-3.5" />

@@ -61,13 +61,13 @@ export function SettingsCompanies({
               key={org.id}
               className={`flex flex-col justify-between rounded-2xl border p-4 transition-all ${
                 isActive
-                  ? "border-blue-500 bg-blue-500/5 ring-1 ring-blue-500/30"
+                  ? "border-(--color-primary) bg-emerald-500/5 ring-1 ring-emerald-500/30"
                   : "border-(--color-border) bg-(--color-base-1) hover:border-(--color-border-hover)"
               }`}
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-(--color-base-2) text-blue-500">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-(--color-base-2) text-emerald-600 dark:text-emerald-400">
                     <FiBriefcase className="h-4 w-4" />
                   </div>
                   <span
@@ -91,7 +91,7 @@ export function SettingsCompanies({
                   {org.name}
                 </p>
                 <div className="mt-1 flex items-center gap-2">
-                  <span className="inline-flex rounded-md bg-blue-500/10 px-2 py-0.5 text-[10px] font-semibold text-blue-500">
+                  <span className="inline-flex rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:text-emerald-400">
                     {org.plan === "enterprise"
                       ? "Plano Empresarial"
                       : org.plan === "pro"
@@ -112,7 +112,7 @@ export function SettingsCompanies({
 
               <div className="mt-4 pt-3 border-t border-(--color-border)">
                 {isActive ? (
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-500">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
                     <FiCheck className="h-3.5 w-3.5" />
                     Empresa Ativa
                   </span>

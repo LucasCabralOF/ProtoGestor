@@ -20,15 +20,15 @@ export function OrderCard({
   const getStatusBadge = (status: ServiceOrderStatus) => {
     switch (status) {
       case "completed":
-        return { bg: "#065f46", text: "#d1fae5", label: "Concluída" };
+        return { bg: "#052e16", text: "#86efac", label: "Concluída" };
       case "in_progress":
-        return { bg: "#1e40af", text: "#dbeafe", label: "Em Andamento" };
+        return { bg: "#15803d", text: "#f0fdf4", label: "Em Andamento" };
       case "scheduled":
-        return { bg: "#0369a1", text: "#e0f2fe", label: "Agendada" };
+        return { bg: "#166534", text: "#dcfce7", label: "Agendada" };
       case "canceled":
         return { bg: "#7f1d1d", text: "#fee2e2", label: "Cancelada" };
       default:
-        return { bg: "#334155", text: "#cbd5e1", label: "Rascunho" };
+        return { bg: "#1a3325", text: "#86a894", label: "Rascunho" };
     }
   };
 
@@ -109,11 +109,11 @@ export function OrderCard({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#1e293b",
+    backgroundColor: "#112219",
     borderRadius: 12,
     padding: 16,
     borderWidth: 1,
-    borderColor: "#334155",
+    borderColor: "#1a3325",
     marginBottom: 16,
   },
   cardHeader: {
@@ -124,17 +124,17 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   codeBadge: {
-    backgroundColor: "#0f172a",
+    backgroundColor: "#07100b",
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: "#334155",
+    borderColor: "#1a3325",
   },
   codeText: {
     fontSize: 12,
     fontWeight: "bold",
-    color: "#38bdf8",
+    color: "#22c55e",
   },
   statusBadge: {
     paddingHorizontal: 10,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   clientLabel: {
     fontSize: 13,
-    color: "#94a3b8",
+    color: "#86a894",
     marginBottom: 12,
   },
   clientName: {
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   itemsBox: {
-    backgroundColor: "#0f172a",
+    backgroundColor: "#07100b",
     padding: 10,
     borderRadius: 8,
     marginBottom: 12,
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   itemsHeader: {
     fontSize: 12,
     fontWeight: "600",
-    color: "#94a3b8",
+    color: "#86a894",
     marginBottom: 4,
   },
   itemText: {
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderTopWidth: 1,
-    borderTopColor: "#334155",
+    borderTopColor: "#1a3325",
     paddingTop: 12,
     marginTop: 4,
     backgroundColor: "transparent",
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   valueText: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "#34d399",
+    color: "#22c55e",
   },
   actionsRow: {
     backgroundColor: "transparent",
@@ -207,10 +207,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   btnStart: {
-    backgroundColor: "#2563eb",
+    backgroundColor: "#15803d",
   },
   btnComplete: {
-    backgroundColor: "#059669",
+    backgroundColor: "#16a34a",
   },
   actionBtnText: {
     color: "#ffffff",
@@ -218,15 +218,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   completedIndicator: {
-    backgroundColor: "rgba(16, 185, 129, 0.1)",
+    backgroundColor: "rgba(34, 197, 94, 0.1)",
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: "rgba(16, 185, 129, 0.3)",
+    borderColor: "rgba(34, 197, 94, 0.3)",
   },
   completedText: {
-    color: "#34d399",
+    color: "#22c55e",
     fontSize: 12,
     fontWeight: "600",
   },

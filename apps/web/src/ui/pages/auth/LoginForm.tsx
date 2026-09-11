@@ -109,9 +109,9 @@ export function LoginForm() {
     <div className="min-h-screen w-full flex items-center justify-center bg-(--color-base-3) p-6">
       <div className="w-full max-w-[420px]">
         <Card testid="login-card" variant="borderless" className="rounded-2xl">
-          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-500 border border-blue-500/20">
+          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
             <FiShield className="h-3.5 w-3.5" />
-            <span>ProtoGestor • SaaS</span>
+            <span>Confiança Gestor • Gestão Operacional</span>
           </div>
 
           <Typography.Title
@@ -130,7 +130,7 @@ export function LoginForm() {
                 pass: "Demo@1234",
               });
             }}
-            className="mb-4 w-full flex items-center justify-between rounded-xl border border-blue-500/20 bg-blue-500/5 px-3 py-2 text-xs text-blue-500 hover:bg-blue-500/10 transition"
+            className="mb-4 w-full flex items-center justify-between rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-3 py-2 text-xs text-emerald-700 dark:text-emerald-400 hover:bg-emerald-500/10 transition"
           >
             <span>
               Acesso Rápido: <strong>Conta Demo</strong>

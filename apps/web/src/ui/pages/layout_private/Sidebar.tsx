@@ -79,14 +79,16 @@ export function Sidebar({
       }`}
     >
       {/* Brand */}
-      <div className="h-14 flex items-center gap-2 px-3 border-b border-(--color-border)">
-        <div className="flex size-9 items-center justify-center rounded-xl bg-(--color-base-3) border border-(--color-border) font-semibold">
-          P
+      <div className="h-14 flex items-center gap-2.5 px-3 border-b border-(--color-border)">
+        <div className="flex size-9 items-center justify-center rounded-xl bg-(--color-primary) text-white font-black shadow-xs tracking-wider">
+          C
         </div>
 
         <div className={`${collapsed ? "hidden" : "block"} min-w-0`}>
-          <div className="text-sm font-semibold leading-4 truncate">Proto</div>
-          <div className="text-xs text-(--color-text-2) leading-4 truncate">
+          <div className="text-sm font-bold leading-4 truncate text-(--color-text-1)">
+            Confiança
+          </div>
+          <div className="text-[11px] font-medium text-(--color-text-2) leading-4 truncate">
             {brandSubtitle}
           </div>
         </div>

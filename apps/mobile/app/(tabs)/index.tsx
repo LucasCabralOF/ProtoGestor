@@ -105,7 +105,7 @@ export default function TabAgendaScreen() {
         <RefreshControl
           refreshing={refreshing}
           onRefresh={onRefresh}
-          tintColor="#38bdf8"
+          tintColor="#22c55e"
         />
       }
     >
@@ -118,7 +118,7 @@ export default function TabAgendaScreen() {
       </View>
 
       {loading && !refreshing ? (
-        <ActivityIndicator size="large" color="#38bdf8" style={styles.loader} />
+        <ActivityIndicator size="large" color="#22c55e" style={styles.loader} />
       ) : visits.length === 0 ? (
         <View style={styles.emptyBox}>
           <Text style={styles.emptyTitle}>Nenhuma visita para hoje</Text>
@@ -140,7 +140,7 @@ export default function TabAgendaScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f172a",
+    backgroundColor: "#07100b",
   },
   contentContainer: {
     padding: 16,
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
   headerSubtitle: {
     fontSize: 14,
-    color: "#94a3b8",
+    color: "#86a894",
     marginTop: 4,
   },
   list: {
@@ -169,9 +169,11 @@ const styles = StyleSheet.create({
   emptyBox: {
     padding: 30,
     alignItems: "center",
-    backgroundColor: "#1e293b",
+    backgroundColor: "#112219",
     borderRadius: 12,
     marginTop: 20,
+    borderWidth: 1,
+    borderColor: "#1a3325",
   },
   emptyTitle: {
     fontSize: 16,
@@ -181,7 +183,7 @@ const styles = StyleSheet.create({
   },
   emptySubtitle: {
     fontSize: 13,
-    color: "#94a3b8",
+    color: "#86a894",
     textAlign: "center",
   },
 });

@@ -13,15 +13,17 @@ export function ScheduleKpis({ kpis }: { kpis: ScheduleKpisType }) {
       label: t("kpis.today"),
       value: kpis.today,
       hint: t("kpis.todayHint"),
-      icon: <FiClock className="text-sky-500 text-lg" />,
-      iconBg: "bg-sky-500/10 text-sky-500 border-sky-500/20",
+      icon: <FiClock className="text-teal-600 dark:text-teal-400 text-lg" />,
+      iconBg:
+        "bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20",
     },
     {
       label: t("kpis.scheduled"),
       value: kpis.scheduled,
       hint: t("kpis.scheduledHint"),
-      icon: <FiCalendar className="text-blue-500 text-lg" />,
-      iconBg: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+      icon: <FiCalendar className="text-(--color-primary) text-lg" />,
+      iconBg:
+        "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
     },
     {
       label: t("kpis.done"),

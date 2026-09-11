@@ -21,7 +21,7 @@ export function MarketingTabSchedule() {
       client: "Clínica Vida Ativa",
       tech: "Carlos Mendes",
       status: "Agendado",
-      badge: "bg-blue-500/10 text-blue-500",
+      badge: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
     },
   ];
 
@@ -31,7 +31,7 @@ export function MarketingTabSchedule() {
         <p className="text-xs font-bold uppercase tracking-wider text-(--color-text-2)">
           Visitas de Hoje • 4 agendamentos
         </p>
-        <span className="rounded bg-blue-500/10 px-2.5 py-1 text-xs font-bold text-blue-500">
+        <span className="rounded bg-emerald-500/10 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:text-emerald-400">
           Fuso America/Sao_Paulo
         </span>
       </div>

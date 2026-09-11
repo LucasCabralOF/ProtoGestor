@@ -161,7 +161,7 @@ export function FinanceTable({
                         Vencido
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/10 px-2.5 py-1 text-xs font-medium text-blue-600 border border-blue-500/20">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
                         <FiClock className="h-3 w-3" />
                         Pendente
                       </span>

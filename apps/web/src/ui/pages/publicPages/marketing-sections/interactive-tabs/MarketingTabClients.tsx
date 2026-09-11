@@ -5,13 +5,13 @@ export function MarketingTabClients() {
     <div className="space-y-5 animate-in fade-in duration-200">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-md bg-blue-500/10 text-base font-black text-blue-500">
+          <div className="flex h-10 w-10 items-center justify-center rounded-md bg-emerald-500/10 text-base font-black text-emerald-700 dark:text-emerald-400">
             CS
           </div>
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-base font-bold">Condomínio Solaris</h3>
-              <span className="rounded bg-emerald-500/10 px-2.5 py-0.5 text-xs font-bold text-emerald-500">
+              <span className="rounded bg-emerald-500/10 px-2.5 py-0.5 text-xs font-bold text-emerald-600">
                 Recorrente Mensal
               </span>
             </div>
@@ -33,7 +33,7 @@ export function MarketingTabClients() {
             WhatsApp
           </button>
           <button
-            className="inline-flex items-center gap-1.5 rounded-md border border-blue-500/30 bg-blue-500/10 px-3 py-1.5 text-xs font-bold text-blue-600 transition hover:bg-blue-500/20"
+            className="inline-flex items-center gap-1.5 rounded-md border border-emerald-600/30 bg-emerald-600/10 px-3 py-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-600/20"
             onClick={() => alert("Simulação: Abrindo rota GPS no Waze / Maps!")}
             type="button"
           >
@@ -64,7 +64,9 @@ export function MarketingTabClients() {
           <p className="text-[11px] font-semibold text-(--color-text-2) uppercase">
             Próximo Retorno
           </p>
-          <p className="mt-1 text-lg font-black text-blue-500">Em 15 dias</p>
+          <p className="mt-1 text-lg font-black text-emerald-700 dark:text-emerald-400">
+            Em 15 dias
+          </p>
         </div>
       </div>
     </div>

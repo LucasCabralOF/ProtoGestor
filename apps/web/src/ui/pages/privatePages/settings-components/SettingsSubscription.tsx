@@ -70,12 +70,12 @@ export function SettingsSubscription({
             <h2 className="text-xl font-bold tracking-tight">
               Plano & Faturamento SaaS
             </h2>
-            <span className="rounded-full bg-blue-500/10 px-2.5 py-0.5 text-xs font-bold text-blue-500 border border-blue-500/20">
+            <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
               {currentPlanInfo.name}
             </span>
           </div>
           <p className="mt-1 text-xs text-(--color-text-2)">
-            Gerencie a assinatura do ProtoGestor para a empresa{" "}
+            Gerencie a assinatura do Confiança Gestor para a empresa{" "}
             <strong className="text-(--color-text-1)">{orgName}</strong>.
           </p>
         </div>
@@ -112,9 +112,9 @@ export function SettingsSubscription({
 
       {/* Banner de Período de Testes */}
       {trialDaysRemaining > 0 && (
-        <div className="mt-4 flex items-center justify-between rounded-2xl border border-blue-500/20 bg-blue-500/5 p-4">
+        <div className="mt-4 flex items-center justify-between rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4">
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
               <FiClock className="h-4 w-4" />
             </span>
             <div>
@@ -123,7 +123,7 @@ export function SettingsSubscription({
               </p>
               <p className="text-xs text-(--color-text-2)">
                 Você tem acesso a todas as funcionalidades. Restam{" "}
-                <strong className="text-blue-500">
+                <strong className="text-emerald-600 dark:text-emerald-400">
                   {trialDaysRemaining}{" "}
                   {trialDaysRemaining === 1 ? "dia" : "dias"}
                 </strong>{" "}
@@ -131,7 +131,7 @@ export function SettingsSubscription({
               </p>
             </div>
           </div>
-          <span className="rounded-full bg-blue-500 px-3 py-1 text-xs font-bold text-white shadow-xs">
+          <span className="rounded-full bg-(--color-primary) px-3 py-1 text-xs font-bold text-white shadow-xs">
             14 Dias Grátis
           </span>
         </div>

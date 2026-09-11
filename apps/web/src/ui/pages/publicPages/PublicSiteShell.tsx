@@ -57,7 +57,7 @@ export async function PublicSiteShell({
               href="/"
             >
               <span className="inline-flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-md bg-(--color-primary) text-xs font-black tracking-[0.18em] text-white">
-                P
+                C
               </span>
               <span className="flex flex-col">
                 <span className="text-xs sm:text-sm font-semibold tracking-[0.12em] uppercase text-(--color-text-1)">

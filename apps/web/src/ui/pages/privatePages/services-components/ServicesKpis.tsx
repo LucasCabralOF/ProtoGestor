@@ -96,7 +96,7 @@ export function ServicesKpis({ kpis }: ServicesKpisProps) {
           <p className="text-xs font-medium uppercase tracking-wider text-(--color-text-2)">
             {t("kpis.upcoming")}
           </p>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/20">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
             <FiClock className="h-4.5 w-4.5" />
           </div>
         </div>

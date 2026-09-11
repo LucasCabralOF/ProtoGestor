@@ -88,7 +88,7 @@ export function RecurrenceSuggestionModal({
       width={520}
       title={
         <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/20">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
             <FiRepeat className="h-5 w-5" />
           </div>
           <div>
@@ -104,12 +104,12 @@ export function RecurrenceSuggestionModal({
     >
       <div className="flex flex-col gap-4 py-2">
         {/* Banner do Serviço */}
-        <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-4 text-xs text-(--color-text)">
+        <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-xs text-(--color-text)">
           <div className="flex items-center justify-between">
-            <span className="font-semibold text-blue-600">
+            <span className="font-semibold text-emerald-700 dark:text-emerald-400">
               {suggestion.serviceTitle}
             </span>
-            <span className="rounded-full bg-blue-500/15 px-2.5 py-0.5 font-bold text-blue-600 border border-blue-500/30">
+            <span className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 font-bold text-emerald-700 dark:text-emerald-400 border border-emerald-500/30">
               {suggestion.recurrenceRuleLabel}
             </span>
           </div>
@@ -138,7 +138,7 @@ export function RecurrenceSuggestionModal({
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="rounded-xl border border-(--color-border) bg-(--color-base-2) px-3 py-2 text-xs font-medium text-(--color-text) outline-none transition-all focus:border-blue-500"
+              className="rounded-xl border border-(--color-border) bg-(--color-base-2) px-3 py-2 text-xs font-medium text-(--color-text) outline-none transition-all focus:border-(--color-primary)"
               data-testid="input-recurrence-date"
             />
           </div>
@@ -156,7 +156,7 @@ export function RecurrenceSuggestionModal({
               type="time"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
-              className="rounded-xl border border-(--color-border) bg-(--color-base-2) px-3 py-2 text-xs font-medium text-(--color-text) outline-none transition-all focus:border-blue-500"
+              className="rounded-xl border border-(--color-border) bg-(--color-base-2) px-3 py-2 text-xs font-medium text-(--color-text) outline-none transition-all focus:border-(--color-primary)"
               data-testid="input-recurrence-start-time"
             />
           </div>
@@ -174,7 +174,7 @@ export function RecurrenceSuggestionModal({
               type="time"
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
-              className="rounded-xl border border-(--color-border) bg-(--color-base-2) px-3 py-2 text-xs font-medium text-(--color-text) outline-none transition-all focus:border-blue-500"
+              className="rounded-xl border border-(--color-border) bg-(--color-base-2) px-3 py-2 text-xs font-medium text-(--color-text) outline-none transition-all focus:border-(--color-primary)"
               data-testid="input-recurrence-end-time"
             />
           </div>

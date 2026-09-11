@@ -50,7 +50,7 @@ const TOKENS_BASE = {
   colorSplit: "var(--color-border)",
 
   // Shape / typography
-  borderRadius: 6,
+  borderRadius: 8,
   controlHeight: 40,
   fontFamily: "var(--font-sans)",
 
