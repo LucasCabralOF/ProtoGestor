@@ -43,7 +43,9 @@ describe("Mobile Domain Contracts & Integrations", () => {
       city: "São Paulo",
       state: "SP",
     });
-    expect(mapsUrl).toContain("https://www.google.com/maps/search/?api=1&query=");
+    expect(mapsUrl).toContain(
+      "https://www.google.com/maps/search/?api=1&query=",
+    );
     expect(mapsUrl).toContain("Av.%20Paulista");
 
     const wazeUrl = buildWazeUrl({
@@ -57,5 +59,4 @@ describe("Mobile Domain Contracts & Integrations", () => {
     const whatsUrl = buildWhatsAppUrl("11999998888", "A caminho");
     expect(whatsUrl).toContain("https://wa.me/5511999998888?text=A%20caminho");
   });
-
 });

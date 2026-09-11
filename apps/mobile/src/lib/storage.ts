@@ -34,7 +34,9 @@ export async function getStoredActiveOrgId(): Promise<string | null> {
   }
 }
 
-export async function setStoredActiveOrgId(orgId: string | null): Promise<void> {
+export async function setStoredActiveOrgId(
+  orgId: string | null,
+): Promise<void> {
   try {
     if (orgId) {
       await AsyncStorage.setItem(KEYS.ACTIVE_ORG_ID, orgId);

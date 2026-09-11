@@ -88,7 +88,8 @@ export default function TabAgendaScreen() {
   useEffect(() => {
     setLoading(true);
     loadSchedule().finally(() => setLoading(false));
-  }, [loadSchedule, activeOrg]);
+  }, [loadSchedule]);
+
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -117,11 +118,7 @@ export default function TabAgendaScreen() {
       </View>
 
       {loading && !refreshing ? (
-        <ActivityIndicator
-          size="large"
-          color="#38bdf8"
-          style={styles.loader}
-        />
+        <ActivityIndicator size="large" color="#38bdf8" style={styles.loader} />
       ) : visits.length === 0 ? (
         <View style={styles.emptyBox}>
           <Text style={styles.emptyTitle}>Nenhuma visita para hoje</Text>

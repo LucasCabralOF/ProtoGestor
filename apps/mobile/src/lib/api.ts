@@ -161,7 +161,9 @@ export async function loginTechnician(
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || err.error || `Falha no login: HTTP ${res.status}`);
+    throw new Error(
+      err.message || err.error || `Falha no login: HTTP ${res.status}`,
+    );
   }
 
   return res.json();

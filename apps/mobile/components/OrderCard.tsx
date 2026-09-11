@@ -1,7 +1,4 @@
-import {
-  type ServiceOrderStatus,
-  updateOrderStatusSchema,
-} from "@protogestor/shared";
+import type { ServiceOrderStatus } from "@protogestor/shared";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "@/components/Themed";
 import type { MobileServiceOrder } from "@/src/lib/api";
@@ -9,10 +6,17 @@ import type { MobileServiceOrder } from "@/src/lib/api";
 type OrderCardProps = {
   order: MobileServiceOrder;
   isLoading: boolean;
-  onStatusChange: (orderId: string, newStatus: ServiceOrderStatus) => Promise<void>;
+  onStatusChange: (
+    orderId: string,
+    newStatus: ServiceOrderStatus,
+  ) => Promise<void>;
 };
 
-export function OrderCard({ order, isLoading, onStatusChange }: OrderCardProps) {
+export function OrderCard({
+  order,
+  isLoading,
+  onStatusChange,
+}: OrderCardProps) {
   const getStatusBadge = (status: ServiceOrderStatus) => {
     switch (status) {
       case "completed":

@@ -13,8 +13,8 @@ import {
 import { OrderCard } from "@/components/OrderCard";
 import { Text, View } from "@/components/Themed";
 import {
-  type MobileServiceOrder,
   fetchServiceOrders,
+  type MobileServiceOrder,
   updateServiceOrderStatus,
 } from "@/src/lib/api";
 import { useMobileAuth } from "@/src/lib/auth-context";
@@ -51,7 +51,7 @@ const FALLBACK_ORDERS: MobileServiceOrder[] = [
 ];
 
 export default function TabOrdersScreen() {
-  const { isAuthenticated, activeOrg } = useMobileAuth();
+  const { activeOrg } = useMobileAuth();
   const [orders, setOrders] = useState<MobileServiceOrder[]>(FALLBACK_ORDERS);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -71,7 +71,8 @@ export default function TabOrdersScreen() {
   useEffect(() => {
     setLoading(true);
     loadOrders().finally(() => setLoading(false));
-  }, [loadOrders, activeOrg]);
+  }, [loadOrders]);
+
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -138,11 +139,7 @@ export default function TabOrdersScreen() {
       </View>
 
       {loading && !refreshing ? (
-        <ActivityIndicator
-          size="large"
-          color="#38bdf8"
-          style={styles.loader}
-        />
+        <ActivityIndicator size="large" color="#38bdf8" style={styles.loader} />
       ) : orders.length === 0 ? (
         <View style={styles.emptyBox}>
           <Text style={styles.emptyTitle}>Nenhuma OS encontrada</Text>
