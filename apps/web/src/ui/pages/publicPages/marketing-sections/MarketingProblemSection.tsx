@@ -45,7 +45,7 @@ export async function MarketingProblemSection() {
               key={item.title}
               className="rounded-lg border border-slate-700/60 bg-slate-800/60 p-4 sm:p-6"
             >
-              <span className="inline-flex rounded-md border border-white/10 bg-white/8 p-2.5 sm:p-3 text-sky-300">
+              <span className="inline-flex rounded-md border border-white/10 bg-white/8 p-2.5 sm:p-3 text-emerald-400">
                 <Icon size={18} />
               </span>
               <h2 className="mt-3 sm:mt-5 text-lg sm:text-xl font-bold">

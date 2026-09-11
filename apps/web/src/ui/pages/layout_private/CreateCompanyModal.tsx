@@ -59,7 +59,7 @@ export function CreateCompanyModal({ onClose, open }: CreateCompanyModalProps) {
       open={open}
       title={
         <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
             <FiBriefcase className="h-4 w-4" />
           </div>
           <span>Criar Nova Empresa</span>

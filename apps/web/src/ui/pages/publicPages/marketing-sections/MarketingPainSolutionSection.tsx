@@ -11,7 +11,7 @@ export async function MarketingPainSolutionSection() {
       data-testid="marketing-pain-solution"
     >
       <div className="max-w-3xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-400">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-400">
           {t("painSolution.eyebrow")}
         </p>
         <h2 className="mt-1.5 sm:mt-2 text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-white">
@@ -46,7 +46,7 @@ export async function MarketingPainSolutionSection() {
             {/* Divisor com seta */}
             <div className="my-3 sm:my-4 flex items-center gap-3">
               <div className="h-px flex-1 bg-white/10" />
-              <span className="inline-flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-md bg-white/10 text-xs text-sky-300">
+              <span className="inline-flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-md bg-white/10 text-xs text-emerald-300">
                 <FiArrowRight className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
               </span>
               <div className="h-px flex-1 bg-white/10" />

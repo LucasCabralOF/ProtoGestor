@@ -73,14 +73,14 @@ export function ClientFinancialSummary({
           </p>
         </div>
 
-        <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-3.5">
+        <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3.5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-blue-600">
+            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
               Pendente de Pagamento
             </span>
-            <FiClock className="h-4 w-4 text-blue-500" />
+            <FiClock className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
           </div>
-          <p className="mt-1 text-2xl font-black text-blue-600">
+          <p className="mt-1 text-2xl font-black text-emerald-700 dark:text-emerald-400">
             {stats.pendingPaymentFormatted}
           </p>
         </div>
@@ -109,7 +109,7 @@ export function ClientFinancialSummary({
                           ? "bg-emerald-500/10 text-emerald-500"
                           : isOverdue
                             ? "bg-rose-500/10 text-rose-500"
-                            : "bg-blue-500/10 text-blue-500"
+                            : "bg-teal-500/10 text-teal-600 dark:text-teal-400"
                       }`}
                     >
                       {isPaid ? (
@@ -138,7 +138,7 @@ export function ClientFinancialSummary({
                         ? "text-emerald-500"
                         : isOverdue
                           ? "text-rose-500"
-                          : "text-blue-500"
+                          : "text-teal-700 dark:text-teal-400"
                     }`}
                   >
                     {tx.amountFormatted}

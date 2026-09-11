@@ -35,7 +35,7 @@ function toneClass(tone: ProjectRow["statusTone"]) {
   }
 
   if (tone === "accent") {
-    return `${base} border-sky-500/20 bg-sky-500/10 text-sky-400`;
+    return `${base} border-teal-500/20 bg-teal-500/10 text-teal-600 dark:text-teal-400`;
   }
 
   return `${base} border-(--color-border) bg-(--color-base-2) text-(--color-text-2)`;
@@ -144,7 +144,7 @@ export function ProjectsPage({
       <Card className="border border-(--color-border)">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/10 px-3 py-1 text-xs font-semibold text-sky-400">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
               <FiClock />
               {t("hero.badge")}
             </div>
@@ -423,7 +423,7 @@ export function ProjectsPage({
                     </div>
                     <div className="mt-2 h-2 rounded-full bg-(--color-base-1)">
                       <div
-                        className="h-2 rounded-full bg-linear-to-r from-sky-500 to-emerald-400"
+                        className="h-2 rounded-full bg-linear-to-r from-emerald-500 to-teal-400"
                         style={{ width: `${row.progressPct}%` }}
                       />
                     </div>

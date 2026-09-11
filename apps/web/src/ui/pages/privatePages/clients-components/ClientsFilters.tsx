@@ -48,7 +48,7 @@ export function ClientsFilters({
             data-testid="select-clients-status"
             value={filteredStatusValue}
             onChange={(e) => onParamChange("status", e.target.value)}
-            className="h-10 w-full rounded-xl border border-(--color-border) bg-(--color-base-1) pl-8 pr-8 text-sm font-medium text-(--color-text) transition-colors focus:border-blue-500 focus:outline-none sm:w-auto"
+            className="h-10 w-full rounded-xl border border-(--color-border) bg-(--color-base-1) pl-8 pr-8 text-sm font-medium text-(--color-text) transition-colors focus:border-(--color-primary) focus:outline-none sm:w-auto"
           >
             <option value="all">{t("filters.all")}</option>
             <option value="active">{t("filters.active")}</option>
@@ -64,7 +64,7 @@ export function ClientsFilters({
             data-testid="select-clients-recurring"
             value={recurringValue}
             onChange={(e) => onParamChange("recurring", e.target.value)}
-            className="h-10 w-full rounded-xl border border-(--color-border) bg-(--color-base-1) pl-8 pr-8 text-sm font-medium text-(--color-text) transition-colors focus:border-blue-500 focus:outline-none sm:w-auto"
+            className="h-10 w-full rounded-xl border border-(--color-border) bg-(--color-base-1) pl-8 pr-8 text-sm font-medium text-(--color-text) transition-colors focus:border-(--color-primary) focus:outline-none sm:w-auto"
           >
             <option value="all">{t("filters.all")}</option>
             <option value="yes">{t("filters.recurring")}</option>

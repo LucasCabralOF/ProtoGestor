@@ -29,7 +29,7 @@ export function ClientServiceHistory({
             <h2 className="text-base font-bold text-(--color-text)">
               Histórico Operacional de Atendimentos
             </h2>
-            <span className="rounded-full bg-blue-500/10 px-2 py-0.5 text-xs font-bold text-blue-500 border border-blue-500/20">
+            <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
               {serviceOrders.length}
             </span>
           </div>
@@ -50,7 +50,7 @@ export function ClientServiceHistory({
 
       {serviceOrders.length === 0 ? (
         <div className="mt-6 flex flex-col items-center justify-center rounded-xl border border-dashed border-(--color-border) bg-(--color-base-2)/50 py-10 text-center">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/10 text-blue-500">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
             <FiClipboard className="h-5 w-5" />
           </div>
           <p className="mt-2 text-sm font-semibold text-(--color-text)">
@@ -76,7 +76,7 @@ export function ClientServiceHistory({
                     className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border ${
                       isCompleted
                         ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
-                        : "bg-blue-500/10 text-blue-500 border-blue-500/20"
+                        : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
                     }`}
                   >
                     {isCompleted ? (
@@ -98,7 +98,7 @@ export function ClientServiceHistory({
                             : so.statusTone === "warning"
                               ? "bg-amber-500/10 text-amber-600 border-amber-500/20"
                               : so.statusTone === "accent"
-                                ? "bg-blue-500/10 text-blue-600 border-blue-500/20"
+                                ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20"
                                 : so.statusTone === "danger"
                                   ? "bg-rose-500/10 text-rose-600 border-rose-500/20"
                                   : "bg-zinc-500/10 text-zinc-600 border-zinc-500/20"
@@ -117,7 +117,7 @@ export function ClientServiceHistory({
                     <div className="mt-1 flex flex-wrap items-center gap-3 text-[11px] text-(--color-text-2)">
                       <span>Criada em: {so.createdAtFormatted}</span>
                       {so.appointmentSummary && (
-                        <span className="flex items-center gap-1 text-blue-500 font-medium">
+                        <span className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-medium">
                           <FiCalendar className="h-3 w-3" />
                           Visita: {so.appointmentSummary}
                         </span>

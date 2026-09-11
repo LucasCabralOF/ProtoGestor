@@ -78,11 +78,11 @@ export function DashboardKpis({ kpis, isMember }: DashboardKpisProps) {
             <p className="mt-2 text-3xl font-black tracking-tight">
               {kpis.activeClients}
             </p>
-            <div className="mt-2 inline-flex items-center gap-1 rounded-full bg-blue-500/10 px-2 py-0.5 text-xs font-bold text-blue-500">
+            <div className="mt-2 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
               {t("newClientsThisMonth", { value: kpis.newClientsThisMonth })}
             </div>
           </div>
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-blue-500/20 bg-blue-500/10 text-blue-500">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
             <FiUsers className="text-xl" />
           </div>
         </div>
@@ -108,7 +108,7 @@ export function DashboardKpis({ kpis, isMember }: DashboardKpisProps) {
               })}
             </p>
           </div>
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-sky-500/20 bg-sky-500/10 text-sky-500">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-teal-500/20 bg-teal-500/10 text-teal-600 dark:text-teal-400">
             <FiCalendar className="text-xl" />
           </div>
         </div>
@@ -125,7 +125,7 @@ export function DashboardKpis({ kpis, isMember }: DashboardKpisProps) {
               <p className="mt-2 text-3xl font-black tracking-tight">
                 {kpis.monthlyRevenueDeltaPct}%
               </p>
-              <div className="mt-2 inline-flex items-center gap-1 rounded-full bg-violet-500/10 px-2 py-0.5 text-xs font-bold text-violet-500">
+              <div className="mt-2 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
                 <FiArrowUpRight className="text-xs" />
                 {t("vsLastMonth", {
                   prefix: kpis.monthlyRevenueDeltaPct >= 0 ? "+" : "",
@@ -133,7 +133,7 @@ export function DashboardKpis({ kpis, isMember }: DashboardKpisProps) {
                 })}
               </div>
             </div>
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-violet-500/20 bg-violet-500/10 text-violet-500">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
               <FiTrendingUp className="text-xl" />
             </div>
           </div>

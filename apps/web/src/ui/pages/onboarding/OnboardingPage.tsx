@@ -119,7 +119,7 @@ export function OnboardingPage({
             <div className="grid gap-3">
               <div className="rounded-3xl border border-(--color-border) bg-(--color-base-1) p-5">
                 <div className="flex items-start gap-4">
-                  <div className="rounded-2xl border border-(--color-border) bg-(--color-base-2) p-3 text-blue-500">
+                  <div className="rounded-2xl border border-(--color-border) bg-(--color-base-2) p-3 text-emerald-600 dark:text-emerald-400">
                     <FiBriefcase size={16} />
                   </div>
                   <div>

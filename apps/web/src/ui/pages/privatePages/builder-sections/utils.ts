@@ -127,7 +127,7 @@ export function trendToneClass(direction: ReportsTrend["direction"]) {
 
 export function sectionBadgeClass(selected: boolean) {
   if (selected) {
-    return "border-sky-300 bg-sky-50 text-sky-700";
+    return "border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400";
   }
 
   return "border-slate-200 bg-white text-slate-500";

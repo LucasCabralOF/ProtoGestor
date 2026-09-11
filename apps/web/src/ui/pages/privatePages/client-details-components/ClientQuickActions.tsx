@@ -91,7 +91,7 @@ export function ClientQuickActions({
             href={mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition-all hover:bg-blue-500 hover:shadow-md"
+            className="flex items-center justify-center gap-2 rounded-xl bg-(--color-primary) px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition-all hover:brightness-110 hover:shadow-md"
             data-testid="button-maps-client"
           >
             <FiMapPin className="h-4 w-4" />
@@ -114,7 +114,7 @@ export function ClientQuickActions({
             href={wazeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-xl bg-sky-600 px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition-all hover:bg-sky-500 hover:shadow-md"
+            className="flex items-center justify-center gap-2 rounded-xl bg-teal-600 px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition-all hover:bg-teal-500 hover:shadow-md"
             data-testid="button-waze-client"
           >
             <FiNavigation className="h-4 w-4" />
@@ -141,7 +141,7 @@ export function ClientQuickActions({
             className="flex items-center justify-center gap-2 rounded-xl border border-(--color-border) bg-(--color-base-2) px-4 py-2.5 text-xs font-semibold text-(--color-text) transition-all hover:bg-(--color-base-3)"
             data-testid="button-email-client"
           >
-            <FiMail className="h-4 w-4 text-blue-500" />
+            <FiMail className="h-4 w-4 text-(--color-primary)" />
             <span>Enviar E-mail</span>
           </a>
         ) : null}
@@ -151,7 +151,7 @@ export function ClientQuickActions({
       <div className="mt-4 rounded-xl border border-(--color-border) bg-(--color-base-2) p-3.5">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-2.5">
-            <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
+            <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
               <FiMapPin className="h-4 w-4" />
             </div>
             <div>
@@ -170,7 +170,7 @@ export function ClientQuickActions({
               <button
                 type="button"
                 onClick={handleCopyAddress}
-                className="inline-flex items-center gap-1 text-xs font-medium text-blue-500 hover:underline"
+                className="inline-flex items-center gap-1 text-xs font-medium text-(--color-primary) hover:underline"
               >
                 <FiCopy className="h-3 w-3" />
                 Copiar
@@ -180,7 +180,7 @@ export function ClientQuickActions({
                   href={mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs font-medium text-blue-500 hover:underline"
+                  className="inline-flex items-center gap-1 text-xs font-medium text-(--color-primary) hover:underline"
                 >
                   <FiExternalLink className="h-3 w-3" />
                   Abrir

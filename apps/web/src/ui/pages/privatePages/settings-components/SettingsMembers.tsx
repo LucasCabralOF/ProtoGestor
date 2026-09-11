@@ -187,7 +187,7 @@ export function SettingsMembers({
                       member.role === "owner"
                         ? "bg-amber-500/10 text-amber-500 border border-amber-500/20"
                         : member.role === "admin"
-                          ? "bg-purple-500/10 text-purple-500 border border-purple-500/20"
+                          ? "bg-teal-500/10 text-teal-700 dark:text-teal-400 border border-teal-500/20"
                           : "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20"
                     }`}
                   >

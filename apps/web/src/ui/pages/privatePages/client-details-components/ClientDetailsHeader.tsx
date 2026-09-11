@@ -34,7 +34,7 @@ export function ClientDetailsHeader({ client }: ClientDetailsHeaderProps) {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border border-(--color-border) bg-(--color-base-1) p-5 shadow-xs">
         <div className="flex items-center gap-4">
           {/* Avatar com Iniciais */}
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-500 font-bold text-lg border border-blue-500/20 shadow-xs">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-bold text-lg border border-emerald-500/20 shadow-xs">
             {initials || <FiUser />}
           </div>
 

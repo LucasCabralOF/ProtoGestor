@@ -23,7 +23,7 @@ export function ResultPage({
     <div className="relative overflow-hidden bg-(--color-base-3)">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -left-16 top-16 h-56 w-56 rounded-full bg-(--color-primary)/10 blur-3xl" />
-        <div className="absolute bottom-12 right-0 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
+        <div className="absolute bottom-12 right-0 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl" />
       </div>
 
       <div className={`${shellClassName} px-4 py-8`}>

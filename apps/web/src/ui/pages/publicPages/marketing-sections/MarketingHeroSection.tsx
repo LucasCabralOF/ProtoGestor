@@ -217,7 +217,7 @@ export async function MarketingHeroSection() {
 
                         <div className="text-right">
                           <p className="text-sm font-bold">{visit.time}</p>
-                          <p className="mt-1 text-xs text-sky-300">
+                          <p className="mt-1 text-xs text-emerald-300">
                             {visit.status}
                           </p>
                         </div>

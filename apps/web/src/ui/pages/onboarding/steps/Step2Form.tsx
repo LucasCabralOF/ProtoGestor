@@ -46,7 +46,7 @@ export function Step2Form({
               key={id}
               className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 text-sm transition ${
                 clientCount === id
-                  ? "border-(--color-primary) bg-blue-50 font-medium dark:bg-blue-950/30"
+                  ? "border-(--color-primary) bg-emerald-50 font-medium dark:bg-emerald-950/30"
                   : "border-(--color-border) bg-(--color-base-1) hover:bg-(--color-base-2)"
               }`}
             >
@@ -80,7 +80,7 @@ export function Step2Form({
               key={id}
               className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 text-sm transition ${
                 tool === id
-                  ? "border-(--color-primary) bg-blue-50 font-medium dark:bg-blue-950/30"
+                  ? "border-(--color-primary) bg-emerald-50 font-medium dark:bg-emerald-950/30"
                   : "border-(--color-border) bg-(--color-base-1) hover:bg-(--color-base-2)"
               }`}
             >

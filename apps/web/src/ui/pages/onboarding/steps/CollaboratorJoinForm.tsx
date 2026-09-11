@@ -107,7 +107,7 @@ export function CollaboratorJoinForm({
         <button
           type="button"
           onClick={onSwitchToOwner}
-          className="inline-flex items-center gap-1.5 text-xs text-blue-500 hover:underline"
+          className="inline-flex items-center gap-1.5 text-xs text-(--color-primary) hover:underline"
         >
           <FiBriefcase className="h-3.5 w-3.5" />
           <span>{t("collaborator.switchToOwner")}</span>

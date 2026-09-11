@@ -14,7 +14,7 @@ export function ServicesHeader({ onNew }: ServicesHeaderProps) {
   return (
     <header className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
       <div>
-        <div className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-sky-500/10 px-3 py-1 text-xs font-semibold text-sky-500 border border-sky-500/20">
+        <div className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
           <FiBriefcase className="h-3.5 w-3.5" />
           <span>Ordens e Atendimentos</span>
         </div>

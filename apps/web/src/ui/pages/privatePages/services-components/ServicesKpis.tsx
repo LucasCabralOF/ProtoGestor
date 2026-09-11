@@ -26,7 +26,7 @@ export function ServicesKpis({ kpis }: ServicesKpisProps) {
           <p className="text-xs font-medium uppercase tracking-wider text-(--color-text-2)">
             {t("kpis.total")}
           </p>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-500/10 text-purple-500 border border-purple-500/20">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
             <FiLayers className="h-4.5 w-4.5" />
           </div>
         </div>
@@ -42,7 +42,7 @@ export function ServicesKpis({ kpis }: ServicesKpisProps) {
           <p className="text-xs font-medium uppercase tracking-wider text-(--color-text-2)">
             {t("kpis.scheduled")}
           </p>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500/10 text-sky-500 border border-sky-500/20">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20">
             <FiCalendar className="h-4.5 w-4.5" />
           </div>
         </div>

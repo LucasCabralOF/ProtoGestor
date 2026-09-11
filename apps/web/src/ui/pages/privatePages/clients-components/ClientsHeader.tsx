@@ -24,7 +24,7 @@ export function ClientsHeader({
   return (
     <header className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
       <div>
-        <div className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-500 border border-blue-500/20">
+        <div className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
           <FiUsers className="h-3.5 w-3.5" />
           <span>Gestão de Carteira</span>
         </div>

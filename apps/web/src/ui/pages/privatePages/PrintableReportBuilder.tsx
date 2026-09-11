@@ -178,7 +178,7 @@ export function PrintableReportBuilder({ data }: { data: ReportsData }) {
                   key={section.id}
                   type="button"
                   onClick={() => toggleSection(section.id)}
-                  className={`rounded-2xl border p-4 text-left transition hover:border-sky-300 hover:bg-sky-50/40 ${selected ? "border-sky-300 bg-sky-50/60" : "border-(--color-border) bg-(--color-base-2)"}`}
+                  className={`rounded-2xl border p-4 text-left transition hover:border-emerald-300 hover:bg-emerald-50/40 ${selected ? "border-emerald-500/30 bg-emerald-500/10" : "border-(--color-border) bg-(--color-base-2)"}`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>

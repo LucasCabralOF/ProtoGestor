@@ -182,7 +182,7 @@ export function DashboardReturnAlerts({
                     ) : (
                       <Link
                         href={`/schedule?customerId=${alert.customerId}`}
-                        className="inline-flex items-center gap-1 rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-xs transition-all hover:bg-blue-500 hover:shadow-sm"
+                        className="inline-flex items-center gap-1 rounded-lg bg-(--color-primary) px-3 py-1.5 text-xs font-semibold text-white shadow-xs transition-all hover:brightness-110 hover:shadow-sm"
                         data-testid={`schedule-alert-${alert.customerId}`}
                       >
                         <FiPlus className="h-3.5 w-3.5" />

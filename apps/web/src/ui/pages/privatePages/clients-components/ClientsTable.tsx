@@ -182,13 +182,13 @@ export function ClientsTable({
 
                   <td className="border-b border-(--color-border) px-4 py-3.5">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-xs font-bold text-blue-500 border border-blue-500/20">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-xs font-bold text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
                         {getInitials(r.name)}
                       </div>
                       <div className="flex flex-col">
                         <Link
                           href={`/clients/${r.id}`}
-                          className="font-semibold text-(--color-text) hover:text-blue-500 hover:underline"
+                          className="font-semibold text-(--color-text) hover:text-(--color-primary) hover:underline"
                         >
                           {r.name}
                         </Link>

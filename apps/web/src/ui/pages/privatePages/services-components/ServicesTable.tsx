@@ -43,8 +43,8 @@ function ServiceStatusPill({
             }
           : tone === "accent"
             ? {
-                className: `${base} border-sky-500/20 bg-sky-500/10 text-sky-400`,
-                dotColor: "bg-sky-400",
+                className: `${base} border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400`,
+                dotColor: "bg-emerald-400",
               }
             : {
                 className: `${base} border-(--color-border) bg-(--color-base-2) text-(--color-text-2)`,

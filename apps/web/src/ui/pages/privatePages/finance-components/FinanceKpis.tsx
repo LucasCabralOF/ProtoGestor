@@ -95,11 +95,11 @@ export function FinanceKpis({ kpis }: FinanceKpisProps) {
           <p className="text-xs font-medium uppercase tracking-wider text-(--color-text-2)">
             Saldo Líquido
           </p>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-500/10 text-purple-500 border border-purple-500/20">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
             <FiPieChart className="h-4.5 w-4.5" />
           </div>
         </div>
-        <p className="mt-2 text-2xl font-black tracking-tight text-purple-500">
+        <p className="mt-2 text-2xl font-black tracking-tight text-emerald-700 dark:text-emerald-400">
           {kpis.netBalanceFormatted}
         </p>
         <p className="mt-1 text-xs font-medium text-(--color-text-2)">
