@@ -276,6 +276,7 @@ Todas as 6 fases foram **100% implementadas, testadas e validadas com sucesso**:
 - **Fase 4 (Automação de Recorrência):** Sugestão automática de retorno pós-conclusão e alertas no Dashboard.
 - **Fase 5 (Landing Page & Planos SaaS):** Home pública de alto impacto, dores vs soluções, módulos interativos e `/pricing`.
 - **Fase 6 (Assinatura & Billing SaaS):** Gestão de planos Starter, Pro e Empresarial em `/settings`, trial e histórico de cobrança.
-- **Fase 7 (Monorepo Turborepo & App Mobile Expo):** Transição completa para Monorepo (`apps/web`, `apps/mobile`, `packages/shared`), ativação de autenticação Bearer no Better Auth, rotas `/api/v1` e telas operacionais de campo (Agenda com GPS/WhatsApp e Ordens de Serviço com transição de status).
+- Fase 7 (Monorepo Turborepo & App Mobile Expo): Transição completa para Monorepo (`apps/web`, `apps/mobile`, `packages/shared`), ativação de autenticação Bearer no Better Auth, rotas `/api/v1` e telas operacionais de campo (Agenda com GPS/WhatsApp e Ordens de Serviço com transição de status).
+- Fase 8 (Integração Real do App Mobile Expo, Autenticação e Modularização): Conexão viva às rotas `/api/v1` (`/api/v1/services`, `/api/v1/schedule/today`, `/api/v1/me`), persistência com AsyncStorage, tela de Perfil & Conexão do Técnico (`modal.tsx`), troca de empresa ativa, e extração modular (`OrderCard.tsx`, `AgendaVisitCard.tsx`) mantendo todos os arquivos abaixo de 300 linhas.
 
 O sistema web e mobile está 100% integrado, validado e pronto para operação comercial e escala.

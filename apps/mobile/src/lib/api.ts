@@ -9,7 +9,15 @@ import { Platform } from "react-native";
 const DEFAULT_HOST =
   Platform.OS === "android" ? "http://10.0.2.2:3001" : "http://localhost:3001";
 
-export const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || DEFAULT_HOST;
+let activeBaseUrl = process.env.EXPO_PUBLIC_API_URL || DEFAULT_HOST;
+
+export function getApiBaseUrl(): string {
+  return activeBaseUrl;
+}
+
+export function setApiBaseUrl(url: string) {
+  activeBaseUrl = url.replace(/\/$/, "");
+}
 
 export type MobileApiConfig = {
   authToken?: string | null;
@@ -20,6 +28,10 @@ let currentConfig: MobileApiConfig = {
   authToken: null,
   orgId: null,
 };
+
+export function getMobileApiConfig(): MobileApiConfig {
+  return { ...currentConfig };
+}
 
 export function setMobileApiConfig(config: Partial<MobileApiConfig>) {
   currentConfig = { ...currentConfig, ...config };
@@ -40,7 +52,7 @@ export async function apiFetch<T>(
     headers.set("x-org-id", currentConfig.orgId);
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  const response = await fetch(`${activeBaseUrl}${endpoint}`, {
     ...options,
     headers,
   });
@@ -88,6 +100,28 @@ export async function fetchTodaySchedule(): Promise<TodayScheduleResponse> {
   return apiFetch<TodayScheduleResponse>("/api/v1/schedule/today");
 }
 
+export type MobileServiceOrder = {
+  id: string;
+  code: string;
+  title: string;
+  clientName: string;
+  status: ServiceOrderStatus;
+  totalCents: number;
+  valueFormatted: string;
+  items: string[];
+  notes?: string;
+  createdAt: string;
+};
+
+export type MobileServiceOrdersResponse = {
+  total: number;
+  orders: MobileServiceOrder[];
+};
+
+export async function fetchServiceOrders(): Promise<MobileServiceOrdersResponse> {
+  return apiFetch<MobileServiceOrdersResponse>("/api/v1/services");
+}
+
 export async function updateServiceOrderStatus(
   serviceOrderId: string,
   status: ServiceOrderStatus,
@@ -96,7 +130,6 @@ export async function updateServiceOrderStatus(
   serviceOrderId: string;
   status: ServiceOrderStatus;
 }> {
-  // Valida com schema do pacote compartilhado antes de enviar
   const parsed = updateOrderStatusSchema.parse({ status });
 
   return apiFetch(`/api/v1/services/${serviceOrderId}/status`, {
@@ -111,4 +144,25 @@ export async function fetchMe(): Promise<{
   organizations: Array<{ id: string; name: string; role: string }>;
 }> {
   return apiFetch("/api/v1/me");
+}
+
+export async function loginTechnician(
+  email: string,
+  password: string,
+): Promise<{
+  token?: string;
+  user?: { id: string; name: string; email: string };
+}> {
+  const res = await fetch(`${activeBaseUrl}/api/auth/sign-in/email`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || err.error || `Falha no login: HTTP ${res.status}`);
+  }
+
+  return res.json();
 }

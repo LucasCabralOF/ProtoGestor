@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { GET as getMe } from "@/app/api/v1/me/route";
 import { GET as getTodaySchedule } from "@/app/api/v1/schedule/today/route";
 import { PATCH as updateStatus } from "@/app/api/v1/services/[id]/status/route";
+import { GET as getServices } from "@/app/api/v1/services/route";
 
 describe("API v1 Route Handlers", () => {
   it("GET /api/v1/me returns 401 for unauthenticated requests", async () => {
@@ -14,6 +15,13 @@ describe("API v1 Route Handlers", () => {
 
   it("GET /api/v1/schedule/today returns 401 for unauthenticated requests", async () => {
     const res = await getTodaySchedule();
+    expect(res.status).toBe(401);
+    const body = await res.json();
+    expect(body.error).toBeDefined();
+  });
+
+  it("GET /api/v1/services returns 401 for unauthenticated requests", async () => {
+    const res = await getServices();
     expect(res.status).toBe(401);
     const body = await res.json();
     expect(body.error).toBeDefined();
