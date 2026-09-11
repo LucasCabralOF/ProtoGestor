@@ -4,11 +4,22 @@ import { nextCookies } from "better-auth/next-js";
 import { bearer } from "better-auth/plugins";
 import prisma from "@/lib/prisma";
 
+function resolveBaseUrl(): string | undefined {
+  const raw =
+    process.env.BETTER_AUTH_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined);
+  if (!raw) return undefined;
+  if (!raw.startsWith("http://") && !raw.startsWith("https://")) {
+    return `https://${raw}`;
+  }
+  return raw;
+}
+
 export const auth = betterAuth({
   // secret/baseURL podem vir do env automaticamente,
-  // mas eu gosto de deixar explícito:
+  // mas garantimos formato de protocolo valido para evitar BetterAuthError:
   secret: process.env.BETTER_AUTH_SECRET,
-  baseURL: process.env.BETTER_AUTH_URL,
+  baseURL: resolveBaseUrl(),
 
   database: prismaAdapter(prisma, { provider: "postgresql" }),
 
