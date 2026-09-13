@@ -159,11 +159,13 @@ export async function MarketingPricingPage() {
                   </ul>
 
                   <Link
-                    className="mt-6 sm:mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md bg-(--color-primary) px-5 py-2.5 sm:px-6 sm:py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 hover:no-underline"
+                    className="mt-6 sm:mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md bg-(--color-primary) px-5 py-2.5 sm:px-6 sm:py-3 text-sm font-semibold !text-white shadow-sm transition hover:brightness-110 hover:no-underline"
                     href={plan.ctaHref}
                   >
-                    {t(`plans.${plan.id}.cta`)}
-                    <FiArrowRight />
+                    <span className="flex items-center gap-2 !text-white">
+                      {t(`plans.${plan.id}.cta`)}
+                      <FiArrowRight />
+                    </span>
                   </Link>
                 </article>
               ))}

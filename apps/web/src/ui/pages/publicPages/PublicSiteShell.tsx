@@ -18,12 +18,17 @@ function ActionLink({
 
   const className =
     variant === "primary"
-      ? `${baseClassName} bg-white text-(--color-primary) shadow-sm hover:bg-emerald-50`
-      : `${baseClassName} border border-white/25 bg-white/10 text-white hover:bg-white/20`;
+      ? `${baseClassName} bg-white !text-emerald-800 shadow-sm hover:bg-emerald-50`
+      : `${baseClassName} border border-white/25 bg-white/10 !text-white hover:bg-white/20`;
+
+  const labelClassName =
+    variant === "primary"
+      ? "!text-emerald-800 font-bold"
+      : "!text-white font-bold";
 
   return (
     <Link className={className} data-testid={testId} href={href}>
-      {children}
+      <span className={labelClassName}>{children}</span>
     </Link>
   );
 }
@@ -39,13 +44,13 @@ export async function PublicSiteShell({
   const t = await getTranslations("marketing");
 
   const headerNavLinkClassName =
-    "rounded-md px-2.5 py-1.5 text-xs font-semibold sm:px-3 sm:py-2 sm:text-sm text-white/90 hover:bg-white/20 hover:text-white transition hover:no-underline";
+    "rounded-md px-2.5 py-1.5 text-xs font-semibold sm:px-3 sm:py-2 sm:text-sm !text-white/90 hover:bg-white/20 hover:!text-white transition hover:no-underline";
 
   const activeHeaderNavLinkClassName =
-    "rounded-md bg-white/20 px-2.5 py-1.5 text-xs font-bold sm:px-3 sm:py-2 sm:text-sm text-white border border-white/30 shadow-xs hover:no-underline";
+    "rounded-md bg-white/20 px-2.5 py-1.5 text-xs font-bold sm:px-3 sm:py-2 sm:text-sm !text-white border border-white/30 shadow-xs hover:no-underline";
 
   const footerNavLinkClassName =
-    "rounded-md px-2.5 py-1.5 text-xs font-semibold sm:px-3 sm:py-2 sm:text-sm text-emerald-800 dark:text-emerald-300 transition hover:bg-emerald-500/10 hover:text-emerald-950 dark:hover:text-white hover:no-underline";
+    "rounded-md px-2.5 py-1.5 text-xs font-semibold sm:px-3 sm:py-2 sm:text-sm !text-emerald-800 dark:!text-emerald-300 transition hover:bg-emerald-500/10 hover:!text-emerald-950 dark:hover:!text-white hover:no-underline";
 
   return (
     <div className="min-h-screen bg-(--color-base-3) text-(--color-text-1)">
@@ -82,7 +87,7 @@ export async function PublicSiteShell({
                   }
                   href="/"
                 >
-                  {t("nav.home")}
+                  <span className="!text-white">{t("nav.home")}</span>
                 </Link>
                 <Link
                   className={
@@ -92,7 +97,7 @@ export async function PublicSiteShell({
                   }
                   href="/pricing"
                 >
-                  {t("nav.pricing")}
+                  <span className="!text-white">{t("nav.pricing")}</span>
                 </Link>
               </nav>
 
@@ -101,7 +106,7 @@ export async function PublicSiteShell({
                 data-testid="marketing-link-login"
                 href="/login"
               >
-                {t("nav.login")}
+                <span className="!text-white">{t("nav.login")}</span>
               </Link>
               <ActionLink
                 href="/signup"
@@ -129,13 +134,13 @@ export async function PublicSiteShell({
 
             <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm">
               <Link className={footerNavLinkClassName} href="/pricing">
-                {t("nav.pricing")}
+                <span>{t("nav.pricing")}</span>
               </Link>
               <Link className={footerNavLinkClassName} href="/login">
-                {t("nav.login")}
+                <span>{t("nav.login")}</span>
               </Link>
               <Link className={footerNavLinkClassName} href="/signup">
-                {t("nav.signup")}
+                <span>{t("nav.signup")}</span>
               </Link>
             </div>
           </div>

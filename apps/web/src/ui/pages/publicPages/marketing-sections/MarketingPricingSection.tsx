@@ -29,11 +29,13 @@ export async function MarketingPricingSection() {
         </div>
 
         <Link
-          className="inline-flex items-center justify-center gap-2 rounded-md border border-emerald-600/30 bg-emerald-50/80 px-4 py-2.5 sm:px-5 sm:py-3 text-sm font-semibold text-emerald-900 shadow-xs transition hover:bg-emerald-100 hover:no-underline dark:bg-emerald-950/40 dark:border-emerald-700/50 dark:text-emerald-200"
+          className="inline-flex items-center justify-center gap-2 rounded-md border border-emerald-600/30 bg-emerald-50/80 px-4 py-2.5 sm:px-5 sm:py-3 text-sm font-semibold !text-emerald-900 shadow-xs transition hover:bg-emerald-100 hover:no-underline dark:bg-emerald-950/40 dark:border-emerald-700/50 dark:!text-emerald-200"
           href="/pricing"
         >
-          {t("pricingPreview.viewPlans")}
-          <FiArrowRight />
+          <span className="flex items-center gap-2 !text-emerald-900 dark:!text-emerald-200">
+            {t("pricingPreview.viewPlans")}
+            <FiArrowRight />
+          </span>
         </Link>
       </div>
 

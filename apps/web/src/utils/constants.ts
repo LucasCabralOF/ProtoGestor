@@ -32,6 +32,11 @@ const TOKENS_BASE = {
   // Primary
   colorPrimary: "var(--color-primary)",
 
+  // Link
+  colorLink: "var(--color-primary)",
+  colorLinkHover: "var(--color-primary-hover)",
+  colorLinkActive: "var(--color-primary-active)",
+
   // Text
   colorText: "var(--color-text-1)",
   colorTextBase: "var(--color-text-1)",
@@ -63,6 +68,9 @@ export const THEMES_ANTD: Record<ThemeKey, ThemeConfig> = {
     algorithm: theme.defaultAlgorithm,
     token: {
       ...TOKENS_BASE,
+      colorLink: "#15803d",
+      colorLinkHover: "#166534",
+      colorLinkActive: "#14532d",
       boxShadowSecondary: "0 4px 12px rgba(0,0,0,0.06)",
     },
     // Opcional: travar overlays por componente (ajuda quando algum token escapar)
@@ -78,6 +86,9 @@ export const THEMES_ANTD: Record<ThemeKey, ThemeConfig> = {
     algorithm: theme.darkAlgorithm,
     token: {
       ...TOKENS_BASE,
+      colorLink: "#22c55e",
+      colorLinkHover: "#16a34a",
+      colorLinkActive: "#15803d",
       boxShadowSecondary: "0 4px 12px rgba(0,0,0,0.25)",
     },
     components: {

@@ -63,25 +63,31 @@ export async function MarketingHeroSection() {
 
           <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
             <Link
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-(--color-primary) px-5 py-2.5 sm:px-6 sm:py-3 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 hover:no-underline"
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-(--color-primary) px-5 py-2.5 sm:px-6 sm:py-3 text-sm font-semibold !text-white shadow-sm transition hover:brightness-110 hover:no-underline"
               data-testid="marketing-cta-primary"
               href="/signup"
             >
-              {t("hero.primaryCta")}
-              <FiArrowRight />
+              <span className="flex items-center gap-2 !text-white">
+                {t("hero.primaryCta")}
+                <FiArrowRight />
+              </span>
             </Link>
             <Link
-              className="inline-flex items-center justify-center rounded-md border border-emerald-600/30 bg-white px-5 py-2.5 sm:px-6 sm:py-3 text-sm font-semibold text-emerald-950 shadow-xs transition hover:bg-emerald-50 hover:no-underline dark:bg-(--color-base-1) dark:text-emerald-100"
+              className="inline-flex items-center justify-center rounded-md border border-emerald-600/30 bg-white px-5 py-2.5 sm:px-6 sm:py-3 text-sm font-semibold !text-emerald-950 shadow-xs transition hover:bg-emerald-50 hover:no-underline dark:bg-(--color-base-1) dark:!text-emerald-100"
               data-testid="marketing-cta-secondary"
               href="/login"
             >
-              {t("hero.secondaryCta")}
+              <span className="!text-emerald-950 dark:!text-emerald-100">
+                {t("hero.secondaryCta")}
+              </span>
             </Link>
             <Link
-              className="inline-flex items-center justify-center py-2 text-center text-sm font-semibold text-emerald-700 transition hover:text-emerald-900 hover:no-underline dark:text-emerald-400 sm:px-4 sm:py-3"
+              className="inline-flex items-center justify-center py-2 text-center text-sm font-semibold !text-emerald-700 transition hover:!text-emerald-900 hover:no-underline dark:!text-emerald-400 sm:px-4 sm:py-3"
               href="/pricing"
             >
-              {t("hero.pricingCta")}
+              <span className="!text-emerald-700 hover:!text-emerald-900 dark:!text-emerald-400">
+                {t("hero.pricingCta")}
+              </span>
             </Link>
           </div>
 

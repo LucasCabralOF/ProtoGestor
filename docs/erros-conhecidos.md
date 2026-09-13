@@ -296,7 +296,30 @@ Utilizar padrões glob universais com `**/` para ignorar os diretórios em qualq
 
 ---
 
-*Última atualização: 2026-09-08*
+## ERR-013 — Links e botões em azul padrão Ant Design (#1677ff) sobrescrevendo classes do Tailwind
+
+**Data:** 2026-09-13  
+**Arquivos:** `apps/web/src/utils/constants.ts`, `apps/web/src/app/globals.css`, `apps/web/src/ui/pages/publicPages/PublicSiteShell.tsx`  
+**Erro (comportamento):**  
+Textos de links e botões na navbar e na página pública ("Produto", "Planos", "Entrar", "Criar conta") aparecendo no azul padrão do Ant Design (`#1677ff`), ignorando classes utilitárias como `text-white`, `text-white/90` e `text-(--color-primary)`.
+
+**Causa raiz:**  
+1. O Ant Design 6 possui um seed token independente `colorLink` com valor padrão `#1677ff`. Sem definir `colorLink`, `colorLinkHover` e `colorLinkActive` em `TOKENS_BASE` e `THEMES_ANTD`, o Ant Design gera regras CSS dinâmicas em runtime no `<head>` com seletores para `a`.
+2. Conforme a especificação CSS Cascade Layers (nível 5), estilos declarados fora de `@layer` (unlayered) têm prioridade obrigatória sobre estilos declarados dentro de `@layer` normais (como `@layer utilities` do Tailwind v4). Por isso, mesmo que a classe `.text-white` estivesse no elemento, o `a { color: #1677ff }` do Ant Design vencia a cascata.
+
+**Correção aplicada:**  
+1. Declarar `colorLink`, `colorLinkHover` e `colorLinkActive` em `TOKENS_BASE` e `THEMES_ANTD` no `src/utils/constants.ts` com as cores do tema (verde floresta/esmeralda).
+2. Mover estilos base de links em `globals.css` para dentro de `@layer base`.
+3. Usar utilitários com `!` (ex: `!text-white`, `!text-emerald-800`) e encapsular os rótulos textuais de links e botões em `<span>` dedicados, evitando qualquer interferência de seletores `a`.
+
+**Regra para evitar recorrência:**  
+- Sempre configurar `colorLink` em todos os temas do Ant Design em harmonia com `colorPrimary`.
+- Em componentes com elementos `<a>` ou `<Link>` que devam ter cor contrastante específica (como navbar verde com texto branco), usar `!text-*` e preferir encapsular o texto em `<span>`.
+
+---
+
+*Última atualização: 2026-09-13*
+
 
 
 
