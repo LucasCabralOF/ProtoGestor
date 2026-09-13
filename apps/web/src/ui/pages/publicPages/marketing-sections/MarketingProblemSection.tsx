@@ -23,7 +23,7 @@ export async function MarketingProblemSection() {
   ];
 
   return (
-    <section className="grid gap-6 rounded-xl border border-slate-800 bg-slate-900 p-4 sm:p-6 text-white shadow-md lg:grid-cols-[0.82fr_1.18fr] lg:p-8">
+    <section className="grid gap-6 rounded-xl border border-emerald-900/60 bg-[#0c1f16] p-4 sm:p-6 text-white shadow-md lg:grid-cols-[0.82fr_1.18fr] lg:p-8">
       <div className="max-w-xl">
         <p className="text-xs sm:text-sm font-semibold tracking-[0.16em] uppercase text-white/55">
           {t("problem.eyebrow")}
@@ -43,7 +43,7 @@ export async function MarketingProblemSection() {
           return (
             <div
               key={item.title}
-              className="rounded-lg border border-slate-700/60 bg-slate-800/60 p-4 sm:p-6"
+              className="rounded-lg border border-emerald-800/40 bg-[#12281d] p-4 sm:p-6"
             >
               <span className="inline-flex rounded-md border border-white/10 bg-white/8 p-2.5 sm:p-3 text-emerald-400">
                 <Icon size={18} />

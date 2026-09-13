@@ -7,7 +7,7 @@ export async function MarketingPainSolutionSection() {
 
   return (
     <section
-      className="rounded-xl border border-slate-800 bg-slate-900 p-4 sm:p-6 text-white shadow-md lg:p-10"
+      className="rounded-xl border border-emerald-900/60 bg-[#0c1f16] p-4 sm:p-6 text-white shadow-md lg:p-10"
       data-testid="marketing-pain-solution"
     >
       <div className="max-w-3xl">

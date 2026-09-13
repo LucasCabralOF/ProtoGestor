@@ -78,7 +78,7 @@ export async function MarketingPricingPage() {
                     key={card.title}
                     className={
                       index === 1
-                        ? "rounded-lg border border-slate-800 bg-slate-900 p-4 sm:p-5 text-white shadow-md"
+                        ? "rounded-lg border border-emerald-900/60 bg-[#0c1f16] p-4 sm:p-5 text-white shadow-md"
                         : "rounded-lg border border-(--color-border) bg-(--color-base-1) p-4 sm:p-5 shadow-sm"
                     }
                   >

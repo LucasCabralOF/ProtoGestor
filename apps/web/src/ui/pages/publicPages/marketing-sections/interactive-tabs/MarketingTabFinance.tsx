@@ -15,11 +15,11 @@ export function MarketingTabFinance() {
             R$ 8.940,00
           </p>
         </div>
-        <div className="rounded-lg border border-teal-500/20 bg-teal-500/10 p-3">
-          <p className="text-[10px] font-bold uppercase text-teal-700 dark:text-teal-400">
+        <div className="rounded-lg border border-emerald-600/20 bg-emerald-600/10 p-3">
+          <p className="text-[10px] font-bold uppercase text-emerald-700 dark:text-emerald-400">
             A Receber
           </p>
-          <p className="mt-1 text-base font-black text-teal-700 dark:text-teal-400">
+          <p className="mt-1 text-base font-black text-emerald-700 dark:text-emerald-400">
             {invoicePaid ? "R$ 1.950,00" : "R$ 2.430,00"}
           </p>
         </div>

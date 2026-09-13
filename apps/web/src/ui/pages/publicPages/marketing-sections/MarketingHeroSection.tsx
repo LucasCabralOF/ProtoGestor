@@ -99,7 +99,7 @@ export async function MarketingHeroSection() {
             ))}
           </div>
 
-          <div className="flex flex-col gap-5 rounded-xl border border-slate-800 bg-slate-900 p-4 sm:p-6 text-white shadow-md">
+          <div className="flex flex-col gap-5 rounded-xl border border-emerald-900/60 bg-[#0c1f16] p-4 sm:p-6 text-white shadow-md">
             <div>
               <p className="text-xs font-semibold tracking-[0.16em] uppercase text-white/60">
                 {t("valueBand.eyebrow")}
@@ -113,7 +113,7 @@ export async function MarketingHeroSection() {
               {valueBandItems.map((item) => (
                 <div
                   key={item.value}
-                  className="rounded-lg border border-slate-700 bg-slate-800 p-3 sm:p-4"
+                  className="rounded-lg border border-emerald-800/50 bg-[#12281d] p-3 sm:p-4"
                 >
                   <p className="text-lg sm:text-xl font-black">{item.value}</p>
                   <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm leading-5 sm:leading-6 text-white/68 text-balance">
@@ -159,7 +159,7 @@ export async function MarketingHeroSection() {
             </div>
 
             <div className="mt-4 sm:mt-5 flex flex-col gap-4">
-              <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900 p-4 sm:p-5 text-white shadow-sm">
+              <div className="overflow-hidden rounded-xl border border-emerald-900/60 bg-[#0c1f16] p-4 sm:p-5 text-white shadow-sm">
                 <div className="flex items-center justify-between gap-4">
                   <div>
                     <p className="text-xs font-semibold tracking-[0.16em] uppercase text-white/55">
@@ -180,8 +180,8 @@ export async function MarketingHeroSection() {
                       key={item.label}
                       className={
                         index === 1
-                          ? "rounded-lg border border-slate-700 bg-slate-800 p-2.5 sm:p-4"
-                          : "rounded-lg border border-slate-700/50 bg-slate-800/50 p-2.5 sm:p-4"
+                          ? "rounded-lg border border-emerald-700/60 bg-emerald-900/40 p-2.5 sm:p-4"
+                          : "rounded-lg border border-emerald-800/40 bg-[#12281d]/70 p-2.5 sm:p-4"
                       }
                     >
                       <p className="text-lg sm:text-2xl font-black">
@@ -194,7 +194,7 @@ export async function MarketingHeroSection() {
                   ))}
                 </div>
 
-                <div className="mt-4 sm:mt-5 rounded-lg border border-slate-700/50 bg-slate-800/50 p-3 sm:p-4">
+                <div className="mt-4 sm:mt-5 rounded-lg border border-emerald-800/40 bg-[#12281d]/60 p-3 sm:p-4">
                   <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
                     <FiMapPin />
                     {t("hero.mockVisitsTitle")}
@@ -204,7 +204,7 @@ export async function MarketingHeroSection() {
                     {heroVisits.map((visit) => (
                       <div
                         key={`${visit.time}-${visit.client}`}
-                        className="flex items-start justify-between gap-3 rounded-md border border-slate-700/50 bg-black/20 px-4 py-3"
+                        className="flex items-start justify-between gap-3 rounded-md border border-emerald-800/40 bg-black/25 px-4 py-3"
                       >
                         <div>
                           <p className="text-sm font-semibold">
