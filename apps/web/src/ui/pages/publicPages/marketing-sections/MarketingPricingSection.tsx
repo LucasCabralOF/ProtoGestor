@@ -29,7 +29,7 @@ export async function MarketingPricingSection() {
         </div>
 
         <Link
-          className="inline-flex items-center justify-center gap-2 rounded-md border border-(--color-border) bg-(--color-base-2) px-4 py-2.5 sm:px-5 sm:py-3 text-sm font-semibold text-(--color-text-1) hover:bg-(--color-base-1) hover:no-underline"
+          className="inline-flex items-center justify-center gap-2 rounded-md border border-emerald-600/30 bg-emerald-50/80 px-4 py-2.5 sm:px-5 sm:py-3 text-sm font-semibold text-emerald-900 shadow-xs transition hover:bg-emerald-100 hover:no-underline dark:bg-emerald-950/40 dark:border-emerald-700/50 dark:text-emerald-200"
           href="/pricing"
         >
           {t("pricingPreview.viewPlans")}
@@ -46,7 +46,7 @@ export async function MarketingPricingSection() {
             key={plan.id}
             className={
               plan.id === featuredPlan.id
-                ? "relative overflow-hidden rounded-xl border-2 border-(--color-primary) bg-white p-4 sm:p-6 shadow-md dark:bg-black"
+                ? "relative overflow-hidden rounded-xl border-2 border-(--color-primary) bg-white p-4 sm:p-6 shadow-md dark:bg-(--color-base-1)"
                 : "rounded-xl border border-(--color-border) bg-(--color-base-2) p-4 sm:p-6"
             }
             data-testid={`pricing-plan-${plan.id}`}

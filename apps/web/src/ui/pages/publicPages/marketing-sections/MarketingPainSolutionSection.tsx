@@ -7,11 +7,11 @@ export async function MarketingPainSolutionSection() {
 
   return (
     <section
-      className="rounded-xl border border-emerald-900/60 bg-[#0c1f16] p-4 sm:p-6 text-white shadow-md lg:p-10"
+      className="rounded-xl border border-emerald-700/50 bg-[#14532d] p-4 sm:p-6 text-white shadow-md lg:p-10"
       data-testid="marketing-pain-solution"
     >
       <div className="max-w-3xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-400">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-200">
           {t("painSolution.eyebrow")}
         </p>
         <h2 className="mt-1.5 sm:mt-2 text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-white">

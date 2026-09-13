@@ -71,14 +71,14 @@ export async function MarketingHeroSection() {
               <FiArrowRight />
             </Link>
             <Link
-              className="inline-flex items-center justify-center rounded-md border border-(--color-border) bg-(--color-base-1) px-5 py-2.5 sm:px-6 sm:py-3 text-sm font-semibold text-(--color-text-1) transition hover:bg-(--color-base-2) hover:no-underline"
+              className="inline-flex items-center justify-center rounded-md border border-emerald-600/30 bg-white px-5 py-2.5 sm:px-6 sm:py-3 text-sm font-semibold text-emerald-950 shadow-xs transition hover:bg-emerald-50 hover:no-underline dark:bg-(--color-base-1) dark:text-emerald-100"
               data-testid="marketing-cta-secondary"
               href="/login"
             >
               {t("hero.secondaryCta")}
             </Link>
             <Link
-              className="inline-flex items-center justify-center py-2 text-center text-sm font-semibold text-(--color-text-2) transition hover:text-(--color-primary) hover:no-underline sm:px-4 sm:py-3"
+              className="inline-flex items-center justify-center py-2 text-center text-sm font-semibold text-emerald-700 transition hover:text-emerald-900 hover:no-underline dark:text-emerald-400 sm:px-4 sm:py-3"
               href="/pricing"
             >
               {t("hero.pricingCta")}
@@ -89,7 +89,7 @@ export async function MarketingHeroSection() {
             {heroBadges.map((badge) => (
               <span
                 key={badge}
-                className="inline-flex items-center gap-1.5 rounded-md border border-(--color-border) bg-(--color-base-1) px-2.5 py-1.5 text-xs font-medium text-(--color-text-2) shadow-sm"
+                className="inline-flex items-center gap-1.5 rounded-md border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1.5 text-xs font-semibold text-emerald-800 dark:text-emerald-300 shadow-xs"
               >
                 <span className="text-(--color-primary)">
                   <FiCheck />
@@ -99,9 +99,9 @@ export async function MarketingHeroSection() {
             ))}
           </div>
 
-          <div className="flex flex-col gap-5 rounded-xl border border-emerald-900/60 bg-[#0c1f16] p-4 sm:p-6 text-white shadow-md">
+          <div className="flex flex-col gap-5 rounded-xl border border-emerald-700/50 bg-[#14532d] p-4 sm:p-6 text-white shadow-md">
             <div>
-              <p className="text-xs font-semibold tracking-[0.16em] uppercase text-white/60">
+              <p className="text-xs font-semibold tracking-[0.16em] uppercase text-emerald-200">
                 {t("valueBand.eyebrow")}
               </p>
               <h2 className="mt-2 sm:mt-3 text-xl sm:text-2xl font-black tracking-tight">
@@ -113,10 +113,10 @@ export async function MarketingHeroSection() {
               {valueBandItems.map((item) => (
                 <div
                   key={item.value}
-                  className="rounded-lg border border-emerald-800/50 bg-[#12281d] p-3 sm:p-4"
+                  className="rounded-lg border border-emerald-600/40 bg-[#0f3f22] p-3 sm:p-4"
                 >
                   <p className="text-lg sm:text-xl font-black">{item.value}</p>
-                  <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm leading-5 sm:leading-6 text-white/68 text-balance">
+                  <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm leading-5 sm:leading-6 text-emerald-100/80 text-balance">
                     {item.label}
                   </p>
                 </div>
@@ -159,17 +159,17 @@ export async function MarketingHeroSection() {
             </div>
 
             <div className="mt-4 sm:mt-5 flex flex-col gap-4">
-              <div className="overflow-hidden rounded-xl border border-emerald-900/60 bg-[#0c1f16] p-4 sm:p-5 text-white shadow-sm">
+              <div className="overflow-hidden rounded-xl border border-emerald-700/50 bg-[#14532d] p-4 sm:p-5 text-white shadow-sm">
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-xs font-semibold tracking-[0.16em] uppercase text-white/55">
+                    <p className="text-xs font-semibold tracking-[0.16em] uppercase text-emerald-200">
                       {t("hero.mockPipelineTitle")}
                     </p>
                     <p className="mt-1 sm:mt-2 text-base sm:text-lg font-bold">
                       {t("hero.mockPipelineSubtitle")}
                     </p>
                   </div>
-                  <span className="inline-flex rounded-md bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white/72">
+                  <span className="inline-flex rounded-md bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white/90">
                     <FiTrendingUp />
                   </span>
                 </div>
@@ -180,22 +180,22 @@ export async function MarketingHeroSection() {
                       key={item.label}
                       className={
                         index === 1
-                          ? "rounded-lg border border-emerald-700/60 bg-emerald-900/40 p-2.5 sm:p-4"
-                          : "rounded-lg border border-emerald-800/40 bg-[#12281d]/70 p-2.5 sm:p-4"
+                          ? "rounded-lg border border-emerald-400/50 bg-emerald-800/60 p-2.5 sm:p-4"
+                          : "rounded-lg border border-emerald-600/40 bg-[#0f3f22] p-2.5 sm:p-4"
                       }
                     >
                       <p className="text-lg sm:text-2xl font-black">
                         {item.count}
                       </p>
-                      <p className="mt-1 sm:mt-2 text-[10px] sm:text-xs uppercase tracking-[0.14em] text-white/55">
+                      <p className="mt-1 sm:mt-2 text-[10px] sm:text-xs uppercase tracking-[0.14em] text-emerald-200">
                         {item.label}
                       </p>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-4 sm:mt-5 rounded-lg border border-emerald-800/40 bg-[#12281d]/60 p-3 sm:p-4">
-                  <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
+                <div className="mt-4 sm:mt-5 rounded-lg border border-emerald-600/40 bg-[#0f3f22] p-3 sm:p-4">
+                  <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-200">
                     <FiMapPin />
                     {t("hero.mockVisitsTitle")}
                   </div>
@@ -204,20 +204,20 @@ export async function MarketingHeroSection() {
                     {heroVisits.map((visit) => (
                       <div
                         key={`${visit.time}-${visit.client}`}
-                        className="flex items-start justify-between gap-3 rounded-md border border-emerald-800/40 bg-black/25 px-4 py-3"
+                        className="flex items-start justify-between gap-3 rounded-md border border-emerald-600/40 bg-[#0b331b] px-4 py-3"
                       >
                         <div>
                           <p className="text-sm font-semibold">
                             {visit.client}
                           </p>
-                          <p className="mt-1 text-xs text-white/62">
+                          <p className="mt-1 text-xs text-emerald-100/75">
                             {visit.service}
                           </p>
                         </div>
 
                         <div className="text-right">
                           <p className="text-sm font-bold">{visit.time}</p>
-                          <p className="mt-1 text-xs text-emerald-300">
+                          <p className="mt-1 text-xs text-emerald-300 font-semibold">
                             {visit.status}
                           </p>
                         </div>
@@ -264,7 +264,7 @@ export async function MarketingHeroSection() {
                     ].map((item) => (
                       <div
                         key={item}
-                        className="flex items-center gap-3 rounded-md border border-(--color-border) bg-(--color-base-2) px-4 py-3 text-sm text-(--color-text-2)"
+                        className="flex items-center gap-3 rounded-md border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-950 dark:text-emerald-100"
                       >
                         <span className="text-(--color-primary)">
                           <FiCheck />

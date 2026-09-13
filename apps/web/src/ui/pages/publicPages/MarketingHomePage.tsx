@@ -62,7 +62,7 @@ export async function MarketingHomePage() {
                   <FiArrowRight />
                 </Link>
                 <Link
-                  className="inline-flex items-center justify-center rounded-md border border-(--color-border) bg-(--color-base-1) px-5 py-2.5 sm:px-6 sm:py-3 text-sm font-semibold text-(--color-text-1) hover:bg-(--color-base-2) hover:no-underline"
+                  className="inline-flex items-center justify-center rounded-md border border-emerald-600/30 bg-white px-5 py-2.5 sm:px-6 sm:py-3 text-sm font-semibold text-emerald-950 shadow-xs transition hover:bg-emerald-50 hover:no-underline dark:bg-(--color-base-1) dark:text-emerald-100"
                   href="/login"
                 >
                   {t("finalCta.secondaryCta")}

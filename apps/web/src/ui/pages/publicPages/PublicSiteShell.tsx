@@ -39,13 +39,13 @@ export async function PublicSiteShell({
   const t = await getTranslations("marketing");
 
   const headerNavLinkClassName =
-    "rounded-md px-2.5 py-1.5 text-xs font-medium sm:px-3 sm:py-2 sm:text-sm text-emerald-100 hover:bg-white/12 hover:text-white transition hover:no-underline";
+    "rounded-md px-2.5 py-1.5 text-xs font-semibold sm:px-3 sm:py-2 sm:text-sm text-white/90 hover:bg-white/20 hover:text-white transition hover:no-underline";
 
   const activeHeaderNavLinkClassName =
-    "rounded-md bg-white/18 px-2.5 py-1.5 text-xs font-semibold sm:px-3 sm:py-2 sm:text-sm text-white border border-white/20 shadow-xs hover:no-underline";
+    "rounded-md bg-white/20 px-2.5 py-1.5 text-xs font-bold sm:px-3 sm:py-2 sm:text-sm text-white border border-white/30 shadow-xs hover:no-underline";
 
   const footerNavLinkClassName =
-    "rounded-md px-2.5 py-1.5 text-xs font-medium sm:px-3 sm:py-2 sm:text-sm text-(--color-text-2) transition hover:bg-(--color-base-2) hover:text-(--color-text-1) hover:no-underline";
+    "rounded-md px-2.5 py-1.5 text-xs font-semibold sm:px-3 sm:py-2 sm:text-sm text-emerald-800 dark:text-emerald-300 transition hover:bg-emerald-500/10 hover:text-emerald-950 dark:hover:text-white hover:no-underline";
 
   return (
     <div className="min-h-screen bg-(--color-base-3) text-(--color-text-1)">
@@ -66,7 +66,7 @@ export async function PublicSiteShell({
                 <span className="text-xs sm:text-sm font-bold tracking-[0.12em] uppercase text-white">
                   {common("appTitle")}
                 </span>
-                <span className="hidden sm:block text-xs text-emerald-100/80">
+                <span className="hidden sm:block text-xs text-white/80">
                   {t("footer.copy")}
                 </span>
               </span>

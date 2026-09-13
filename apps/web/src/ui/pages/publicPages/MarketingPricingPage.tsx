@@ -78,7 +78,7 @@ export async function MarketingPricingPage() {
                     key={card.title}
                     className={
                       index === 1
-                        ? "rounded-lg border border-emerald-900/60 bg-[#0c1f16] p-4 sm:p-5 text-white shadow-md"
+                        ? "rounded-lg border border-emerald-700/50 bg-[#14532d] p-4 sm:p-5 text-white shadow-md"
                         : "rounded-lg border border-(--color-border) bg-(--color-base-1) p-4 sm:p-5 shadow-sm"
                     }
                   >
@@ -247,7 +247,7 @@ export async function MarketingPricingPage() {
                           key={`${row.label}-col-${index}`}
                           className={
                             index === 1
-                              ? "rounded-md border border-(--color-primary) bg-[rgba(22,119,255,0.08)] px-4 py-4 text-center text-sm font-semibold text-(--color-text-1)"
+                              ? "rounded-md border border-(--color-primary) bg-emerald-500/10 px-4 py-4 text-center text-sm font-semibold text-(--color-text-1)"
                               : "rounded-md bg-(--color-base-1) px-4 py-4 text-center text-sm font-semibold text-(--color-text-1) shadow-sm"
                           }
                         >

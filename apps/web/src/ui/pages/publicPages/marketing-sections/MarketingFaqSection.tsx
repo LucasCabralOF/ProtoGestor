@@ -22,9 +22,9 @@ export async function MarketingFaqSection() {
         {MARKETING_FAQ_IDS.map((faqId) => (
           <div
             key={faqId}
-            className="rounded-lg border border-(--color-border) bg-(--color-base-2) p-4 sm:p-6 transition hover:border-(--color-primary)/30"
+            className="rounded-lg border border-(--color-border) bg-(--color-base-2) p-4 sm:p-6 transition hover:border-emerald-500/50"
           >
-            <h3 className="text-sm sm:text-base font-bold text-(--color-text-1)">
+            <h3 className="text-sm sm:text-base font-bold text-emerald-950 dark:text-emerald-50">
               {t(`faq.items.${faqId}.question`)}
             </h3>
             <p className="mt-2 sm:mt-3 text-xs sm:text-sm leading-6 sm:leading-7 text-(--color-text-2)">

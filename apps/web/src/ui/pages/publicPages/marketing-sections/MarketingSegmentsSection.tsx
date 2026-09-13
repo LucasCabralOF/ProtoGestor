@@ -24,7 +24,7 @@ export async function MarketingSegmentsSection() {
             key={segmentId}
             className={
               index === 1 || index === 4
-                ? "rounded-xl border border-emerald-900/60 bg-[#0c1f16] p-3.5 sm:p-5 text-white shadow-md"
+                ? "rounded-xl border border-emerald-700/50 bg-[#14532d] p-3.5 sm:p-5 text-white shadow-md"
                 : "rounded-xl border border-(--color-border) bg-white p-3.5 sm:p-5 shadow-sm dark:bg-(--color-base-1)"
             }
           >

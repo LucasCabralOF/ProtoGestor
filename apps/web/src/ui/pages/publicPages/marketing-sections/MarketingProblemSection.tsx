@@ -23,15 +23,15 @@ export async function MarketingProblemSection() {
   ];
 
   return (
-    <section className="grid gap-6 rounded-xl border border-emerald-900/60 bg-[#0c1f16] p-4 sm:p-6 text-white shadow-md lg:grid-cols-[0.82fr_1.18fr] lg:p-8">
+    <section className="grid gap-6 rounded-xl border border-emerald-700/50 bg-[#14532d] p-4 sm:p-6 text-white shadow-md lg:grid-cols-[0.82fr_1.18fr] lg:p-8">
       <div className="max-w-xl">
-        <p className="text-xs sm:text-sm font-semibold tracking-[0.16em] uppercase text-white/55">
+        <p className="text-xs sm:text-sm font-semibold tracking-[0.16em] uppercase text-emerald-200">
           {t("problem.eyebrow")}
         </p>
         <h2 className="mt-1.5 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-black tracking-tight">
           {t("problem.title")}
         </h2>
-        <p className="mt-2 sm:mt-4 text-xs sm:text-sm leading-6 sm:leading-7 text-white/70">
+        <p className="mt-2 sm:mt-4 text-xs sm:text-sm leading-6 sm:leading-7 text-emerald-100/80">
           {t("problem.subtitle")}
         </p>
       </div>
@@ -43,7 +43,7 @@ export async function MarketingProblemSection() {
           return (
             <div
               key={item.title}
-              className="rounded-lg border border-emerald-800/40 bg-[#12281d] p-4 sm:p-6"
+              className="rounded-lg border border-emerald-600/40 bg-[#0f3f22] p-4 sm:p-6"
             >
               <span className="inline-flex rounded-md border border-white/10 bg-white/8 p-2.5 sm:p-3 text-emerald-400">
                 <Icon size={18} />
